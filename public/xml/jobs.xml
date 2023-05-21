@@ -1,0 +1,17 @@
+
+
+<html>
+   <head>
+      <title>Error</title>
+   </head>
+   <body>
+      <form name="form1" method="post" action="Error.aspx?username=test&amp;password=test&amp;accountnumber=test&amp;filename=Jobs.xml" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTUxMTcwNzgxMGRk3hhemQ15q5p8UlLFLXszmsToXUIVmsJcPm/6lCtKAvg=" />
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="B7B6F246" />
+         <div>
+            <p>An error has occurred, please contact JobG8 Customer Support if this problem persists</p>
+         </div>
+      </form>
+   </body>
+</html>

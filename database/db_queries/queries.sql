@@ -1,0 +1,1 @@
+ALTER TABLE `jobs` ADD `current_location_id` INT NOT NULL AFTER `data`;
