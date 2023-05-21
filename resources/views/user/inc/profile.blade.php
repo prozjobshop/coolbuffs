@@ -19,7 +19,7 @@
 
 <hr>
 
-<h5>{{__('Personal Information')}}</h5>
+<h5>{{__('Personal Information Test')}}</h5>
 
 <div class="row">
     <div class="col-md-6">
