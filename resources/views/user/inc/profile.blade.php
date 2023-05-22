@@ -68,7 +68,7 @@
     </div>
     <div class="col-md-6">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'middle_name') !!}">
-			<label for="">{{__('Midlle Name')}}</label>
+			<label for="">{{__('Middle Name')}}</label>
 			{!! Form::text('middle_name', null, array('class'=>'form-control', 'id'=>'middle_name', 'placeholder'=>__('Middle Name'))) !!}
             {!! APFrmErrHelp::showErrors($errors, 'middle_name') !!}</div>
     </div>
@@ -93,7 +93,7 @@
     </div>
     <div class="col-md-6">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'marital_status_id') !!}">
-			<label for="">{{__('Martial Status')}}</label>
+			<label for="">{{__('Marital Status')}}</label>
 			{!! Form::select('marital_status_id', [''=>__('Select Marital Status')]+$maritalStatuses, null, array('class'=>'form-control', 'id'=>'marital_status_id')) !!}
             {!! APFrmErrHelp::showErrors($errors, 'marital_status_id') !!} </div>
     </div>
