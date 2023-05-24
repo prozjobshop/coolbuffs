@@ -25,14 +25,14 @@
 					<div class="srchbox">
 						<div class="srform mb-xs-1 mb-sm-1 mb-md-2 mb-lg-2 mb-xl-4 custom_margin_responsive">
 							<!-- <label for=""> {{__('Keywords / Job Title')}}</label> -->
-							<input type="text" name="search" id="jbsearch" value="{{Request::get('search', '')}}" class="form-control custom_job_title_field typeahead typeahead_job" placeholder="{{__('Enter Skills / Job Title')}}" autocomplete="off" style="font-size:18px" />
+							<input type="text" name="search" id="jbsearch" value="{{Request::get('search', '')}}" class="form-control custom_job_title_field typeahead typeahead_job" placeholder="{{__('Enter Skills / Job Title')}}" autocomplete="off" style="font-size:18px; margin-left:-6px;" />
 						</div>
 						@if((bool)$siteSetting->country_specific_site)
         {!! Form::hidden('country_id[]', Request::get('country_id[]', $siteSetting->default_country_id), array('id'=>'country_id')) !!}
         @else
-		<div class="srform mb-xs-1 mb-sm-1 mb-md-2 mb-lg-2 mb-xl-10">
+		<div class="srform mb-xs-1 mb-sm-1 mb-md-2 mb-lg-2 mb-xl-10" >
 			<!-- <label for="">{{__('Select Country')}}</label>-->
-            {!! Form::select('country_id[]', ['' => __('Select Country')]+$countries, Request::get('country_id', $siteSetting->default_country_id), array('class'=>'form-control custom_job_title_field typeahead typeahead_job', 'id'=>'country_id' ,'style'=>'font-size:18px')) !!}
+            {!! Form::select('country_id[]', ['' => __('Select Country')]+$countries, Request::get('country_id', $siteSetting->default_country_id), array('class'=>'form-control custom_job_title_field typeahead typeahead_job', 'id'=>'country_id' ,'style'=>'font-size:18px;  margin-left:-6px; text-align:left')) !!}
                @endif
 		</div>
 							<!-- <div class="row">
@@ -53,12 +53,13 @@
 							</div> -->
 					</div>
 					<div class="srchbtn">
-						<input type="submit" class="btn w-100 custom_margin_top_search_job" value="{{__('Search Job')}}">
+						<input type="submit" style="margin-left:-12px;" class="btn w-100 custom_margin_top_search_job" value="{{__('Search Job')}}">
 					</div>
 				</form>
 			</div>
-
-			<div class="col-lg-12 col-xl-6 mt-xs-5 mt-sm-5 mt-md-3 mt-lg-3 mt-xl-0 custom_margin_top_responsive">
+		
+		
+			<div class="col-lg-12 col-xl-6">
 				<form action="{{route('job.list')}}" method="get" class="find_jobs_filter get_noticed_background_image">
 					<div class="srchbox">
 						
@@ -74,11 +75,12 @@
 					<div class="srchbtn get_noticed_register_btn_container">
 							@if(Auth::check() || Auth::guard('company')->check())
 			                    <a href="{{ route('my.profile') }}">
-		                    		<input type="button" class="btn w-100 get_noticed_register_btn_container_button" value="Profile">	
-		                    	</a>
+		                    		<input type="button" class="btn w-100 custom_margin_top_search_job" value="Profile">	
+		                    	
+								</a>
 		                    @endif @if(!Auth::user() && !Auth::guard('company')->user())
 		                    	<a href="{{route('register')}}">
-		                    		<input type="button" class="btn w-100 get_noticed_register_btn_container_button" value="Register">	
+		                    		<input type="button" class="btn w-100 custom_margin_top_search_job" value="Register">	
 		                    	</a>
 		                    @endif
 						</a>

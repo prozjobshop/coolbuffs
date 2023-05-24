@@ -192,7 +192,7 @@
     
     <div class="col-md-6">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'job_experience_id') !!}" id="job_experience_id_div">
-            <label class='bold'>job experience<span style="color:red"> *</span></label>
+            <label class='bold'>Job experience<span style="color:red"> *</span></label>
             {!! Form::select('job_experience_id', ['' => __('Select Required job experience')]+$jobExperiences, null, array('class'=>'form-control', 'id'=>'job_experience_id')) !!}
             {!! APFrmErrHelp::showErrors($errors, 'job_experience_id') !!} </div>
     </div>

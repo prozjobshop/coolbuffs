@@ -219,8 +219,8 @@
     text-transform: inherit !important;
 }
 .custom_job_title_field {
-	background: url(../images/search_default_icon.png) no-repeat 10px 13px;
-    background-size: 33px;
+	background: url(../images/search_default_icon.png) no-repeat 7px 13px;
+    background-size: 30px;
 }
 .custom_country_title_field {
 	background: url(../images/country_default_icon.png) no-repeat 10px 13px;
