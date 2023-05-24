@@ -1,7 +1,7 @@
 <div class="col-lg-3">
 	<div class="usernavwrap">
     <div class="switchbox">
-        <div class="txtlbl">{{__('Immediate Available')}} <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{{__('Are you immediate available')}}?" data-original-title="{{__('Are you immediate available')}}?" title="{{__('Are you immediate available')}}?"></i>
+        <div class="txtlbl">{{__('Immediately Available')}} <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{{__('Are you immediate available')}}?" data-original-title="{{__('Are you immediate available')}}?" title="{{__('Are you immediate available')}}?"></i>
         </div>
         <div class="">
             <label class="switch switch-green"> @php
