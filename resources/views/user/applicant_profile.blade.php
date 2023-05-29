@@ -77,11 +77,11 @@ if(null!==($package)){
                 
                 @endif
 
-                
+                <a style="color:#fff" href="{{route('reject.applicant.profile', [$job_application->id])}}" class="btn btn-warning"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{__('Reject')}}</a>     
                 @endif
 
                 
-                <a style="color:#fff" href="{{route('reject.applicant.profile', [$job_application->id])}}" class="btn btn-warning"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{__('Reject')}}</a>    
+                
                 
 
                 @if(null !== $profileCv)<a href="{{asset('cvs/'.$profileCv->cv_file)}}" class="btn"><i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}</a>@endif

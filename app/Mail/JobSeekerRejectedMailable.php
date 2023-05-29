@@ -37,7 +37,7 @@ class JobSeekerRejectedMailable extends Mailable
         return $this->from(config('mail.recieve_to.address'), config('mail.recieve_to.name'))
                         ->replyTo(config('mail.recieve_to.address'), config('mail.recieve_to.name'))
                         ->to($user->email, $user->name)
-                        ->subject($user->name . '" you have rejected for this job "' . $this->job->title)
+                        ->subject($user->name . '" you have been rejected for this job "' . $this->job->title)
                         ->view('emails.job_seeker_rejected_message')
                         ->with(
                                 [
