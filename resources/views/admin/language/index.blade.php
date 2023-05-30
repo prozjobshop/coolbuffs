@@ -19,7 +19,7 @@
         </div>
         <!-- END PAGE BAR --> 
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title">Manage Languages <small>Languages</small> </h3>
+        <h3 class="page-title">Manage Languages</h3>
         <!-- END PAGE TITLE--> 
         <!-- END PAGE HEADER-->
         <div class="row">

@@ -19,7 +19,7 @@
         </div>
         <!-- END PAGE BAR --> 
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title">Manage Testimonials <small>Testimonials</small> </h3>
+        <h3 class="page-title">Manage Testimonials</h3>
         <!-- END PAGE TITLE--> 
         <!-- END PAGE HEADER-->
         <div class="row">

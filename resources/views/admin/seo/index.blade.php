@@ -19,7 +19,7 @@
         </div>
         <!-- END PAGE BAR --> 
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title">Manage S.E.O <small>S.E.O</small> </h3>
+        <h3 class="page-title">Manage S.E.O</h3>
         <!-- END PAGE TITLE--> 
         <!-- END PAGE HEADER-->
         <div class="row">

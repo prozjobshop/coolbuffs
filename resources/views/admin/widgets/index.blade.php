@@ -17,7 +17,7 @@
               </div>
               @endif
                <div class="page-header-title">
-                  <h4>{{__('Widgets List')}}</h4>
+                  <h4> </h4>
                </div>
                <div class="page-header-breadcrumb">
                   <ul class="breadcrumb-title">

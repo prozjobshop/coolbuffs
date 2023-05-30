@@ -17,7 +17,7 @@ $direction = MiscHelper::getLangDirection($lang);
         </div>
         <!-- END PAGE BAR --> 
         <!-- BEGIN PAGE TITLE-->
-        <!--<h3 class="page-title">Edit User <small>Users</small> </h3>-->
+        <!--<h3 class="page-title">Edit User</h3>-->
         <!-- END PAGE TITLE--> 
         <!-- END PAGE HEADER-->
         <br />
