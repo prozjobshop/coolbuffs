@@ -4,7 +4,7 @@
 @include('includes.header') 
 <!-- Header end --> 
 <!-- Inner Page Title start --> 
-@include('includes.inner_page_title', ['page_title'=>__('My Messages')])
+@include('includes.inner_page_title', ['page_title'=>__('Chats')])
 <div class="listpgWraper messageWrap">
     <div class="container">
         <div class="row"> @include('includes.user_dashboard_menu')
