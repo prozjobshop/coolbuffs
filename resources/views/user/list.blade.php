@@ -33,7 +33,11 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="col-lg-4 col-md-4">
-                                    <div class="listbtn"><a href="{{route('user.profile', $jobSeeker->id)}}">{{__('View Profile')}}</a></div>
+                                @if($jobSeeker!=NULL && $jobSeeker->package_end_date >= date('d-m-Y', strtotime(now())) )
+                                    <img src="{{ asset('images/gold-icon.png') }}" alt="" style="margin-top: 3px">
+                                @endif
+                                          <div class="listbtn">
+                                        <a href="{{route('user.profile', $jobSeeker->id)}}">{{__('View Profile')}}</a></div>
                                 </div>
                             </div>
                             <p>{{\Illuminate\Support\Str::limit($jobSeeker->getProfileSummary('summary'),150,'...')}}</p>

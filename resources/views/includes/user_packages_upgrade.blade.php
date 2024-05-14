@@ -16,13 +16,14 @@
                             <div class="clearfix"></div>
                         </div>
                     </li>
-                    <li class="plan-pages">{{__('Can apply on jobs')}} : {{$package->package_num_listings}}</li>
+                    {{-- <li class="plan-pages">{{__('Can apply on jobs')}} : Unlimited</li> --}}
+                   <li class="plan-pages">{{__('Can apply on jobs')}} : {{$package->package_num_listings}}</li> 
                     <li class="plan-pages">{{__('Package Duration')}} : {{$package->package_num_days}} Days</li>
                     @if((bool)$siteSetting->is_paypal_active)
                     <li class="order paypal"><a href="{{route('order.upgrade.package', $package->id)}}"><i class="fa fa-cc-paypal" aria-hidden="true"></i> {{__('pay with paypal')}}</a></li>
                     @endif
                     @if((bool)$siteSetting->is_stripe_active)
-                    <li class="order payu"><a href="{{route('stripe.order.form', [$package->id, 'upgrade'])}}">{{__('pay with stripe')}}</a></li>
+                    <li class="order payu"><a href="{{route('stripe.order.form', [$package->id, 'upgrade'])}}" data-turbolinks="false">{{__('pay with stripe')}}</a></li>
                     @endif
                     @if((bool)$siteSetting->is_payu_active)
                        <li class="order"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}"> {{__('pay with PayU')}}</a></li>

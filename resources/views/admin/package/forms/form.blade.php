@@ -19,9 +19,8 @@
     
     <div class="form-group {!! APFrmErrHelp::hasError($errors, 'package_num_listings') !!}"> {!! Form::label('package_num_listings', 'Package num listings*', ['class' => 'bold']) !!}
         {!! Form::text('package_num_listings', null, array('class'=>'form-control','onkeypress'=>'return isNumberKey(event)', 'id'=>'package_num_listings', 'placeholder'=>'Package num listings')) !!}
-        {!! APFrmErrHelp::showErrors($errors, 'package_num_listings') !!}
-        *On how many jobs a job seeker can apply<br />
-        **How many jobs an employer can post </div>
+       {!! APFrmErrHelp::showErrors($errors, 'package_num_listings') !!}
+     </div>
 
     <div class="form-group {!! APFrmErrHelp::hasError($errors, 'package_for') !!}">
         {!! Form::label('package_for', 'Package for?', ['class' => 'bold']) !!}

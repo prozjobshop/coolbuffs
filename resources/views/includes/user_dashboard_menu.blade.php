@@ -31,6 +31,10 @@
         </li>
         <li><a href="{{url('my-profile#cvs')}}"><i class="fa fa-file-text" aria-hidden="true"></i> {{__('Manage Resume')}}</a>
         </li>
+        <li class="{{ Request::url() == route('resume-ocr') ? 'active' : '' }}"><a href="{{url('resume-ocr')}}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> {{__('Upload Resume')}}</a>
+        </li>
+        <li class="{{ Request::url() == route('resume.builder') ? 'active' : '' }}"><a href="{{url('resume-builder')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i> {{__('Create Resume')}}</a>
+        </li>
         <li class="{{ Request::url() == route('my.messages') ? 'active' : '' }}"><a href="{{route('my.messages')}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> {{__('Chats')}}</a>
         </li>
         

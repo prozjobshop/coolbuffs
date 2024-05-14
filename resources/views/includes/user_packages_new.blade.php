@@ -14,7 +14,8 @@
                             <div class="clearfix"></div>
                         </div>
                     </li>
-                    <li class="plan-pages">{{__('Can apply on jobs')}} : {{$package->package_num_listings}}</li>
+                    {{-- <li class="plan-pages">{{__('Can apply on jobs')}} : Unlimited</li> --}}
+                     <li class="plan-pages">{{__('Can apply on jobs')}} : {{$package->package_num_listings}}</li> 
                     <li class="plan-pages">{{__('Package Duration')}} : {{$package->package_num_days}} Days</li>
                     
                     @if($package->package_price > 0)                    

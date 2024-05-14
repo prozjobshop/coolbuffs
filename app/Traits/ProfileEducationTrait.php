@@ -129,13 +129,78 @@ trait ProfileEducationTrait
         $profileEducationMajorSubjectIds = array();
 
         $user = User::find($user_id);
-        $returnHTML = view('user.forms.education.education_modal')
+
+
+        
+        // dd($request->resume_data);
+        // dd($degreeLevels);
+
+        // $array1 = $degreeLevels;
+      //   $array1 = [
+      //       "Non-Matriculation",
+      //       "Matriculation/O-Level",
+      //       "Intermediate/A-Level",
+      //       "Bachelors",
+      //       "Masters",
+      //       "MPhil/MS",
+      //       "PHD/Doctorate",
+      //       "Certification",
+      //       "Diploma",
+      //       "Short Course"
+      //   ];
+        
+      //   // $array2 = $resume_data['education']['edu_title'];
+      //   $array2 = [
+      //       "Some text with Diploma",
+      //       // "Another example with Bachelors",
+      //       "No match here"
+      //   ];
+      
+      //   // dd($array2);
+
+      // function checkArrayValues($array1, $array2) {
+      //     foreach ($array1 as $key => $value1) {
+      //         foreach ($array2 as $key1 => $value2) {
+      //             if (strpos($value2, $value1) !== false) {
+      //                 return $key;
+      //             }
+      //         }
+      //     }
+      //     return false;
+      // }
+      
+      // $result = checkArrayValues($array1, $array2);
+      
+      // if ($result) {
+      //     // echo "Found a matching word.";
+      //     echo $result;
+
+      // } else {
+      //     echo "No matching word found.";
+      // }
+
+      // // dd($result);
+      // exit();
+
+
+        // if request coming from ocr, change it's render file else modal file will work 
+        $render_file ; 
+        if(isset($request->from_ocr)){
+          $resume_data = $request->resume_data;
+          $render_file = 'ocr.resume-ocr-education'; 
+        }else{
+          $resume_data = '';
+          $render_file = 'user.forms.education.education_modal'; 
+        }
+
+        $returnHTML = view($render_file)
                 ->with('user', $user)
                 ->with('degreeLevels', $degreeLevels)
                 ->with('resultTypes', $resultTypes)
                 ->with('majorSubjects', $majorSubjects)
                 ->with('profileEducationMajorSubjectIds', $profileEducationMajorSubjectIds)
                 ->with('countries', $countries)
+                ->with('resume_data', $resume_data)
                 ->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
@@ -155,6 +220,18 @@ trait ProfileEducationTrait
 
     public function storeFrontProfileEducation(ProfileEducationFormRequest $request, $user_id)
     {
+
+        // dd($request->all());
+
+        DB::table('users')
+        ->where('id', Auth()->user()->id)
+        ->update([
+            'first_name' => $request->x_first_name,
+            'last_name' => $request->x_last_name,
+            'name' => $request->x_first_name.' '.$request->x_last_name,
+            'phone' => $request->x_mobile_num,            
+        ]);
+        
 
         $profileEducation = new ProfileEducation();
         $profileEducation = $this->assignEducationValues($profileEducation, $request, $user_id);

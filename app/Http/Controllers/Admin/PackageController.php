@@ -14,7 +14,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use DataTables;
 use App\Http\Requests\PackageFormRequest;
 use App\Http\Controllers\Controller;
-
+use App\User;
+use Carbon\Carbon;
 class PackageController extends Controller
 {
 
@@ -146,6 +147,96 @@ class PackageController extends Controller
                         ->make(true);
         //$query = $dataTable->getQuery()->get();
         //return $query;
+    }
+
+    public function indexUserHistory()
+
+    {
+        $packages = Package::where('package_for','job_seeker')->pluck('package_title','id')->toArray();
+        return view('admin.package.payment_history')->with('packages',$packages);
+    }
+    public function fetchUserHistory(Request $request)
+    {
+        $today = Carbon::now()->toDateString();
+
+        $users = User::whereNotNull('package_id')
+            ->where('package_end_date', '>', $today)
+            ->where('package_id', '!=', '7')
+            ->select('*');
+   
+        return Datatables::of($users)
+   
+                        ->filter(function ($query) use ($request) {
+   
+                            if ($request->has('name') && !empty($request->name)) {
+   
+                                $query->where('users.name', 'like', "%{$request->get('name')}%");
+   
+                            }
+   
+                            // if ($request->has('payment_method') && !empty($request->payment_method)) {
+   
+                            //     $query->where('users.payment_method', 'like', "%{$request->get('payment_method')}%");
+   
+                            // }
+   
+                            // if ($request->has('package') && !empty($request->package)) {
+   
+                            //     $query->where('users.package_id',$request->get('package'));
+   
+                            // }
+   
+                            $query->whereNotNull('package_start_date')->orderBy('package_start_date', 'DESC');
+   
+                            
+                           
+   
+                        })
+   
+                        // ->addColumn('payment_method', function ($users) {
+   
+                        //     return $users->payment_method;
+   
+                        // })
+                        ->addColumn('email', function ($users) {
+                            return $users->email;
+                        })   
+                        ->addColumn('transaction', function ($users) {
+                            return $users->transaction;
+                        })
+                        ->addColumn('package', function ($users) {
+                            $package = Package::findOrFail($users->package_id);
+                            return $package->package_title;
+   
+                        })
+   
+                        ->addColumn('package_start_date', function ($users) {
+                            
+                            return date('d-m-Y',strtotime($users->package_start_date));
+   
+                        })
+   
+                        ->addColumn('package_end_date', function ($users) {
+                            
+                            return date('d-m-Y',strtotime($users->package_end_date));
+   
+                        })
+   
+   
+                        ->rawColumns(['package_start_date', 'package_end_date'])
+   
+                        ->setRowId(function($users) {
+   
+                            return 'userDtRow' . $users->id;
+   
+                        })
+   
+                        ->make(true);
+   
+        //$query = $dataTable->getQuery()->get();
+   
+        //return $query;
+   
     }
 
 }

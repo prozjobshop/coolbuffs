@@ -59,7 +59,20 @@
 </div>
 
 
+
+
 <div class="row">
+<div class="col-md-6">
+        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'original_em') !!}">
+			<label for="">{{__('Original Email')}}</label>
+			{!! Form::text('original_em', null, array('class'=>'form-control', 'id'=>'original_em', 'placeholder'=>__('Original Email'))) !!}
+            {!! APFrmErrHelp::showErrors($errors, 'original_em') !!}</div>
+    </div>
+    
+    
+    
+
+
     <div class="col-md-6">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'first_name') !!}">
 			<label for="">{{__('First Name')}}<span style="color:red"> *</span></label>

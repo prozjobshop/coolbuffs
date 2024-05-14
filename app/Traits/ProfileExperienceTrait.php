@@ -76,17 +76,28 @@ trait ProfileExperienceTrait
         echo $html . '</div>';
     }
 
+    
+
+
+
+
+
+
+
+
     public function showApplicantProfileExperience(Request $request, $user_id)
     {
         $user = User::find($user_id);
         $html = '<ul class="experienceList">';
-        if (isset($user) && count($user->profileExperience)):
-            foreach ($user->profileExperience as $experience):
-                if ($experience->is_currently_working == 1)
+        if (isset($user) && count($user->profileExperience)) {
+            $experiences = $user->profileExperience->sortByDesc('date_start');
+            foreach ($experiences as $experience) {
+                if ($experience->is_currently_working == 1) {
                     $date_end = 'Currently working';
-                else
+                } else {
                     $date_end = $experience->date_end->format('d M, Y');
-
+                }
+    
                 $html .= '<li>
                 <div class="row">
                   <div class="col-md-2"><img src="' . asset('images/work-experience.png') . '" alt="work experience"></div>
@@ -100,11 +111,35 @@ trait ProfileExperienceTrait
                   </div>
                 </div>
               </li>';
-            endforeach;
-        endif;
-
-        echo $html . '</ul>';
+            }
+        }
+        $html .= '</ul>';
+        echo $html;
     }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function getProfileExperienceForm(Request $request, $user_id)
     {
@@ -123,9 +158,22 @@ trait ProfileExperienceTrait
         $countries = DataArrayHelper::langCountriesArray();
 
         $user = User::find($user_id);
-        $returnHTML = view('user.forms.experience.experience_modal')
+
+        // dd($request->resume_data);
+        // if request coming from ocr, change it's render file else modal file will work 
+        $render_file ; 
+        if(isset($request->from_ocr)){
+          $resume_data = $request->resume_data;
+          $render_file = 'ocr.resume-ocr-experience'; 
+        }else{
+          $resume_data = '';
+          $render_file = 'user.forms.experience.experience_modal'; 
+        }
+
+        $returnHTML = view($render_file)
                 ->with('user', $user)
                 ->with('countries', $countries)
+                ->with('resume_data', $resume_data)
                 ->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
@@ -143,7 +191,7 @@ trait ProfileExperienceTrait
 
     public function storeFrontProfileExperience(ProfileExperienceFormRequest $request, $user_id)
     {
-
+        // dd($request->all());
         $profileExperience = new ProfileExperience();
         $profileExperience = $this->assignExperienceValues($profileExperience, $request, $user_id);
         $profileExperience->save();

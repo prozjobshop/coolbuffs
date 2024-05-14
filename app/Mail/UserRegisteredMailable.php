@@ -36,7 +36,7 @@ class UserRegisteredMailable extends Mailable
                                 [
                                     'name' => $this->user->name,
                                     'email' => $this->user->email,
-                                    'link' => route('user.profile', $this->user->id),
+                                    'link' => route('view.public.profile', $this->user->id),
                                     'link_admin' => route('edit.user', ['id' => $this->user->id])
                                 ]
         );

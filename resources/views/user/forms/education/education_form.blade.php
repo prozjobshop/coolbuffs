@@ -3,8 +3,29 @@
         <div class="formrow" id="div_degree_level_id">
             <?php
             $degree_level_id = (isset($profileEducation) ? $profileEducation->degree_level_id : null);
+
+            $array1 = $degreeLevels;
+            $array2 = isset($resume_data['education']['edu_title']) ? $resume_data['education']['edu_title'] : [];
+
+            function checkArrayValues($array1, $array2) {
+                foreach ($array1 as $key => $value1) {
+                    foreach ($array2 as $key1 => $value2) {
+                        if (strpos($value2, $value1) !== false) {
+                            return $key;
+                        }
+                    }
+                }
+                return false;
+            }
+            
+            $result = checkArrayValues($array1, $array2);
+
             ?>
-            {!! Form::select('degree_level_id', [''=>__('Select Degree Level')]+$degreeLevels, $degree_level_id, array('class'=>'form-control', 'id'=>'degree_level_id')) !!}
+            @if($result)
+              {!! Form::select('degree_level_id', [''=>__('Select Degree Level')]+$degreeLevels, $result, array('class'=>'form-control', 'id'=>'degree_level_id')) !!}
+            @else
+              {!! Form::select('degree_level_id', [''=>__('Select Degree Level')]+$degreeLevels, $degree_level_id, array('class'=>'form-control', 'id'=>'degree_level_id')) !!}
+            @endif
             <span class="help-block degree_level_id-error text-danger"></span>
         </div>
 
@@ -61,16 +82,46 @@
             </span>
             <span class="help-block city_id-error text-danger"></span> </div>
 
+            <?php
+              $degree_institution = '';
+
+              if(isset($resume_data['education']['edu_title'])){
+                if(count($resume_data['education']['edu_title']) > 0){
+                    
+                    if ($resume_data['education']['edu_title'][3]) {
+                        
+                        $degree_institution = $resume_data['education']['edu_title'][3];
+                    }else{
+                        $degree_institution = $resume_data['education']['edu_title'][2];
+                        
+                    }
+                  $degree_institution = preg_replace('/[^A-Za-z\s]/', '', $degree_institution);
+                  
+                }
+              }
+            ?>
         <div class="formrow" id="div_institution">
-            <input class="form-control" id="institution" placeholder="{{__('Institution')}}" name="institution" type="text" value="{{(isset($profileEducation)? $profileEducation->institution:'')}}">
+            {{-- <input class="form-control" id="institution" placeholder="{{__('Institution')}}" name="institution" type="text" value="{{(isset($profileEducation)? $profileEducation->institution:'')}}"> --}}
+            {{-- <input class="form-control" id="institution" placeholder="{{__('Institution')}}" name="institution" type="text" value="{{ trim($degree_institution," ") }}"> --}}
+            <input class="form-control" id="institution" placeholder="{{__('Institution')}}" name="institution" type="text" value="{{ isset($resume_data['education']['edu_title']) ? trim($degree_institution,' ') : (isset($profileEducation) ? $profileEducation->institution : '') }}">
             <span class="help-block institution-error text-danger"></span> </div>
 
 
         <div class="formrow" id="div_date_completion">
             <?php
             $date_completion = (isset($profileEducation) ? $profileEducation->date_completion : null);
+
+            $array1 = MiscHelper::getEstablishedIn();
+            $array2 = isset($resume_data['education']['edu_dates']) ? $resume_data['education']['edu_dates'] : [];
+
+            $result = checkArrayValues($array1, $array2);
+
             ?>
-            {!! Form::select('date_completion', [''=>__('Select Year')]+MiscHelper::getEstablishedIn(), $date_completion, array('class'=>'form-control', 'id'=>'date_completion')) !!}
+            @if($result)
+              {!! Form::select('date_completion', [''=>__('Select Year')]+MiscHelper::getEstablishedIn(), $result, array('class'=>'form-control', 'id'=>'date_completion')) !!}
+            @else
+              {!! Form::select('date_completion', [''=>__('Select Year')]+MiscHelper::getEstablishedIn(), $date_completion, array('class'=>'form-control', 'id'=>'date_completion')) !!}
+            @endif
             <span class="help-block date_completion-error text-danger"></span> </div>
 
 
@@ -80,12 +131,18 @@
 
 
 
+        {{-- <div class="formrow" id="div_result_type_id">
+            <?php
+            // $result_type_id = (isset($profileEducation) ? $profileEducation->result_type_id : '1');
+            ?>
+            {!! Form::select('result_type_id', ['1'=>__('Select Result Type')]+$resultTypes, $result_type_id, array('class'=>'form-control', 'id'=>'result_type_id')) !!}
+            <span class="help-block result_type_id-error text-danger"></span> </div> --}}
         <div class="formrow" id="div_result_type_id">
             <?php
             $result_type_id = (isset($profileEducation) ? $profileEducation->result_type_id : null);
             ?>
             {!! Form::select('result_type_id', [''=>__('Select Result Type')]+$resultTypes, $result_type_id, array('class'=>'form-control', 'id'=>'result_type_id')) !!}
-            <span class="help-block result_type_id-error text-danger"></span> </div>
+            <span class="help-block result_type_id-error text-danger"></span> </div>        
 
     </div>
 </div>

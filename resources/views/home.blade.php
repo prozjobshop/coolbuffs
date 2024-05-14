@@ -41,7 +41,7 @@
 						<div class="row">
 
 							<div class="col-lg-7">
-
+								
 								<h4>{{auth()->user()->name}}</h4> 
 
 								<h6><i class="fa fa-map-marker" aria-hidden="true"></i> {{Auth::user()->getLocation()}}</h6>
@@ -100,9 +100,10 @@
 
 				@include('includes.user_dashboard_stats')
 
-                @if((bool)config('jobseeker.is_jobseeker_package_active'))
+          {{-- for admin purposes Que --}}
+          {{-- @if((bool)config('jobseeker.is_jobseeker_package_active')) --}} 
 
-                @php        
+            @php        
 
                 $packages = App\Package::where('package_for', 'like', 'job_seeker')->get();
 
@@ -114,29 +115,27 @@
 
                 }
 
-                @endphp
+            @endphp
 
 
 
-                @if(null !== $package)
+            @if(null !== $package)
 
                 @include('includes.user_package_msg')
 
                 @include('includes.user_packages_upgrade')
 
-                @else
-
-
+              @else
 
                 @if(null !== $packages)
 
-                @include('includes.user_packages_new')
+                    @include('includes.user_packages_new')
 
                 @endif
 
-                @endif
+            @endif
 
-                @endif 
+          {{-- @endif  --}}
 
 			
 
@@ -158,7 +157,7 @@
 
                                         <h4><a href="{{route('job.detail', [$match->slug])}}">{{$match->title}}</a></h4>
 
-                                        <p>{{$match->getCompany()->name}}</p>
+                                        <p>{{$match->getCompany()->name ?? ''}}</p>
 
                                     </li>
 

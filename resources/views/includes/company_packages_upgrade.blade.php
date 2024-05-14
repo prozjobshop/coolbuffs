@@ -56,7 +56,7 @@
 		<li class="order paypal"><a href="{{route('order.upgrade.package', $package->id)}}"><i class="fa fa-cc-paypal" aria-hidden="true"></i> {{__('Paypal')}}</a></li>
 		@endif
 		@if((bool)$siteSetting->is_stripe_active)
-		<li class="order"><a href="{{route('stripe.order.form', [$package->id, 'upgrade'])}}"><i class="fa fa-cc-stripe" aria-hidden="true"></i> {{__('Stripe')}}</a></li>
+		<li class="order"><a href="{{route('stripe.order.form', [$package->id, 'upgrade'])}}" data-turbolinks="false"><i class="fa fa-cc-stripe" aria-hidden="true"></i> {{__('Stripe')}}</a></li>
 		@endif
 		@if((bool)$siteSetting->is_payu_active)
 		   <li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('PayU')}}</a></li>

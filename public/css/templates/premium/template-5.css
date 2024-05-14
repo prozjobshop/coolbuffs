@@ -1,0 +1,136 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.ft{
+  /* font-weight: 500; */
+  font-size: 14px;
+}
+.ft-1{
+  font-size: 16px;
+  font-weight: bolder;
+}
+h1{
+
+  font-weight: bolder;
+}
+span{
+  font-weight: 500;
+  font-size: 16px;
+}
+.f-right{
+  align-items: right;
+  text-align: right;
+  margin-bottom: 15px;
+}
+.wid-50{
+  width: 50%;
+}
+.wid-40{
+  width: 40%;
+}
+.wid-60{
+  width: 60%;
+}
+.wid-30{
+  width: 30%;
+}
+.wid-70{
+  width: 70%;
+}
+.pad-1{
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 20px;
+}
+.pad-2{
+  padding-left: 50px;
+  margin-top: 0px;
+}
+.pad-3{
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.f-lft{
+  float: left;
+}
+.f-rgt{
+  float: right;
+}
+.f-left{
+  float: left;
+}
+.f-right-1{
+  float: right;
+  align-items: end;
+  text-align: end;
+}
+.m-150{
+  margin-bottom: 150px;
+}
+.m-50{
+  margin-bottom: 60px;
+}
+.m-90{
+  margin-bottom: 70px;
+}
+.f-26{
+  font-size: 26px;
+  margin-bottom: 0;
+}
+.f-20{
+  font-size: 20px;
+  margin: 0;
+}
+.mb0{
+  margin-bottom: 0;
+}
+.mt0{
+  margin-top: 0;
+}
+.f-20{
+  font-size: 16px;
+}
+.tt{
+  color: #7B7B7B;
+}
+.txt-c{
+  text-align: center;
+}
+hr{
+  border-top: 2px solid black;
+}
+
+
+.ft-heading{
+  font-size: 18px;
+}
+
+.mtb5{
+  margin: 5px 0;
+}
+
+.mtb10{
+  margin: 10px 0;
+}
+
+
+.educations, .experiences, .projects, .skills{
+  margin-bottom: 10px;  
+}
+
+
+.experience{
+  margin: 10px 0 20px;
+}
+
+
+.skill{
+  margin: 15px 0;
+  padding: 0 10px;
+}
+
+.test-border{
+  border: 1px solid red;
+}

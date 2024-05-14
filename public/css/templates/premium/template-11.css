@@ -1,0 +1,196 @@
+
+*{
+    margin: 0;
+    padding: 0;
+  }
+  .body{
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.f-35{
+    font-size: 25px;
+}
+.f-20{
+    font-size: 20px;
+}
+.f-12{
+    font-size: 12px;
+}
+.f-12{
+    font-size: 12px;
+}
+.f-10{
+    font-size: 10px;
+}
+.f-18{
+    font-size: 18px;
+}
+.mt0{
+    margin-top: 0;
+}
+.mb0{
+    margin-bottom: 0;
+}
+.m-10{
+    margin: 10px;
+}
+.mx-10{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.my-10{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.wid-auto{
+    width: auto;
+}
+.wid-100{
+    width:100%;    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0;
+
+}
+.heading{
+    margin-top: 24px;
+    color: #374246;
+}
+.f-32{
+    font-size: 32px;
+}
+.wid-70{
+    width: 65%;
+    float: left;
+    height: 100%;
+}
+.wid-30{
+    width: 35%;
+    float: right;
+}
+.wid-50{
+    width: 50%;
+}
+.wid-40{
+    width: 40%;
+}
+.wid-33{
+    width: 33%;
+}
+.wid-60{
+    width: 60%;
+}
+.wid-20{
+    width: 20%;
+}
+.mb0{
+    margin-bottom: 0;
+}
+.pad-y{
+    padding-top: 40px;
+    padding-bottom:20px ;
+}
+.mt0{
+    margin-top: 0;
+}
+.f-left{
+    float: left;
+}
+.f-right-1{
+    float: right;
+    align-items: end;
+    text-align: end;
+}
+.pad-1{
+    padding-left: 60px;
+    padding-right: 60px;
+}
+.pad-2{
+    padding-right: 60px;
+    margin-top: 0px;
+}
+.pad-3{
+    padding: 150px 35px 35px 35px;
+}
+.txt-clr{
+    color: #28B3B5;
+}
+.fw-t{
+    font-size: 16px;
+}
+.f-14{
+    font-size: 14px;
+}
+p{
+    font-size: 16px;
+}
+li{
+    font-size: 16px;
+}
+.f-18{
+    font-size: 18px;
+    font-weight: bold;
+}
+span{
+    font-size: 16px;
+}
+.wid-30-1{
+    width: 30%;
+    float: left;
+}
+.f-21{
+    font-size: 21px;
+    color: #374246;
+    font-weight: 700;
+}
+.wid-40{
+    width: 40%;
+    float: left;
+}
+.wid-100{
+    width: 100%;
+}
+
+h1 {
+    display: block;
+    font-size: 20px;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.f-lft{
+    float: left;
+}
+.f-rgt{
+    float: right;
+}
+.f-left{
+    float: left;
+}
+.f-right-1{
+    float: right;
+    align-items: end;
+    text-align: end;
+}
+.bg{
+    background-color: #006666;
+}
+.tw{
+    color: #ffffff;
+}
+hr .wt{
+    border-top: 2px solid white;
+}
+hr .bk {
+    border-top: 3px solid black;
+}
+
+
+
+
+
+
+

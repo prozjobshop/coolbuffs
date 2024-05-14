@@ -85,12 +85,16 @@ Route::get('typeahead-currency_codes', 'TypeAheadController@typeAheadCurrencyCod
 Route::get('faq', 'FaqController@index')->name('faq');
 
 
+Route::get('packages', 'PackageController@index')->name('packages');
+
+
 
 /* * ******** CronController ******* */
 
 
 
 Route::get('check-package-validity', 'CronController@checkPackageValidity');
+Route::get('free-monthly-limit', 'CronController@freeMonthlyLimit');
 
 
 
@@ -195,6 +199,22 @@ include_once($real_path . 'cms.php');
 
 
 include_once($real_path . 'job.php');
+
+
+
+/* * ******** ResumeController ************ */
+
+
+
+include_once($real_path . 'resume_builder.php');
+
+
+
+/* * ******** OCRController ************ */
+
+
+
+include_once($real_path . 'ocr.php');
 
 
 

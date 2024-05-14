@@ -482,9 +482,9 @@ trait JobTrait
 
 				($company->package_end_date === null) || 
 
-				($company->package_end_date->lt(Carbon::now())) ||
+				($company->package_end_date->lt(Carbon::now())) 
 
-				($company->jobs_quota <= $company->availed_jobs_quota)
+				// ||($company->jobs_quota <= $company->availed_jobs_quota)
 
 				)
 

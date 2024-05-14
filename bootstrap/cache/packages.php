@@ -123,6 +123,17 @@
       0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
+  'niklasravnsborg/laravel-pdf' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'niklasravnsborg\\LaravelPdf\\PdfServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'PDF' => 'niklasravnsborg\\LaravelPdf\\Facades\\Pdf',
+    ),
+  ),
   'nunomaduro/collision' => 
   array (
     'providers' => 
@@ -157,6 +168,17 @@
     'aliases' => 
     array (
       'Payu' => 'Tzsk\\Payu\\Facades\\Payu',
+    ),
+  ),
+  'web64/laravel-nlp' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Web64\\LaravelNlp\\NlpServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'NLP' => 'Web64\\LaravelNlp\\Facades\\Nlp',
     ),
   ),
   'yajra/laravel-datatables-buttons' => 

@@ -40,7 +40,7 @@
                                             <td><input type="text" class="form-control" name="package_price" id="package_price" autocomplete="off" placeholder="package price"></td>
                                             <td><input type="text" class="form-control" name="package_num_days" id="package_num_days" autocomplete="off" placeholder="package num days"></td>
                                             <td><input type="text" class="form-control" name="package_sequence" id="package_sequence" autocomplete="off" placeholder="package Sequence"></td>
-                                            <td><input type="text" class="form-control" name="package_num_listings" id="package_num_listings" autocomplete="off" placeholder="package num listings"></td>
+                                            <!-- <td><input type="text" class="form-control" name="package_num_listings" id="package_num_listings" autocomplete="off" placeholder="package num listings"></td> -->
                                             <td><select name="package_for" id="package_for" class="form-control">
                                                     <option value="">Package For?</option>
                                                     <option value="job_seeker">Job Seeker</option>
@@ -53,7 +53,7 @@
                                             <th>Price</th>
                                             <th>Num Days</th>
                                             <th>Sequence</th>
-                                            <th>Num Listings</th>
+                                            <!-- <th>Num Listings</th> -->
                                             <th>For</th>                                            
                                             <th>Actions</th>
                                         </tr>
@@ -90,7 +90,7 @@
                     d.package_title = $('#package_title').val();
                     d.package_price = $('#package_price').val();
                     d.package_num_days = $('#package_num_days').val();
-                    d.package_num_listings = $('#package_num_listings').val();
+                    // d.package_num_listings = $('#package_num_listings').val();
                     d.package_sequence = $('#package_sequence').val();
                     d.package_for = $('#package_for').val();
                 }
@@ -98,7 +98,7 @@
                 {data: 'package_title', name: 'package_title'},
                 {data: 'package_price', name: 'package_price'},
                 {data: 'package_num_days', name: 'package_num_days'},
-                {data: 'package_num_listings', name: 'package_num_listings'},
+                // {data: 'package_num_listings', name: 'package_num_listings'},
                 {data: 'package_sequence', name: 'package_sequence'},
                 {data: 'package_for', name: 'package_for'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
@@ -125,10 +125,10 @@
             oTable.draw();
             e.preventDefault();
         });
-        $('#package_num_listings').on('keyup', function (e) {
-            oTable.draw();
-            e.preventDefault();
-        });
+        // $('#package_num_listings').on('keyup', function (e) {
+        //     oTable.draw();
+        //     e.preventDefault();
+        // });
         $('#package_for').on('change', function (e) {
             oTable.draw();
             e.preventDefault();

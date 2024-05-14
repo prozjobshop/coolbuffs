@@ -786,7 +786,14 @@ class User extends Authenticatable
 
 
 
-        return CompanyMessage::where('seeker_id', '=', $this->id)->where('status', '=', 'unviewed')->where('type', '=', 'message')->count();
+        // return CompanyMessage::where('seeker_id', '=', $this->id)->where('status', '=', 'unviewed')->where('type', '=', 'message')->count();
+        return CompanyMessage::where('seeker_id', '=', $this->id)->where('status', '=', 'unviewed')->where('type', '=', 'reply')->count();
+        // return CompanyMessage::where('seeker_id', '=', $this->id)
+        //   ->where('status', '=', 'unviewed')
+        //   ->where(function ($query){
+        //     $query->where('type', 'reply')
+        //     ->orWhere('type', 'message');
+        //   })->count();
 
 
 

@@ -2,5 +2,7 @@
     <ul class="sub-menu">
         <li class="nav-item  "> <a href="{{ route('list.packages') }}" class="nav-link "> <span class="title">List Packages</span> </a> </li>
         <li class="nav-item  "> <a href="{{ route('create.package') }}" class="nav-link "> <span class="title">Add new Package</span> </a> </li>
+        <li class="nav-item  "> <a href="{{ route('list.payment.historys') }}" class="nav-link "> <span class="title">List Payment History</span> </a> </li>
+
     </ul>
 </li>

@@ -3071,3 +3071,18 @@ Stack trace:
 [21-Dec-2022 05:41:52 America/Boise] PHP Fatal error:  require_once(): Failed opening required '/home4/jarlyc1/public_html/proztec-droidor-com/public/index.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/jarlyc1/public_html/proztec-droidor-com/index.php on line 27
 [21-Dec-2022 05:41:53 America/Boise] PHP Fatal error:  require_once(): Failed opening required '/home4/jarlyc1/public_html/proztec-droidor-com/public/index.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/jarlyc1/public_html/proztec-droidor-com/index.php on line 27
 [21-Dec-2022 05:41:54 America/Boise] PHP Fatal error:  require_once(): Failed opening required '/home4/jarlyc1/public_html/proztec-droidor-com/public/index.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home4/jarlyc1/public_html/proztec-droidor-com/index.php on line 27
+[15-Sep-2023 10:42:39 America/Chicago] PHP Warning:  require(/home/datumcrm/proztec.datumcrm.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/datumcrm/proztec.datumcrm.com/public/index.php on line 24
+[15-Sep-2023 10:42:39 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home/datumcrm/proztec.datumcrm.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/datumcrm/proztec.datumcrm.com/public/index.php:24
+Stack trace:
+#0 /home/datumcrm/proztec.datumcrm.com/index.php(27): require_once()
+#1 {main}
+  thrown in /home/datumcrm/proztec.datumcrm.com/public/index.php on line 24
+[15-Sep-2023 10:42:42 America/Chicago] PHP Warning:  require(/home/datumcrm/proztec.datumcrm.com/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): Failed to open stream: No such file or directory in /home/datumcrm/proztec.datumcrm.com/vendor/composer/autoload_real.php on line 55
+[15-Sep-2023 10:42:42 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home/datumcrm/proztec.datumcrm.com/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/datumcrm/proztec.datumcrm.com/vendor/composer/autoload_real.php:55
+Stack trace:
+#0 /home/datumcrm/proztec.datumcrm.com/vendor/composer/autoload_real.php(38): composerRequire291f0adcb240c753b8a211c7f8bccc64('0e6d7bf4a5811bf...', '/home/datumcrm/...')
+#1 /home/datumcrm/proztec.datumcrm.com/vendor/autoload.php(12): ComposerAutoloaderInit291f0adcb240c753b8a211c7f8bccc64::getLoader()
+#2 /home/datumcrm/proztec.datumcrm.com/public/index.php(24): require('/home/datumcrm/...')
+#3 /home/datumcrm/proztec.datumcrm.com/index.php(27): require_once('/home/datumcrm/...')
+#4 {main}
+  thrown in /home/datumcrm/proztec.datumcrm.com/vendor/composer/autoload_real.php on line 55

@@ -6,82 +6,122 @@
     <div class="sidebar">
         <input type="hidden" name="search" value="{{Request::get('search', '')}}"/>
 
-        <!-- Jobs By Country -->
+
+<!-- Jobs By Industry -->
+<div class="widget">
+<h4 class="widget-title">{{__('By Industry')}}</h4>
+<ul class="optionlist view_more_ul">
+    @if(isset($industryIdsArray) && count($industryIdsArray))
+        @php
+            $industries = App\Industry::whereIn('id', $industryIdsArray)
+                ->lang()
+                ->active()
+                ->orderBy('industry') // Order by the 'industry' column
+                ->get();
+        @endphp
+        @foreach($industries as $industry)
+                    @php
+                $checked = (in_array($industry->id, Request::get('industry_id', array()))) ? 'checked="checked"' : '';
+            @endphp
+            <li>
+                <input type="checkbox" name="industry_id[]" id="industry_{{ $industry->id }}" value="{{ $industry->id }}" {{ $checked }}>
+                <label for="industry_{{ $industry->id }}"></label>
+                {{ $industry->industry }} <span>{{ App\User::countNumJobSeekers('industry_id', $industry->id) }}</span>
+            </li>
+        @endforeach
+    @endif
+</ul>
+<span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+</div>
+
+        <!-- Jobs By Industry end --> 
+
+        <!-- Jobs By Skill -->
         <div class="widget">
-            <h4 class="widget-title">{{__('By Country')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($countryIdsArray) && count($countryIdsArray))
-                @foreach($countryIdsArray as $key=>$country_id)
+    <h4 class="widget-title">{{__('By Skill')}}</h4>
+    <ul class="optionlist view_more_ul">
+        @if(isset($skillIdsArray) && count($skillIdsArray))
+            @php
+                $jobSkills = App\JobSkill::whereIn('job_skill_id', $skillIdsArray)
+                    ->lang()
+                    ->active()
+                    ->orderBy('job_skill') // Order by the 'job_skill' column
+                    ->get();
+            @endphp
+            @foreach($jobSkills as $jobSkill)
                 @php
-                $country = App\Country::where('country_id','=',$country_id)->lang()->active()->first();			  
-                @endphp
-                @if(null !== $country)
-                @php
-                $checked = (in_array($country->country_id, Request::get('country_id', array())))? 'checked="checked"':'';
+                    $checked = (in_array($jobSkill->job_skill_id, Request::get('job_skill_id', array()))) ? 'checked="checked"' : '';
                 @endphp
                 <li>
-                    <input type="checkbox" name="country_id[]" id="country_{{$country->country_id}}" value="{{$country->country_id}}" {{$checked}}>
-                    <label for="country_{{$country->country_id}}"></label>
-                    {{$country->country}} <span>{{App\User::countNumJobSeekers('country_id', $country->country_id)}}</span> </li>
-                @endif
-                @endforeach
-                @endif
-            </ul>
-            <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
-        <!-- Jobs By Country end--> 
+                    <input type="checkbox" name="job_skill_id[]" id="job_skill_{{ $jobSkill->job_skill_id }}" value="{{ $jobSkill->job_skill_id }}" {{ $checked }}>
+                    <label for="job_skill_{{ $jobSkill->job_skill_id }}"></label>
+                    {{ $jobSkill->job_skill }} <span>{{ App\User::countNumJobSeekers('job_skill_id', $jobSkill->job_skill_id) }}</span>
+                </li>
+            @endforeach
+        @endif
+    </ul>
+    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+</div>
 
+        <!-- Jobs By skills end --> 
 
-        <!-- Jobs By State -->
-        <div class="widget">
-            <h4 class="widget-title">{{__('By State')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($stateIdsArray) && count($stateIdsArray))
-                @foreach($stateIdsArray as $key=>$state_id)
+<!-- Jobs By functional area end --> 
+<div class="widget">
+    <h4 class="widget-title">{{__('By Functional Areas')}}</h4>
+    <ul class="optionlist view_more_ul">
+        @if(isset($functionalAreaIdsArray) && count($functionalAreaIdsArray))
+            @php
+                $functionalAreas = App\FunctionalArea::whereIn('functional_area_id', $functionalAreaIdsArray)
+                    ->lang()
+                    ->active()
+                    ->orderBy('functional_area') // Order by the 'functional_area' column
+                    ->get();
+            @endphp
+            @foreach($functionalAreas as $functionalArea)
                 @php
-                $state = App\State::where('state_id','=',$state_id)->lang()->active()->first();			  
-                @endphp
-                @if(null !== $state)
-                @php
-                $checked = (in_array($state->state_id, Request::get('state_id', array())))? 'checked="checked"':'';
-                @endphp
-                <li>
-                    <input type="checkbox" name="state_id[]" id="state_{{$state->state_id}}" value="{{$state->state_id}}" {{$checked}}>
-                    <label for="state_{{$state->state_id}}"></label>
-                    {{$state->state}} <span>{{App\User::countNumJobSeekers('state_id', $state->state_id)}}</span> </li>
-                @endif
-                @endforeach
-                @endif
-            </ul>
-            <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
-        <!-- Jobs By State end--> 
-
-
-        <!-- Jobs By City -->
-        <div class="widget">
-            <h4 class="widget-title">{{__('By City')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($cityIdsArray) && count($cityIdsArray))
-                @foreach($cityIdsArray as $key=>$city_id)
-                @php
-                $city = App\City::where('city_id','=',$city_id)->lang()->active()->first();			  
-                @endphp
-                @if(null !== $city)
-                @php
-                $checked = (in_array($city->city_id, Request::get('city_id', array())))? 'checked="checked"':'';
+                    $checked = (in_array($functionalArea->functional_area_id, Request::get('functional_area_id', array()))) ? 'checked="checked"' : '';
                 @endphp
                 <li>
-                    <input type="checkbox" name="city_id[]" id="city_{{$city->city_id}}" value="{{$city->city_id}}" {{$checked}}>
-                    <label for="city_{{$city->city_id}}"></label>
-                    {{$city->city}} <span>{{App\User::countNumJobSeekers('city_id', $city->city_id)}}</span> </li>
-                @endif
-                @endforeach
-                @endif
-            </ul>
-            <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
-        <!-- Jobs By City end--> 
-
-        <!-- Jobs By Experience -->
-        <div class="widget">
+                    <input type="checkbox" name="functional_area_id[]" id="functional_area_id_{{ $functionalArea->functional_area_id }}" value="{{ $functionalArea->functional_area_id }}" {{ $checked }}>
+                    <label for="functional_area_id_{{ $functionalArea->functional_area_id }}"></label>
+                    {{ $functionalArea->functional_area }} <span>{{ App\User::countNumJobSeekers('functional_area_id', $functionalArea->functional_area_id) }}</span>
+                </li>                
+            @endforeach
+        @endif
+    </ul>
+    <!-- title end --> 
+    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+</div>
+            <!-- Jobs By functional area end --> 
+  <!-- Jobs By Career Level -->
+  <div class="widget">
+    <h4 class="widget-title">{{__('By Career Level')}}</h4>
+    <ul class="optionlist view_more_ul">
+        @if(isset($careerLevelIdsArray) && count($careerLevelIdsArray))
+            @php
+                $careerLevels = App\CareerLevel::whereIn('career_level_id', $careerLevelIdsArray)
+                    ->lang()
+                    ->active()
+                    ->orderBy('career_level') // Order by the 'career_level' column
+                    ->get();
+            @endphp
+            @foreach($careerLevels as $careerLevel)
+                @php
+                    $checked = (in_array($careerLevel->career_level_id, Request::get('career_level_id', array()))) ? 'checked="checked"' : '';
+                @endphp
+                <li>
+                    <input type="checkbox" name="career_level_id[]" id="career_level_{{ $careerLevel->career_level_id }}" value="{{ $careerLevel->career_level_id }}" {{ $checked }}>
+                    <label for="career_level_{{ $careerLevel->career_level_id }}"></label>
+                    {{ $careerLevel->career_level }} <span>{{ App\User::countNumJobSeekers('career_level_id', $careerLevel->career_level_id) }}</span>
+                </li>
+            @endforeach
+        @endif
+    </ul>
+    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+</div>
+        <!-- Jobs By Career Level end --> 
+<!-- Jobs By Experience -->
+<div class="widget">
             <h4 class="widget-title">{{__('By Experience')}}</h4>
             <ul class="optionlist view_more_ul">
                 @if(isset($jobExperienceIdsArray) && count($jobExperienceIdsArray))
@@ -105,30 +145,92 @@
         <!-- Jobs By Experience end --> 
 
 
-        <!-- Jobs By Career Level -->
+
+        <!-- Jobs By Country -->
         <div class="widget">
-            <h4 class="widget-title">{{__('By Career Level')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($careerLevelIdsArray) && count($careerLevelIdsArray))
-                @foreach($careerLevelIdsArray as $key=>$career_level_id)
+    <h4 class="widget-title">{{__('By Country')}}</h4>
+    <ul class="optionlist view_more_ul">
+        @if(isset($countryIdsArray) && count($countryIdsArray))
+            @php
+                $countries = App\Country::whereIn('country_id', $countryIdsArray)
+                    ->lang()
+                    ->active()
+                    ->orderBy('country') // Order by the 'country' column
+                    ->get();
+            @endphp
+            @foreach($countries as $country)
                 @php
-                $careerLevel = App\CareerLevel::where('career_level_id','=',$career_level_id)->lang()->active()->first();
-                @endphp
-                @if(null !== $careerLevel)
-                @php
-                $checked = (in_array($careerLevel->career_level_id, Request::get('career_level_id', array())))? 'checked="checked"':'';
+                    $checked = (in_array($country->country_id, Request::get('country_id', array()))) ? 'checked="checked"' : '';
                 @endphp
                 <li>
-                    <input type="checkbox" name="career_level_id[]" id="career_level_{{$careerLevel->career_level_id}}" value="{{$careerLevel->career_level_id}}" {{$checked}}>
-                    <label for="career_level_{{$careerLevel->career_level_id}}"></label>
-                    {{$careerLevel->career_level}} <span>{{App\User::countNumJobSeekers('career_level_id', $careerLevel->career_level_id)}}</span> </li>
+                    <input type="checkbox" name="country_id[]" id="country_{{ $country->country_id }}" value="{{ $country->country_id }}" {{ $checked }}>
+                    <label for="country_{{ $country->country_id }}"></label>
+                    {{ $country->country }} <span>{{ App\User::countNumJobSeekers('country_id', $country->country_id) }}</span>
+                </li>
+            @endforeach
+        @endif
+    </ul>
+    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+</div>
+ <!-- Jobs By Country end--> 
+
+
+        <!-- 
+        <div class="widget">
+            <h4 class="widget-title">{{__('By State')}}</h4>
+            <ul class="optionlist view_more_ul">
+                @if(isset($stateIdsArray) && count($stateIdsArray))
+                @foreach($stateIdsArray as $key=>$state_id)
+                @php
+                $state = App\State::where('state_id','=',$state_id)->lang()->active()->first();			  
+                @endphp
+                @if(null !== $state)
+                @php
+                $checked = (in_array($state->state_id, Request::get('state_id', array())))? 'checked="checked"':'';
+                @endphp
+                <li>
+                    <input type="checkbox" name="state_id[]" id="state_{{$state->state_id}}" value="{{$state->state_id}}" {{$checked}}>
+                    <label for="state_{{$state->state_id}}"></label>
+                    {{$state->state}} <span>{{App\User::countNumJobSeekers('state_id', $state->state_id)}}</span> </li>
                 @endif
                 @endforeach
                 @endif
             </ul>
             <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
-        <!-- Jobs By Career Level end --> 
+        --> 
 
+
+        <!-- Jobs By City -->
+        <div class="widget">
+    <h4 class="widget-title">{{__('By City')}}</h4>
+    <ul class="optionlist view_more_ul">
+        @if(isset($cityIdsArray) && count($cityIdsArray))
+            @php
+                $cities = App\City::whereIn('city_id', $cityIdsArray)
+                    ->lang()
+                    ->active()
+                    ->orderBy('city') // Order by the 'city' column
+                    ->get();
+            @endphp
+            @foreach($cities as $city)
+                @php
+                    $checked = (in_array($city->city_id, Request::get('city_id', array()))) ? 'checked="checked"' : '';
+                @endphp
+                <li>
+                    <input type="checkbox" name="city_id[]" id="city_{{ $city->city_id }}" value="{{ $city->city_id }}" {{ $checked }}>
+                    <label for="city_{{ $city->city_id }}"></label>
+                    {{ $city->city }} <span>{{ App\User::countNumJobSeekers('city_id', $city->city_id) }}</span>
+                </li>
+            @endforeach
+        @endif
+    </ul>
+    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+</div>
+        <!-- Jobs By City end--> 
+
+        
+
+      
         <!-- Jobs By Gender -->
         <div class="widget">
             <h4 class="widget-title">{{__('By Gender')}}</h4>
@@ -155,80 +257,8 @@
 
 
 
-        <!-- Jobs By Industry -->
-        <div class="widget">
-            <h4 class="widget-title">{{__('By Industry')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($industryIdsArray) && count($industryIdsArray))
-                @foreach($industryIdsArray as $key=>$industry_id)
-                @php
-                $industry = App\Industry::where('id','=',$industry_id)->lang()->active()->first();
-                @endphp
-                @if(null !== $industry)
-                @php
-                $checked = (in_array($industry->id, Request::get('industry_id', array())))? 'checked="checked"':'';
-                @endphp
-                <li>
-                    <input type="checkbox" name="industry_id[]" id="industry_{{$industry->id}}" value="{{$industry->id}}" {{$checked}}>
-                    <label for="industry_{{$industry->id}}"></label>
-                    {{$industry->industry}} <span>{{App\User::countNumJobSeekers('industry_id', $industry->id)}}</span> </li>
-                @endif
-                @endforeach
-                @endif
-            </ul>
-            <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
-        <!-- Jobs By Industry end --> 
+        
 
-        <!-- Jobs By Skill -->
-        <div class="widget">
-            <h4 class="widget-title">{{__('By Skill')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($skillIdsArray) && count($skillIdsArray))
-                @foreach($skillIdsArray as $key=>$job_skill_id)
-                @php
-                $jobSkill = App\JobSkill::where('job_skill_id','=',$job_skill_id)->lang()->active()->first();
-                @endphp
-                @if(null !== $jobSkill)
-
-                @php
-                $checked = (in_array($jobSkill->job_skill_id, Request::get('job_skill_id', array())))? 'checked="checked"':'';
-                @endphp
-                <li>
-                    <input type="checkbox" name="job_skill_id[]" id="job_skill_{{$jobSkill->job_skill_id}}" value="{{$jobSkill->job_skill_id}}" {{$checked}}>
-                    <label for="job_skill_{{$jobSkill->job_skill_id}}"></label>
-                    {{$jobSkill->job_skill}} <span>{{App\User::countNumJobSeekers('job_skill_id', $jobSkill->job_skill_id)}}</span> </li>
-                @endif
-                @endforeach
-                @endif
-            </ul>
-            <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
-        <!-- Jobs By Industry end --> 
-
-
-        <div class="widget">
-            <h4 class="widget-title">{{__('By Functional Areas')}}</h4>
-            <ul class="optionlist view_more_ul">
-                @if(isset($functionalAreaIdsArray) && count($functionalAreaIdsArray))
-                @foreach($functionalAreaIdsArray as $key=>$functional_area_id)
-                @php
-                $functionalArea = App\FunctionalArea::where('functional_area_id','=',$functional_area_id)->lang()->active()->first();
-                @endphp
-                @if(null !== $functionalArea)
-                @php
-                $checked = (in_array($functionalArea->functional_area_id, Request::get('functional_area_id', array())))? 'checked="checked"':'';
-                @endphp
-                <li>
-                    <input type="checkbox" name="functional_area_id[]" id="functional_area_id_{{$functionalArea->functional_area_id}}" value="{{$functionalArea->functional_area_id}}" {{$checked}}>
-                    <label for="functional_area_id_{{$functionalArea->functional_area_id}}"></label>
-                    {{$functionalArea->functional_area}} <span>{{App\User::countNumJobSeekers('functional_area_id', $functionalArea->functional_area_id)}}</span>
-                </li>                
-                @endif
-                @endforeach
-                @endif
-
-            </ul>
-            <!-- title end --> 
-            <span class="text text-primary view_more hide_vm">{{__('View More')}}</span> </div>
 
 
         <!-- Salary -->

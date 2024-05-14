@@ -3,14 +3,12 @@
 <form action="{{route('job.seeker.list')}}" method="get">
 	<div class="searchbar">
 		<div class="srchbox seekersrch input-group ">
-			<div class="col-lg-8">
-				<input type="text" name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control w-100 typeahead typeahead_user" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" /> 
-				{{-- <span class="input-group-btn"> --}}
-					{{-- </span>  --}}
-			</div>
-			<div class="col-lg-4">
-				<input type="submit" class="btn" value="{{__('Search Applicant')}}">
-			</div>
+		<div class="input-group">
+		  <input type="text"  name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
+		  <span class="input-group-btn">
+			<input type="submit" class="btn" value="{{__('Search Applicant')}}">
+		  </span>
+		</div>
 		</div>
 	</div>
 </form> @else

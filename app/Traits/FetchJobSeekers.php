@@ -69,8 +69,30 @@ trait FetchJobSeekers
         $query = User::select($this->fields);
         $query = $this->createQuery($query, $search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency);
 
-        // $query->where('users.country_id','!=', '');
-        $query->orderBy('users.id', 'DESC');
+//         // $query->where('users.country_id','!=', '');
+//         $query->orderByRaw('CASE 
+//         WHEN 
+//             users.package_start_date <= NOW() 
+//             AND users.package_end_date >= NOW() 
+//             AND users.package_id = 6 
+//         THEN 1 
+//         ELSE 2 
+//      END')
+// ->orderBy($order_by, $asc_desc);
+
+$orderByRaw = 'CASE ';
+
+// Priority for users with valid packages excluding package_id 7
+$orderByRaw .= "WHEN users.package_start_date <= NOW() AND users.package_end_date >= NOW() AND users.package_id != 7 THEN 1 ";
+
+// Default priority for others
+$orderByRaw .= "ELSE 2 END";
+
+$query->orderByRaw($orderByRaw)
+    ->orderBy($order_by, $asc_desc);
+
+
+        // $query->orderBy('users.id', 'DESC');
         // echo $query->toSql();exit;
         return $query->paginate($limit);
     }

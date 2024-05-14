@@ -63,7 +63,6 @@
             <h3 class="uppercase">User Packages</h3>
         </li>
         @include('admin/shared/side_bars/package')
-
 		
 		
         <li class="heading">
@@ -85,7 +84,12 @@
         @include('admin/shared/side_bars/marital_status')
         @include('admin/shared/side_bars/ownership_type') 
         @include('admin/shared/side_bars/salary_period') 
-		
+			
+        <li class="heading">
+            <h3 class="uppercase">Manage Resume</h3>
+        </li>		 
+        @include('admin/shared/side_bars/manage_resume')   
+        
         <li class="heading">
             <h3 class="uppercase">Manage</h3>
         </li>		 

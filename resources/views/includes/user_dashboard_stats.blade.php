@@ -19,4 +19,9 @@
             <h6><a href="{{route('my.messages')}}">{{Auth::user()->countUserMessages()}}</a></h6>
             <strong>{{__('Messages')}}</strong> </div>
     </li>
+    <li class="col-lg-3 col-md-3 col-6">
+        <div class="inbox"> <i class="fa fa-briefcase" aria-hidden="true"></i>
+            <h6><a href="#">{{Auth::user()->jobs_quota-Auth::user()->availed_jobs_quota}}</a></h6>
+            <strong>Free Availed quota</strong> </div>
+    </li>
 </ul>

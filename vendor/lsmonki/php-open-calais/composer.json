@@ -1,0 +1,25 @@
+{
+  "name": "lsmonki/php-open-calais",
+  "type": "library",
+  "description": "A PHP class for extracting entities and social tags from documents with the OpenCalais API http://www.opencalais.com/",
+  "keywords": ["open calais", "opencalais", "metadata", "semantic analysis", "semantic data", "semantic"],
+  "homepage": "http://www.dangrossman.info/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dan Grossman",
+      "homepage": "http://www.dangrossman.info/"
+    },
+    {
+      "name": "lsmonki",
+      "homepage": "https://github.com/lsmonki/"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "neitanod/forceutf8": "2.x"
+  },
+  "autoload": {
+    "psr-4": {"OpenCalais\\": "src/OpenCalais"}
+  }
+}

@@ -1,7 +1,7 @@
 <div class="header">
     <div class="container-fluid">
         <div class="row pt-2">
-            <div class="col-lg-2 col-md-12 col-12 mb-1 header_logo_padding_left"> <a href="{{url('/')}}" class="logo mb-0 ml-2"><img src="{{ asset('/') }}sitesetting_images/thumb/{{ $siteSetting->site_logo }}" alt="{{ $siteSetting->site_name }}" class="desktop_logo" /></a>
+            <div class="col-lg-3 col-md-12 col-12 mb-1 header_logo_padding_left"> <a href="{{url('/')}}" class="logo mb-0 ml-8"><img src="{{ asset('/') }}sitesetting_images/thumb/{{ $siteSetting->site_logo }}" alt="{{ $siteSetting->site_name }}" class="desktop_logo" /></a>
                 <div class="navbar-header navbar-light">
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#nav-main" aria-controls="nav-main" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
                 </div>
@@ -23,6 +23,9 @@
                                 @else
                                     <li class="nav-item {{ Request::url() == route('job.list') ? 'active' : '' }}"><a href="{{url('/jobs')}}" class="nav-link">{{__('Jobs')}}</a> </li>
                                 @endif
+
+                                <li class="nav-item {{ Request::url() == route('packages') ? 'active' : '' }}"><a href="{{url('/packages')}}" class="nav-link">{{__('Packages')}}</a> </li>
+
                                 
                                 <li class="nav-item {{ Request::url() == route('company.listing') ? 'active' : '' }}"><a href="{{url('/companies')}}" class="nav-link">{{__('Companies')}}</a> </li>
                                 @foreach($show_in_top_menu as $top_menu) @php $cmsContent = App\CmsContent::getContentBySlug($top_menu->page_slug); @endphp
@@ -70,6 +73,8 @@
                             <li class="nav-item {{ Request::url() == route('login') ? 'active' : '' }} {{ Request::url() == route('register') ? 'active' : '' }}"><a href="{{route('login')}}" class="nav-link">{{__('Sign in')}}</a> </li>
 							<li class="nav-item"><a href="{{route('register',['type' => 'employer'])}}" class="nav-link register">Corporate Login</a> </li>
                             @endif
+
+                            
                             <!-- <li class="dropdown userbtn"><a href="{{url('/')}}"><img src="{{asset('/')}}images/lang.png" alt="" class="userimg" /></a>
                                 <ul class="dropdown-menu">
                                     @foreach($siteLanguages as $siteLang)

@@ -165,7 +165,8 @@
     </div>
     <div class="form-group">
         {!! Form::label('package_quota', 'Availed quota : ', ['class' => 'bold']) !!}
-        <strong>{{$user->availed_jobs_quota}}</strong> / <strong>{{$user->jobs_quota}}</strong>
+        <!-- <strong>{{$user->availed_jobs_quota}}</strong> / <strong>{{$user->jobs_quota}}</strong> -->
+        <strong>Unlimited</strong>
     </div>
     <hr/>
     @endif

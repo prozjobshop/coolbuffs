@@ -1,0 +1,197 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.body{
+  padding: 0;
+  margin: 0;
+}
+.wid-30{
+  width: 30%;
+  float: left;
+}
+.wid-50{
+  width: 50%;
+}
+.wid-70{
+  width: 70%;
+  float: right;
+}
+.mb0{
+  margin-bottom: 0;
+}
+.mt0{
+  margin-top: 0;
+}
+.m-10{
+  margin-bottom: 10px;
+}
+.m-30{
+  margin-bottom: 30px;
+}
+.m-50{
+  margin-bottom: 50px;
+}
+.m-70{
+  margin-bottom: 70px;
+}
+.m-90{
+  margin-bottom: 90px;
+}
+.m-150{
+  margin-bottom: 150px;
+}
+.f-left{
+  float: left;
+}
+.f-right{
+  float: right;
+  align-items: right;
+  text-align: right;
+}
+.pad{
+  padding-left: 10px;
+  padding-right: 30px;
+}
+.pad-2{
+  padding-left: 40px;
+  padding-right: 30px;
+  /* margin-top: 40px; */
+}
+.pad-l{
+  padding-left: 20px;
+}
+.pad-b{
+  padding-bottom: 40px;
+}
+.tc{
+  color: #2BBEA9;
+  font-size: 16px;
+  font-style: normal;
+}
+.tw{
+  color: #fff;
+}
+.tc1{
+  color: #7B7B7B;
+}
+.bg-1{
+  background-color: #2BBEA9;
+}
+.bg-2{
+  background-color: #94DED3;
+}
+.f-20{
+  font-size: 16px;
+}
+
+.f-14{
+  font-size: 14px;
+}
+.meta-info-div{
+  margin: 30px auto;
+}
+
+.meta-info{
+  font-size: 14px;
+}
+.f-26{
+  font-size: 26px;
+}
+
+.body_name{
+  padding: 0px 0!important;
+}
+
+.pt-1{
+  padding-top: 10px;
+}
+
+.skill{
+  margin: 0px 0 10px;
+}
+
+
+.p-1{
+  padding: 0 10px;
+}
+
+.p-2{
+  padding: 0 20px;
+}
+
+.img-container{
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+}
+
+.img-tag{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.exp_meta{
+  /* font-style: italic; */
+}
+
+.personal_details, .experiences, .educations, .projects, .achivements{
+  margin: 5px 0 20px;
+}
+.experience, .education, .project, .achivement{
+  margin: 10px 0;
+}
+
+.mt-10{
+  margin-top: 10px;
+}
+
+.text-underline{
+  text-decoration: underline;
+}
+
+.personal_detail{
+  margin: 8px 0;
+}
+
+.pd_val{
+  width: 30%;
+  float: right;
+  text-align: left;
+}
+
+.f-b{
+  font-weight: bold;
+}
+
+.test-border{
+  border: 1px solid red;
+}
+
+@page {
+  /* margin-top: 10px;
+  margin-bottom: 10px;
+
+  padding: 20px 0;
+  page-break-after: always; */
+  header: page-header;
+  
+}
+
+
+/* .page-padding{
+  padding: 20px 0;
+} */
+
+/* @page {
+  footer: pagefooter;
+  margin-top: 10px;
+  margin-bottom: 10px;
+} */
+
+/* @page:first {
+  margin-top: 0!important;
+  margin-bottom: 10px;
+} */

@@ -1,0 +1,121 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.ft{
+    font-weight: 500;
+    font-size: 20px;
+}
+.ft-1{
+    font-size: 20px;
+    font-weight: bolder;
+}
+h1{
+
+    font-weight: bolder;
+}
+
+.f-12{
+    font-size: 12px;
+}
+.f-14{
+    font-size: 14px;
+}
+.black-clr{
+    color: #000 !important;
+}
+.f-16{
+    font-size: 16px;
+}
+span{
+    font-weight: 500;
+    font-size: 18px;
+}
+.f-right{
+    align-items: end;
+    text-align: end;
+    margin-bottom: 15px;
+}
+.wid-50{
+    width: 50%;
+}
+.wid-30{
+    width: 30%;
+}
+.wid-40{
+    width: 40%;
+}
+.pad-1{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 40px;
+}
+.pad-2{
+    padding-left: 100px;
+    margin-top: 0px;
+}
+.pad-3{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.f-lft{
+    float: left;
+}
+.f-rgt{
+    float: right;
+}
+.f-left{
+    float: left;
+}
+.f-right-1{
+    float: right;
+    align-items: end;
+    text-align: end;
+}
+.m-150{
+    margin-bottom: 150px;
+}
+.m-50{
+    margin-bottom: 60px;
+}
+.m-90{
+    margin-bottom: 70px;
+}
+.f-50{
+    font-size: 35px;
+    margin-bottom: 0;
+}
+.f-30{
+    font-size: 22px;
+    margin: 0;
+}
+.mb0{
+    margin-bottom: 0;
+}
+.mt0{
+    margin-top: 0;
+}
+.f-20{
+    font-size: 16px;
+}
+.tt{
+    color: #7B7B7B;
+}
+.txt-c{
+    text-align: center;
+}
+i{
+    color: #3FB180;
+}
+.personal_details i{
+    color: #000;
+}
+
+.tcl{
+    color: #3FB180;
+}
+.tcl-2{
+    color: #4459A2;
+}
+hr{
+    border-top: 2px solid black;
+}

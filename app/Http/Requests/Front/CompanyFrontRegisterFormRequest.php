@@ -45,8 +45,8 @@ class CompanyFrontRegisterFormRequest extends Request
             'password.required' => __('Password is required'),
             'password.min' => __('The password should be more than 5 characters long'),
             'terms_of_use.required' => __('Please accept terms of use'),
-            //'g-recaptcha-response.required' => __('Please verify that you are not a robot'),
-            //'g-recaptcha-response.captcha' => __('Captcha error! try again later or contact site admin'),
+            'g-recaptcha-response.required' => __('Please verify that you are not a robot'),
+            'g-recaptcha-response.captcha' => __('Captcha error! try again later or contact site admin'),
         ];
     }
 

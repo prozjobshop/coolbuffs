@@ -1,0 +1,89 @@
+body{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.f-35{
+  font-size: 35px;
+}
+.mt0{
+  margin-top: 0;
+}
+.mb0{
+  margin-bottom: 0;
+}
+
+.wid-70{
+  width: 70%;
+  float: left;
+}
+.wid-30{
+  width: 30%;
+  float: right;
+}
+.wid-40{
+  width: 40%;
+}
+.wid-60{
+  width: 60%;
+}
+.wid-20{
+  width: 20%;
+}
+.mb0{
+  margin-bottom: 0;
+}
+.mt0{
+  margin-top: 0;
+}
+.f-left{
+  float: left;
+}
+.f-right-1{
+  float: right;
+  align-items: end;
+  text-align: end;
+}
+.pad-1{
+  padding-left: 60px;
+  padding-right: 60px;
+}
+.pad-2{
+  padding-right: 60px;
+  margin-top: 0px;
+}
+
+.txt-clr{
+  color: #000080;
+  font-weight: 700;
+}
+.fw-t{
+  font-size: 16px;
+}
+p{
+  font-size: 18px;
+}
+li{
+  font-size: 16px;
+}
+span{
+  font-size: 18px;
+}
+.wid-30-1{
+  width: 30%;
+  float: left;
+}
+.wid-40{
+  width: 40%;
+  float: left;
+}
+.wid-100{
+  width: 100%;
+}
+
+
+
+
+
+
+
+
+

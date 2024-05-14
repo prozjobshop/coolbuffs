@@ -6,6 +6,11 @@
 <!-- Inner Page Title start --> 
 @include('includes.inner_page_title', ['page_title'=>__('Pay with Stripe')]) 
 <!-- Inner Page Title end -->
+<style>
+    .pe-none{
+        pointer-events:none;
+    }
+</style>
 <div class="listpgWraper">
     <div class="container">
         <div class="row"> 
@@ -27,7 +32,8 @@
                                 @if(Auth::guard('company')->check())
                                 <div class="pkginfo">{{__('Can post jobs')}}: <strong>{{ $package->package_num_listings }}</strong></div>
                                 @else
-                                <div class="pkginfo">{{__('Can apply on jobs')}}: <strong>{{ $package->package_num_listings }}</strong></div>
+                                {{-- <div class="pkginfo">{{__('Can apply on jobs')}}: <strong>Unlimited</strong></div> --}}
+                               <div class="pkginfo">{{__('Can apply on jobs')}}: <strong>{{ $package->package_num_listings }}</strong></div> 
                                 @endif
                                 <div class="pkginfo">{{__('Package Duration')}}: <strong>{{ $package->package_num_days }} {{__('Days')}}</strong></div>
                             </div>
@@ -38,27 +44,29 @@
                         </div>
                         <div class="col-md-7">
                             <div class="formpanel"> @include('flash::message')
-                                <h5>{{__('Strip - Credit Card Details')}}</h5>
+                                <h5>{{__('Stripe - Credit Card Details')}}</h5>
                                 @php                
-                                $route = 'stripe.order.upgrade.package';                
-                                if($new_or_upgrade == 'new'){                
-                                $route = 'stripe.order.package';                
+                                $route = 'stripe.order.upgrade.package';
+                                if($new_or_upgrade == 'new'){
+                                $route = 'stripe.order.package';
                                 }                
-                                @endphp                            
+                                @endphp
                                 {!! Form::open(array('method' => 'post', 'route' => $route, 'id' => 'stripe-form', 'class' => 'form')) !!}                
                                 {{ Form::hidden('package_id', $package_id) }}
                                 <div class="row">
-                                    <div class="col-md-12" id="error_div"></div>
+                                    <div class="col-md-12 d-none" id="error_div">
+                                      <div class="alert alert-danger" role="alert"></div>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="formrow">
-                                            <label>{{__('Name on Credit Card')}}</label>
-                                            <input class="form-control" id="card_name" placeholder="{{__('Name on Credit Card')}}" type="text">
+                                            <label>{{__('Name on Credit Card')}} <sup class="text-danger">*</sup></label>
+                                            <input class="form-control" id="card_name" placeholder="{{__('Name on Credit Card')}}" type="text" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="formrow">
-                                            <label>{{__('Credit card Number')}}</label>
-                                            <input class="form-control" id="card_no" placeholder="{{__('Credit card Number')}}" type="text">
+                                            <label>{{__('Credit card Number')}} <sup class="text-danger">*</sup></label>
+                                            <input class="form-control" id="card_no" placeholder="{{__('Credit card Number')}}" type="text" maxlength="16" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -89,13 +97,13 @@
                                     </div>                  
                                     <div class="col-md-12">
                                         <div class="formrow">
-                                            <label>{{__('CVV Number')}}</label>
-                                            <input class="form-control" id="cvvNumber" placeholder="{{__('CVV number')}}" type="text">
+                                            <label>{{__('CVV Number')}} <sup class="text-danger">*</sup></label>
+                                            <input class="form-control" id="cvvNumber" placeholder="{{__('CVV number')}}" type="text" maxlength="3" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="formrow">
-                                            <button type="submit" class="btn">{{__('Pay with Stripe')}} <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn" id="submit-btn" data-turbolinks="false">{{__('Pay with Stripe')}} <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -114,6 +122,10 @@
 @push('styles')
 <style type="text/css">
     .userccount p{ text-align:left !important;}
+    #submit-btn:disabled:hover{
+      background: #0096ff;
+      opacity: .65;
+    }
 </style>
 @endpush
 @push('scripts') 
@@ -121,22 +133,47 @@
 <script type="text/javascript">
 Stripe.setPublishableKey('{{Config::get('stripe.stripe_key')}}');
 var $form = $('#stripe-form');
-$form.submit(function (event) {
-    $('#error_div').hide();
-    $form.find('button').prop('disabled', true);
-    Stripe.card.createToken({
-        number: $('#card_no').val(),
-        cvc: $('#cvvNumber').val(),
-        exp_month: $('#ccExpiryMonth').val(),
-        exp_year: $('#ccExpiryYear').val(),
-        name: $('#card_name').val()
-    }, stripeResponseHandler);
-    return false;
+$(document).on("click","#submit-btn",function (event) {
+    event.preventDefault();
+
+    c_name = $('#card_name').val();
+    c_number = $('#card_no').val()
+    c_cvc = $('#cvvNumber').val()
+
+    // alert(c_name);
+    // throw new error('ok');
+    if(
+      c_name == '' || c_name == undefined ||
+      c_number == '' || c_number == undefined ||
+      c_cvc == '' || c_cvc == undefined
+    ){
+        // $('#error_div').removeClass('d-none');
+        // $('#error_div').addClass('d-block');
+        // $('#error_div div').text('Please fill in all mandatory fields!');
+        alert('Please fill in all mandatory fields!');
+    }else{
+    
+      // $('#error_div').hide();
+      $('#error_div').removeClass('d-block');
+      $('#error_div').addClass('d-none');
+      // $form.find('button').addClass('pe-none');
+      $form.find('button').prop('disabled', true);
+      Stripe.card.createToken({
+          name: $('#card_name').val(),
+          number: $('#card_no').val(),
+          cvc: $('#cvvNumber').val(),
+          exp_month: $('#ccExpiryMonth').val(),
+          exp_year: $('#ccExpiryYear').val(),
+      }, stripeResponseHandler);
+      // return false;
+    }
 });
 function stripeResponseHandler(status, response) {
     if (response.error) {
-        $('#error_div').show();
-        $('#error_div').text(response.error.message);
+        $('#error_div').removeClass('d-none');
+        $('#error_div').addClass('d-block');
+        // $form.find('button').removeClass('pe-none');
+        $('#error_div div').text(response.error.message);
         $form.find('button').prop('disabled', false);
     } else {
         var token = response.id;
