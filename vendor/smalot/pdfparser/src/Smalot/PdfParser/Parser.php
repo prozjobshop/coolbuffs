@@ -77,7 +77,6 @@ class Parser
     public function parseFile(string $filename): Document
     {
         $content = file_get_contents($filename);
-
         /*
          * 2018/06/20 @doganoo as multiple times a
          * users have complained that the parseFile()
@@ -102,7 +101,7 @@ class Parser
         // Create structure from raw data.
         list($xref, $data) = $this->rawDataParser->parseData($content);
 
-        if (isset($xref['trailer']['encrypt']) && false === $this->config->getIgnoreEncryption()) {
+        if (isset($xref['trailer']['encrypt'])) {
             throw new \Exception('Secured pdf file are currently not supported.');
         }
 

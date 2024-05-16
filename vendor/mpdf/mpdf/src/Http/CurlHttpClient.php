@@ -4,8 +4,6 @@ namespace Mpdf\Http;
 
 use Mpdf\Log\Context as LogContext;
 use Mpdf\Mpdf;
-use Mpdf\PsrHttpMessageShim\Response;
-use Mpdf\PsrHttpMessageShim\Stream;
 use Mpdf\PsrLogAwareTrait\PsrLogAwareTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
@@ -98,7 +96,7 @@ class CurlHttpClient implements \Mpdf\Http\ClientInterface, \Psr\Log\LoggerAware
 		}
 
 		$info = curl_getinfo($ch);
-		if (isset($info['http_code']) && !str_starts_with((string) $info['http_code'], '2')) {
+		if (isset($info['http_code']) && $info['http_code'] !== 200) {
 			$message = sprintf('HTTP error: %d', $info['http_code']);
 			$this->logger->error($message, ['context' => LogContext::REMOTE_CONTENT]);
 

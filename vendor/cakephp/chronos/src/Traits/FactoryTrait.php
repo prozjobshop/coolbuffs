@@ -14,7 +14,6 @@ declare(strict_types=1);
  */
 namespace Cake\Chronos\Traits;
 
-use Cake\Chronos\ChronosDate;
 use Cake\Chronos\ChronosInterface;
 use DateTimeInterface;
 use DateTimeZone;
@@ -41,9 +40,6 @@ trait FactoryTrait
      */
     public static function instance(DateTimeInterface $dt): ChronosInterface
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 instance() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
         if ($dt instanceof static) {
             return clone $dt;
         }
@@ -117,12 +113,7 @@ trait FactoryTrait
      */
     public static function maxValue(): ChronosInterface
     {
-        $instance = new static(PHP_INT_MAX);
-        if (get_class($instance) === ChronosDate::class) {
-            trigger_error('2.5 Using minValue() to create Date objects will be removed in 3.0', E_USER_DEPRECATED);
-        }
-
-        return $instance;
+        return static::createFromTimestampUTC(PHP_INT_MAX);
     }
 
     /**
@@ -134,12 +125,7 @@ trait FactoryTrait
     {
         $max = PHP_INT_SIZE === 4 ? PHP_INT_MAX : PHP_INT_MAX / 10;
 
-        $instance = new static(~$max);
-        if (get_class($instance) === ChronosDate::class) {
-            trigger_error('2.5 Using minValue() to create Date objects will be removed in 3.0', E_USER_DEPRECATED);
-        }
-
-        return $instance;
+        return static::createFromTimestampUTC(~$max);
     }
 
     /**
@@ -213,10 +199,6 @@ trait FactoryTrait
         ?int $day = null,
         $tz = null
     ): ChronosInterface {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 createFromDate() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return static::create($year, $month, $day, null, null, null, null, $tz);
     }
 
@@ -237,12 +219,7 @@ trait FactoryTrait
         ?int $microsecond = null,
         $tz = null
     ): ChronosInterface {
-        $instance = static::create(null, null, null, $hour, $minute, $second, $microsecond, $tz);
-        if (get_class($instance) === ChronosDate::class) {
-            trigger_error('2.5 Using createFromTime to create Date objects will be removed in 3.0', E_USER_DEPRECATED);
-        }
-
-        return $instance;
+        return static::create(null, null, null, $hour, $minute, $second, $microsecond, $tz);
     }
 
     /**
@@ -338,15 +315,7 @@ trait FactoryTrait
      */
     public static function createFromTimestamp(int $timestamp, $tz = null): ChronosInterface
     {
-        $instance = static::now($tz)->setTimestamp($timestamp);
-        if (get_class($instance) === ChronosDate::class) {
-            trigger_error(
-                '2.5 Creating Date instances with createFromTimestamp() will be removed in 3.0',
-                E_USER_DEPRECATED
-            );
-        }
-
-        return $instance;
+        return static::now($tz)->setTimestamp($timestamp);
     }
 
     /**
@@ -357,13 +326,7 @@ trait FactoryTrait
      */
     public static function createFromTimestampUTC(int $timestamp): ChronosInterface
     {
-        trigger_error(
-            '2.5 createFromTimestampUTC() is deprecated. Use createFromTimestamp() instead.',
-            E_USER_DEPRECATED
-        );
-        $instance = new static($timestamp);
-
-        return $instance;
+        return new static($timestamp);
     }
 
     /**
@@ -402,8 +365,6 @@ trait FactoryTrait
                 'errors' => [],
             ];
         }
-
-        trigger_error('2.5 getLastErrors() is deprecated. Exceptions will be raised in 3.x', E_USER_DEPRECATED);
 
         return static::$_lastErrors;
     }

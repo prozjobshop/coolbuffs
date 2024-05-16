@@ -22,21 +22,19 @@ This package can be used as a library or as [stack middleware].
 
 | Option                 | Description                                                | Default value |
 |------------------------|------------------------------------------------------------|---------------|
-| `allowedMethods`         | Matches the request method.                                | `[]`          |
-| `allowedOrigins`         | Matches the request origin.                                | `[]`          |
-| `allowedOriginsPatterns` | Matches the request origin with `preg_match`.              | `[]`          |
-| `allowedHeaders`         | Sets the Access-Control-Allow-Headers response header.     | `[]`          |
-| `exposedHeaders`         | Sets the Access-Control-Expose-Headers response header.    | `false`       |
-| `maxAge`                 | Sets the Access-Control-Max-Age response header.<br/>Set to `null` to omit the header/use browser default.           | `0`       |
-| `supportsCredentials`    | Sets the Access-Control-Allow-Credentials header.          | `false`       |
+| allowedMethods         | Matches the request method.                                | `[]`          |
+| allowedOrigins         | Matches the request origin.                                | `[]`          |
+| allowedOriginsPatterns | Matches the request origin with `preg_match`.              | `[]`          |
+| allowedHeaders         | Sets the Access-Control-Allow-Headers response header.     | `[]`          |
+| exposedHeaders         | Sets the Access-Control-Expose-Headers response header.    | `false`       |
+| maxAge                 | Sets the Access-Control-Max-Age response header.           | `false`       |
+| supportsCredentials    | Sets the Access-Control-Allow-Credentials header.          | `false`       |
 
 The _allowedMethods_ and _allowedHeaders_ options are case-insensitive.
 
 You don't need to provide both _allowedOrigins_ and _allowedOriginsPatterns_. If one of the strings passed matches, it is considered a valid origin.
 
 If `['*']` is provided to _allowedMethods_, _allowedOrigins_ or _allowedHeaders_ all methods / origins / headers are allowed.
-
-If _supportsCredentials_ is `true`, you must [explicitly set](https://fetch.spec.whatwg.org/#cors-protocol-and-credentials) `allowedHeaders` for any headers which are not CORS safelisted.
 
 ### Example: using the library
 
@@ -51,8 +49,8 @@ $cors = new CorsService([
     'allowedOrigins'         => ['http://localhost'],
     'allowedOriginsPatterns' => ['/localhost:\d/'],
     'exposedHeaders'         => false,
-    'maxAge'                 => 600,
-    'supportsCredentials'    => true,
+    'maxAge'                 => false,
+    'supportsCredentials'    => false,
 ]);
 
 $cors->addActualRequestHeaders(Response $response, $origin);
@@ -79,7 +77,7 @@ $app = new Cors($app, [
     // you can enter regexes that are matched to the origin request header
     'allowedOriginsPatterns' => ['/localhost:\d/'],
     'exposedHeaders'      => false,
-    'maxAge'              => 600,
+    'maxAge'              => false,
     'supportsCredentials' => false,
 ]);
 ```

@@ -22,17 +22,17 @@ class PdfIndirectObject extends PdfType
     /**
      * Parses an indirect object from a tokenizer, parser and stream-reader.
      *
-     * @param int $objectNumber
-     * @param int $objectGenerationNumber
+     * @param int $objectNumberToken
+     * @param int $objectGenerationNumberToken
      * @param PdfParser $parser
      * @param Tokenizer $tokenizer
      * @param StreamReader $reader
-     * @return self|false
+     * @return bool|self
      * @throws PdfTypeException
      */
     public static function parse(
-        $objectNumber,
-        $objectGenerationNumber,
+        $objectNumberToken,
+        $objectGenerationNumberToken,
         PdfParser $parser,
         Tokenizer $tokenizer,
         StreamReader $reader
@@ -50,8 +50,8 @@ class PdfIndirectObject extends PdfType
         }
 
         $v = new self();
-        $v->objectNumber = (int) $objectNumber;
-        $v->generationNumber = (int) $objectGenerationNumber;
+        $v->objectNumber = (int) $objectNumberToken;
+        $v->generationNumber = (int) $objectGenerationNumberToken;
         $v->value = $value;
 
         return $v;

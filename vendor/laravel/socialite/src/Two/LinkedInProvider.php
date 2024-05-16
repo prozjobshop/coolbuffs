@@ -56,19 +56,13 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getBasicProfile($token)
     {
-        $fields = ['id', 'firstName', 'lastName', 'profilePicture(displayImage~:playableStreams)'];
-
-        if (in_array('r_liteprofile', $this->getScopes())) {
-            array_push($fields, 'vanityName');
-        }
-
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/me', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$token,
                 'X-RestLi-Protocol-Version' => '2.0.0',
             ],
             RequestOptions::QUERY => [
-                'projection' => '('.implode(',', $fields).')',
+                'projection' => '(id,firstName,lastName,profilePicture(displayImage~:playableStreams))',
             ],
         ]);
 
@@ -108,16 +102,10 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
 
         $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
         $avatar = Arr::first($images, function ($image) {
-            return (
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
-            ) === 100;
+            return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 100;
         });
         $originalAvatar = Arr::first($images, function ($image) {
-            return (
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
-                $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
-            ) === 800;
+            return $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] === 800;
         });
 
         return (new User)->setRaw($user)->map([

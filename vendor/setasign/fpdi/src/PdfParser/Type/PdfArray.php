@@ -25,7 +25,7 @@ class PdfArray extends PdfType
      *
      * @param Tokenizer $tokenizer
      * @param PdfParser $parser
-     * @return false|self
+     * @return bool|self
      * @throws PdfTypeException
      */
     public static function parse(Tokenizer $tokenizer, PdfParser $parser)

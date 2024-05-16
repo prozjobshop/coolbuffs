@@ -756,7 +756,7 @@ class RawDataParser
                     // start stream object
                     $objtype = 'stream';
                     $offset += 6;
-                    if (1 == preg_match('/^( *[\r]?[\n])/isU', substr($pdfData, $offset, 4), $matches)) {
+                    if (1 == preg_match('/^([\r]?[\n])/isU', substr($pdfData, $offset, 4), $matches)) {
                         $offset += \strlen($matches[0]);
 
                         // we get stream length here to later help preg_match test less data
@@ -901,15 +901,8 @@ class RawDataParser
             // Cross-Reference
             $xref = $this->decodeXref($pdfData, $startxref, $xref);
         } else {
-            // Check if the $pdfData might have the wrong line-endings
-            $pdfDataUnix = str_replace("\r\n", "\n", $pdfData);
-            if ($startxref < \strlen($pdfDataUnix) && strpos($pdfDataUnix, 'xref', $startxref) == $startxref) {
-                // Return Unix-line-ending flag
-                $xref = ['Unix' => true];
-            } else {
-                // Cross-Reference Stream
-                $xref = $this->decodeXrefStream($pdfData, $startxref, $xref);
-            }
+            // Cross-Reference Stream
+            $xref = $this->decodeXrefStream($pdfData, $startxref, $xref);
         }
         if (empty($xref)) {
             throw new \Exception('Unable to find xref');
@@ -943,12 +936,6 @@ class RawDataParser
 
         // get xref and trailer data
         $xref = $this->getXrefData($pdfData);
-
-        // If we found Unix line-endings
-        if (isset($xref['Unix'])) {
-            $pdfData = str_replace("\r\n", "\n", $pdfData);
-            $xref = $this->getXrefData($pdfData);
-        }
 
         // parse all document objects
         $objects = [];

@@ -689,7 +689,7 @@ class Command
 
     /**
      * @throws \PHPUnit\Framework\Exception
-     * @throws XmlConfiguration\Exception
+     * @throws \PHPUnit\TextUI\XmlConfiguration\Exception
      */
     private function handleListSuites(bool $exit): int
     {
@@ -840,16 +840,7 @@ class Command
     {
         $this->printVersionString();
 
-        $result = (new SchemaDetector)->detect($filename);
-
-        if (!$result->detected()) {
-            print $filename . ' does not validate against any known schema.' . PHP_EOL;
-
-            exit(TestRunner::EXCEPTION_EXIT);
-        }
-
-        /** @psalm-suppress MissingThrowsDocblock */
-        if ($result->version() === Version::series()) {
+        if (!(new SchemaDetector)->detect($filename)->detected()) {
             print $filename . ' does not need to be migrated.' . PHP_EOL;
 
             exit(TestRunner::EXCEPTION_EXIT);

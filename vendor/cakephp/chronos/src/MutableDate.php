@@ -49,7 +49,6 @@ use DateTimeZone;
  * @property-read bool $utc checks if the timezone is UTC, true if UTC, false otherwise
  * @property-read string $timezoneName
  * @property-read string $tzName
- * @deprecated 2.4.0 Use immutable \Cake\Chronos\ChronosDate instead
  */
 class MutableDate extends DateTime implements ChronosInterface
 {
@@ -118,11 +117,11 @@ class MutableDate extends DateTime implements ChronosInterface
     /**
      * Create a new immutable instance from current mutable instance.
      *
-     * @return \Cake\Chronos\ChronosDate
+     * @return \Cake\Chronos\Date
      */
-    public function toImmutable(): ChronosDate
+    public function toImmutable(): Date
     {
-        return ChronosDate::instance($this);
+        return Date::instance($this);
     }
 
     /**

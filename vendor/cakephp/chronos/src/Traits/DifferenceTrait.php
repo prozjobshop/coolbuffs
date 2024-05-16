@@ -14,9 +14,8 @@ declare(strict_types=1);
  */
 namespace Cake\Chronos\Traits;
 
-use Cake\Chronos\Chronos;
-use Cake\Chronos\ChronosDate;
 use Cake\Chronos\ChronosInterface;
+use Cake\Chronos\ChronosInterval;
 use Cake\Chronos\DifferenceFormatter;
 use Cake\Chronos\DifferenceFormatterInterface;
 use DatePeriod;
@@ -50,7 +49,6 @@ trait DifferenceTrait
      */
     public function diffInYears(?ChronosInterface $dt = null, bool $abs = true): int
     {
-        Chronos::checkTypes($this, $dt);
         $diff = $this->diff($dt ?? static::now($this->tz), $abs);
 
         return $diff->invert ? -$diff->y : $diff->y;
@@ -65,7 +63,6 @@ trait DifferenceTrait
      */
     public function diffInMonths(?ChronosInterface $dt = null, bool $abs = true): int
     {
-        Chronos::checkTypes($this, $dt);
         $diff = $this->diff($dt ?? static::now($this->tz), $abs);
         $months = $diff->y * ChronosInterface::MONTHS_PER_YEAR + $diff->m;
 
@@ -86,9 +83,6 @@ trait DifferenceTrait
      */
     public function diffInMonthsIgnoreTimezone(?ChronosInterface $dt = null, bool $abs = true): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 diffInMonthsIgnoreTimezone() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
         $utcTz = new DateTimeZone('UTC');
         $source = new static($this->format('Y-m-d H:i:s.u'), $utcTz);
 
@@ -134,9 +128,7 @@ trait DifferenceTrait
      */
     public function diffInDaysFiltered(callable $callback, ?ChronosInterface $dt = null, bool $abs = true): int
     {
-        $interval = Chronos::createInterval(0, 0, 0, 1);
-
-        return $this->diffFiltered($interval, $callback, $dt, $abs);
+        return $this->diffFiltered(ChronosInterval::day(), $callback, $dt, $abs);
     }
 
     /**
@@ -149,25 +141,20 @@ trait DifferenceTrait
      */
     public function diffInHoursFiltered(callable $callback, ?ChronosInterface $dt = null, bool $abs = true): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 diffInHoursFiltered() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-        $interval = Chronos::createInterval(0, 0, 0, 0, 1);
-
-        return $this->diffFiltered($interval, $callback, $dt, $abs);
+        return $this->diffFiltered(ChronosInterval::hour(), $callback, $dt, $abs);
     }
 
     /**
      * Get the difference by the given interval using a filter callable
      *
-     * @param \Cake\Chronos\ChronosInterval|\DateInterval $ci An interval to traverse by
+     * @param \Cake\Chronos\ChronosInterval $ci An interval to traverse by
      * @param callable $callback The callback to use for filtering.
      * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
     public function diffFiltered(
-        $ci,
+        ChronosInterval $ci,
         callable $callback,
         ?ChronosInterface $dt = null,
         bool $abs = true
@@ -175,7 +162,6 @@ trait DifferenceTrait
         $start = $this;
         $end = $dt ?? static::now($this->tz);
         $inverse = false;
-        Chronos::checkTypes($start, $end);
 
         if ($end < $start) {
             $start = $end;
@@ -185,7 +171,7 @@ trait DifferenceTrait
 
         $period = new DatePeriod($start, $ci, $end);
         $vals = array_filter(iterator_to_array($period), function (DateTimeInterface $date) use ($callback) {
-            return $callback(static::parse($date));
+            return $callback(static::instance($date));
         });
 
         $diff = count($vals);
@@ -230,10 +216,6 @@ trait DifferenceTrait
      */
     public function diffInHours(?ChronosInterface $dt = null, bool $abs = true): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 diffInHours() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return (int)(
             $this->diffInSeconds($dt, $abs)
             / ChronosInterface::SECONDS_PER_MINUTE
@@ -250,10 +232,6 @@ trait DifferenceTrait
      */
     public function diffInMinutes(?ChronosInterface $dt = null, bool $abs = true): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 diffInMinutes() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return (int)($this->diffInSeconds($dt, $abs) / ChronosInterface::SECONDS_PER_MINUTE);
     }
 
@@ -266,10 +244,6 @@ trait DifferenceTrait
      */
     public function diffInSeconds(?ChronosInterface $dt = null, bool $abs = true): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 diffInSeconds() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         $dt = $dt ?? static::now($this->tz);
         $value = $dt->getTimestamp() - $this->getTimestamp();
 
@@ -283,10 +257,6 @@ trait DifferenceTrait
      */
     public function secondsSinceMidnight(): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 secondsSinceMidnight() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return $this->diffInSeconds($this->copy()->startOfDay());
     }
 
@@ -297,10 +267,6 @@ trait DifferenceTrait
      */
     public function secondsUntilEndOfDay(): int
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 secondsUntilEndOfDay() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return $this->diffInSeconds($this->copy()->endOfDay());
     }
 
@@ -312,9 +278,6 @@ trait DifferenceTrait
      */
     public static function fromNow($datetime)
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 fromNow() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
         $timeNow = new static();
 
         return $timeNow->diff($datetime);

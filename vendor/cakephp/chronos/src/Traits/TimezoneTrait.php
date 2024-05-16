@@ -15,7 +15,6 @@ declare(strict_types=1);
  */
 namespace Cake\Chronos\Traits;
 
-use Cake\Chronos\ChronosDate;
 use Cake\Chronos\ChronosInterface;
 use ReturnTypeWillChange;
 
@@ -32,8 +31,6 @@ trait TimezoneTrait
      */
     public function timezone($value): ChronosInterface
     {
-        trigger_error('2.5 timezone() is deprecated. Use setTimezone() instead.', E_USER_DEPRECATED);
-
         return $this->setTimezone($value);
     }
 
@@ -45,8 +42,6 @@ trait TimezoneTrait
      */
     public function tz($value): ChronosInterface
     {
-        trigger_error('2.5 tz() is deprecated. Use setTimezone() instead.', E_USER_DEPRECATED);
-
         return $this->setTimezone($value);
     }
 
@@ -59,10 +54,6 @@ trait TimezoneTrait
     #[ReturnTypeWillChange]
     public function setTimezone($value): ChronosInterface
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 setTimezone() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return parent::setTimezone(static::safeCreateDateTimeZone($value));
     }
 }

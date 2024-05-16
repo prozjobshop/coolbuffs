@@ -283,9 +283,7 @@ class Font extends PDFObject
     {
         $index_map = array_flip($this->table);
         $details = $this->getDetails();
-
-        // Usually, Widths key is set in $details array, but if it isn't use an empty array instead.
-        $widths = $details['Widths'] ?? [];
+        $widths = $details['Widths'];
 
         // Widths array is zero indexed but table is not. We must map them based on FirstChar and LastChar
         $width_map = array_flip(range($details['FirstChar'], $details['LastChar']));
@@ -351,20 +349,18 @@ class Font extends PDFObject
      */
     public static function decodeOctal(string $text): string
     {
-        // Replace all double backslashes \\ with a special string
-        $text = strtr($text, ['\\\\' => '[**pdfparserdblslsh**]']);
+        $parts = preg_split('/(?<!\\\\)(\\\\[0-7]{1,3})/s', $text, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+        $text = '';
 
-        // Now we can replace all octal codes without worrying about
-        // escaped backslashes
-        $text = preg_replace_callback('/\\\\([0-7]{1,3})/', function ($m) {
-            return \chr(octdec($m[1]));
-        }, $text);
+        foreach ($parts as $part) {
+            if (preg_match('/^\\\\[0-7]{1,3}$/', $part)) {
+                $text .= \chr(octdec(trim($part, '\\')));
+            } else {
+                $text .= str_replace(['\\\\', '\\(', '\\)'], ['\\', '(', ')'], $part);
+            }
+        }
 
-        // Unescape any parentheses
-        $text = str_replace(['\\(', '\\)'], ['(', ')'], $text);
-
-        // Replace instances of the special string with a single backslash
-        return str_replace('[**pdfparserdblslsh**]', '\\', $text);
+        return $text;
     }
 
     /**
@@ -372,9 +368,18 @@ class Font extends PDFObject
      */
     public static function decodeEntities(string $text): string
     {
-        return preg_replace_callback('/#([0-9a-f]{2})/i', function ($m) {
-            return \chr(hexdec($m[1]));
-        }, $text);
+        $parts = preg_split('/(#\d{2})/s', $text, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+        $text = '';
+
+        foreach ($parts as $part) {
+            if (preg_match('/^#\d{2}$/', $part)) {
+                $text .= \chr(hexdec(trim($part, '#')));
+            } else {
+                $text .= $part;
+            }
+        }
+
+        return $text;
     }
 
     /**
@@ -386,7 +391,7 @@ class Font extends PDFObject
      */
     public static function decodeUnicode(string $text): string
     {
-        if ("\xFE\xFF" === substr($text, 0, 2)) {
+        if (preg_match('/^\xFE\xFF/i', $text)) {
             // Strip U+FEFF byte order marker.
             $decode = substr($text, 2);
             $text = '';
@@ -411,17 +416,16 @@ class Font extends PDFObject
     /**
      * Decode text by commands array.
      */
-    public function decodeText(array $commands, float $fontFactor = 4): string
+    public function decodeText(array $commands): string
     {
         $word_position = 0;
         $words = [];
-        $font_space = $this->getFontSpaceLimit() * abs($fontFactor) / 4;
+        $font_space = $this->getFontSpaceLimit();
 
         foreach ($commands as $command) {
             switch ($command[PDFObject::TYPE]) {
                 case 'n':
-                    $offset = (float) trim($command[PDFObject::COMMAND]);
-                    if ($offset - (float) $font_space < 0) {
+                    if ((float) trim($command[PDFObject::COMMAND]) < $font_space) {
                         $word_position = \count($words);
                     }
                     continue 2;
@@ -452,32 +456,9 @@ class Font extends PDFObject
 
         foreach ($words as &$word) {
             $word = $this->decodeContent($word);
-            $word = str_replace("\t", ' ', $word);
         }
 
-        // Remove internal "words" that are just spaces, but leave them
-        // if they are at either end of the array of words. This fixes,
-        // for   example,   lines   that   are   justified   to   fill
-        // a whole row.
-        for ($x = \count($words) - 2; $x >= 1; --$x) {
-            if ('' === trim($words[$x], ' ')) {
-                unset($words[$x]);
-            }
-        }
-        $words = array_values($words);
-
-        // Cut down on the number of unnecessary internal spaces by
-        // imploding the string on the null byte, and checking if the
-        // text includes extra spaces on either side. If so, merge
-        // where appropriate.
-        $words = implode("\x00\x00", $words);
-        $words = str_replace(
-            [" \x00\x00 ", "\x00\x00 ", " \x00\x00", "\x00\x00"],
-            ['  ', ' ', ' ', ' '],
-            $words
-        );
-
-        return $words;
+        return implode(' ', $words);
     }
 
     /**
@@ -487,12 +468,6 @@ class Font extends PDFObject
      */
     public function decodeContent(string $text, bool &$unicode = null): string
     {
-        // If this string begins with a UTF-16BE BOM, then decode it
-        // directly as Unicode
-        if ("\xFE\xFF" === substr($text, 0, 2)) {
-            return $this->decodeUnicode($text);
-        }
-
         if ($this->has('ToUnicode')) {
             return $this->decodeContentByToUnicodeCMapOrDescendantFonts($text);
         }

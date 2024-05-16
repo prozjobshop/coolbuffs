@@ -102,7 +102,7 @@ interface ChronosInterface extends DateTimeInterface
      * @param \DateTimeZone|string|null $tz The DateTimeZone object or timezone name.
      * @return static
      */
-    public static function now($tz = null): self;
+    public static function now($tz): self;
 
     /**
      * Get a copy of the instance
@@ -1153,86 +1153,84 @@ interface ChronosInterface extends DateTimeInterface
     public function secondsUntilEndOfDay(): int;
 
     /**
-     * Sets the time to 00:00:00
+     * Resets the time to 00:00:00
      *
      * @return static
      */
     public function startOfDay(): self;
 
     /**
-     * Sets the time to 23:59:59 or 23:59:59.999999
-     * if `$microseconds` is true.
+     * Resets the time to 23:59:59
      *
-     * @param bool $microseconds Whether to set microseconds
      * @return static
      */
-    public function endOfDay(bool $microseconds = false): self;
+    public function endOfDay(): self;
 
     /**
-     * Sets the date to the first day of the month and the time to 00:00:00
+     * Resets the date to the first day of the month and the time to 00:00:00
      *
      * @return static
      */
     public function startOfMonth(): self;
 
     /**
-     * Sets the date to end of the month and time to 23:59:59
+     * Resets the date to end of the month and time to 23:59:59
      *
      * @return static
      */
     public function endOfMonth(): self;
 
     /**
-     * Sets the date to the first day of the year and the time to 00:00:00
+     * Resets the date to the first day of the year and the time to 00:00:00
      *
      * @return static
      */
     public function startOfYear(): self;
 
     /**
-     * Sets the date to end of the year and time to 23:59:59
+     * Resets the date to end of the year and time to 23:59:59
      *
      * @return static
      */
     public function endOfYear(): self;
 
     /**
-     * Sets the date to the first day of the decade and the time to 00:00:00
+     * Resets the date to the first day of the decade and the time to 00:00:00
      *
      * @return static
      */
     public function startOfDecade(): self;
 
     /**
-     * Sets the date to end of the decade and time to 23:59:59
+     * Resets the date to end of the decade and time to 23:59:59
      *
      * @return static
      */
     public function endOfDecade(): self;
 
     /**
-     * Sets the date to the first day of the century and the time to 00:00:00
+     * Resets the date to the first day of the century and the time to 00:00:00
      *
      * @return static
      */
     public function startOfCentury(): self;
 
     /**
-     * Sets the date to end of the century and time to 23:59:59
+     * Resets the date to end of the century and time to 23:59:59
      *
      * @return static
      */
     public function endOfCentury(): self;
 
     /**
-     * Sets the date to the first day of week (defined in $weekStartsAt) and the time to 00:00:00
+     * Resets the date to the first day of week (defined in $weekStartsAt) and the time to 00:00:00
      *
      * @return static
      */
     public function startOfWeek(): self;
 
     /**
-     * Sets the date to end of week (defined in $weekEndsAt) and time to 23:59:59
+     * Resets the date to end of week (defined in $weekEndsAt) and time to 23:59:59
      *
      * @return static
      */

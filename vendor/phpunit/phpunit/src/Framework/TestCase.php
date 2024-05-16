@@ -60,8 +60,6 @@ use function setlocale;
 use function sprintf;
 use function strpos;
 use function substr;
-use function sys_get_temp_dir;
-use function tempnam;
 use function trim;
 use function var_export;
 use DeepCopy\DeepCopy;
@@ -141,7 +139,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     protected $backupGlobalsBlacklist = [];
 
     /**
-     * @var ?bool
+     * @var bool
      */
     protected $backupStaticAttributes;
 
@@ -158,7 +156,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     protected $backupStaticAttributesBlacklist = [];
 
     /**
-     * @var ?bool
+     * @var bool
      */
     protected $runTestInSeparateProcess;
 
@@ -173,7 +171,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     protected $providedTests = [];
 
     /**
-     * @var ?bool
+     * @var bool
      */
     private $runClassInSeparateProcess;
 
@@ -313,7 +311,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private $snapshot;
 
     /**
-     * @var Prophet
+     * @var \Prophecy\Prophet
      */
     private $prophet;
 
@@ -926,7 +924,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $codeCoverageCacheDirectory = "'." . $codeCoverageCacheDirectory . ".'";
 
             $configurationFilePath = $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] ?? '';
-            $processResultFile     = tempnam(sys_get_temp_dir(), 'phpunit_');
 
             $var = [
                 'composerAutoload'                           => $composerAutoload,
@@ -953,7 +950,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 'codeCoverageFilter'                         => $codeCoverageFilter,
                 'configurationFilePath'                      => $configurationFilePath,
                 'name'                                       => $this->getName(false),
-                'processResultFile'                          => $processResultFile,
             ];
 
             if (!$runEntireClass) {
@@ -963,7 +959,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $template->setVar($var);
 
             $php = AbstractPhpProcess::factory();
-            $php->runTestJob($template->render(), $this, $result, $processResultFile);
+            $php->runTestJob($template->render(), $this, $result);
         } else {
             $result->run($this);
         }
@@ -2185,8 +2181,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             }
 
             if (isset($passed[$dependencyTarget])) {
-                if ($passed[$dependencyTarget]['size'] != TestUtil::UNKNOWN &&
-                    $this->getSize() != TestUtil::UNKNOWN &&
+                if ($passed[$dependencyTarget]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
+                    $this->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
                     $passed[$dependencyTarget]['size'] > $this->getSize()) {
                     $this->result->addError(
                         $this,

@@ -83,7 +83,6 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['id'],
-            'nodeId' => $user['node_id'],
             'nickname' => $user['login'],
             'name' => Arr::get($user, 'name'),
             'email' => Arr::get($user, 'email'),

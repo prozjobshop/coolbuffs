@@ -14,8 +14,6 @@ declare(strict_types=1);
  */
 namespace Cake\Chronos\Traits;
 
-use Cake\Chronos\Chronos;
-use Cake\Chronos\ChronosDate;
 use Cake\Chronos\ChronosInterface;
 use DateTime;
 
@@ -40,10 +38,6 @@ trait ComparisonTrait
      */
     public static function getWeekendDays(): array
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 getWeekendDays() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         return static::$weekendDays;
     }
 
@@ -55,10 +49,6 @@ trait ComparisonTrait
      */
     public static function setWeekendDays(array $days): void
     {
-        if (static::class === ChronosDate::class) {
-            trigger_error('2.5 setWeekendDays() will be removed in 3.x.', E_USER_DEPRECATED);
-        }
-
         static::$weekendDays = $days;
     }
 
@@ -67,13 +57,10 @@ trait ComparisonTrait
      *
      * @param \Cake\Chronos\ChronosInterface $dt The instance to compare with.
      * @return bool
-     * @deprecated 2.5 eq() is deprecated. Use equals() instead.
      */
     public function eq(ChronosInterface $dt): bool
     {
-        trigger_error('2.5 eq() is deprecated. Use equals() instead.', E_USER_DEPRECATED);
-
-        return $this->equals($dt);
+        return $this == $dt;
     }
 
     /**
@@ -84,7 +71,7 @@ trait ComparisonTrait
      */
     public function equals(ChronosInterface $dt)
     {
-        return $this == $dt;
+        return $this->eq($dt);
     }
 
     /**
@@ -92,13 +79,10 @@ trait ComparisonTrait
      *
      * @param \Cake\Chronos\ChronosInterface $dt The instance to compare with.
      * @return bool
-     * @deprecated 2.5 ne() is deprecated. Use notEquals() instead.
      */
     public function ne(ChronosInterface $dt): bool
     {
-        trigger_error('2.5 ne() is deprecated. Use notEquals() instead.', E_USER_DEPRECATED);
-
-        return $this->notEquals($dt);
+        return !$this->eq($dt);
     }
 
     /**
@@ -109,7 +93,7 @@ trait ComparisonTrait
      */
     public function notEquals(ChronosInterface $dt)
     {
-        return !$this->equals($dt);
+        return $this->ne($dt);
     }
 
     /**
@@ -117,13 +101,10 @@ trait ComparisonTrait
      *
      * @param \Cake\Chronos\ChronosInterface $dt The instance to compare with.
      * @return bool
-     * @deprecated 2.5 gt() is deprecated. Use greaterThan() instead.
      */
     public function gt(ChronosInterface $dt): bool
     {
-        trigger_error('2.5 gt() is deprecated. Use greaterThan() instead.', E_USER_DEPRECATED);
-
-        return $this->greaterThan($dt);
+        return $this > $dt;
     }
 
     /**
@@ -134,7 +115,7 @@ trait ComparisonTrait
      */
     public function greaterThan(ChronosInterface $dt)
     {
-        return $this > $dt;
+        return $this->gt($dt);
     }
 
     /**
@@ -142,13 +123,10 @@ trait ComparisonTrait
      *
      * @param \Cake\Chronos\ChronosInterface $dt The instance to compare with.
      * @return bool
-     * @deprecated 2.5 gte() is deprecated. Use greaterThanOrEquals() instead.
      */
     public function gte(ChronosInterface $dt): bool
     {
-        trigger_error('2.5 gte() is deprecated. Use greaterThanOrEquals() instead.', E_USER_DEPRECATED);
-
-        return $this->greaterThanOrEquals($dt);
+        return $this >= $dt;
     }
 
     /**
@@ -159,7 +137,7 @@ trait ComparisonTrait
      */
     public function greaterThanOrEquals(ChronosInterface $dt)
     {
-        return $this >= $dt;
+        return $this->gte($dt);
     }
 
     /**
@@ -167,13 +145,10 @@ trait ComparisonTrait
      *
      * @param \Cake\Chronos\ChronosInterface $dt The instance to compare with.
      * @return bool
-     * @deprecated 2.5 lt() is deprecated. Use lessThan instead.
      */
     public function lt(ChronosInterface $dt): bool
     {
-        trigger_error('2.5 lt() is deprecated. Use lessThan() instead.', E_USER_DEPRECATED);
-
-        return $this->lessThan($dt);
+        return $this < $dt;
     }
 
     /**
@@ -184,7 +159,7 @@ trait ComparisonTrait
      */
     public function lessThan(ChronosInterface $dt)
     {
-        return $this < $dt;
+        return $this->lt($dt);
     }
 
     /**
@@ -192,13 +167,10 @@ trait ComparisonTrait
      *
      * @param \Cake\Chronos\ChronosInterface $dt The instance to compare with.
      * @return bool
-     * @deprecated 2.5 lte() is deprecated. Use lessThanOrEquals() instead.
      */
     public function lte(ChronosInterface $dt): bool
     {
-        trigger_error('2.5 lte() is deprecated. Use lessthanOrEquals() instead.', E_USER_DEPRECATED);
-
-        return $this->lessThanOrEquals($dt);
+        return $this <= $dt;
     }
 
     /**
@@ -209,7 +181,7 @@ trait ComparisonTrait
      */
     public function lessThanOrEquals(ChronosInterface $dt)
     {
-        return $this <= $dt;
+        return $this->lte($dt);
     }
 
     /**
@@ -222,18 +194,17 @@ trait ComparisonTrait
      */
     public function between(ChronosInterface $dt1, ChronosInterface $dt2, bool $equal = true): bool
     {
-        if ($dt1->greaterThan($dt2)) {
+        if ($dt1->gt($dt2)) {
             $temp = $dt1;
             $dt1 = $dt2;
             $dt2 = $temp;
         }
-        Chronos::checkTypes($dt1, $dt2);
 
         if ($equal) {
-            return $this->greaterThanOrEquals($dt1) && $this->lessThanOrEquals($dt2);
+            return $this->gte($dt1) && $this->lte($dt2);
         }
 
-        return $this->greaterThan($dt1) && $this->lessThan($dt2);
+        return $this->gt($dt1) && $this->lt($dt2);
     }
 
     /**
@@ -270,7 +241,7 @@ trait ComparisonTrait
     {
         $dt = $dt ?? static::now($this->tz);
 
-        return $this->lessThan($dt) ? $this : $dt;
+        return $this->lt($dt) ? $this : $dt;
     }
 
     /**
@@ -283,7 +254,7 @@ trait ComparisonTrait
     {
         $dt = $dt ?? static::now($this->tz);
 
-        return $this->greaterThan($dt) ? $this : $dt;
+        return $this->gt($dt) ? $this : $dt;
     }
 
     /**
@@ -343,7 +314,7 @@ trait ComparisonTrait
      */
     public function isNextWeek(): bool
     {
-        return $this->format('W o') === static::now($this->tz)->addWeeks(1)->format('W o');
+        return $this->format('W o') === static::now($this->tz)->addWeek()->format('W o');
     }
 
     /**
@@ -353,7 +324,7 @@ trait ComparisonTrait
      */
     public function isLastWeek(): bool
     {
-        return $this->format('W o') === static::now($this->tz)->subWeeks(1)->format('W o');
+        return $this->format('W o') === static::now($this->tz)->subWeek()->format('W o');
     }
 
     /**
@@ -363,7 +334,7 @@ trait ComparisonTrait
      */
     public function isNextMonth(): bool
     {
-        return $this->format('m Y') === static::now($this->tz)->addMonths(1)->format('m Y');
+        return $this->format('m Y') === static::now($this->tz)->addMonth()->format('m Y');
     }
 
     /**
@@ -373,7 +344,7 @@ trait ComparisonTrait
      */
     public function isLastMonth(): bool
     {
-        return $this->format('m Y') === static::now($this->tz)->subMonths(1)->format('m Y');
+        return $this->format('m Y') === static::now($this->tz)->subMonth()->format('m Y');
     }
 
     /**
@@ -383,7 +354,7 @@ trait ComparisonTrait
      */
     public function isNextYear(): bool
     {
-        return $this->year === static::now($this->tz)->addYears(1)->year;
+        return $this->year === static::now($this->tz)->addYear()->year;
     }
 
     /**
@@ -393,7 +364,7 @@ trait ComparisonTrait
      */
     public function isLastYear(): bool
     {
-        return $this->year === static::now($this->tz)->subYears(1)->year;
+        return $this->year === static::now($this->tz)->subYear()->year;
     }
 
     /**
@@ -403,7 +374,7 @@ trait ComparisonTrait
      */
     public function isFuture(): bool
     {
-        return $this->greaterThan(static::now($this->tz));
+        return $this->gt(static::now($this->tz));
     }
 
     /**
@@ -413,7 +384,7 @@ trait ComparisonTrait
      */
     public function isPast(): bool
     {
-        return $this->lessThan(static::now($this->tz));
+        return $this->lt(static::now($this->tz));
     }
 
     /**
@@ -589,8 +560,6 @@ trait ComparisonTrait
      */
     public function isMutable(): bool
     {
-        trigger_error('2.5 isMutable will be removed in the future', E_USER_DEPRECATED);
-
         return $this instanceof DateTime;
     }
 }

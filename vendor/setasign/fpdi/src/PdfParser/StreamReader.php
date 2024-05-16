@@ -113,12 +113,6 @@ class StreamReader
             );
         }
 
-        if (fseek($stream, 0) === -1) {
-            throw new \InvalidArgumentException(
-                'Given stream is not seekable!'
-            );
-        }
-
         $this->stream = $stream;
         $this->closeStream = $closeStream;
         $this->reset();

@@ -25,7 +25,6 @@ use setasign\Fpdi\PdfParser\Type\PdfStream;
 use setasign\Fpdi\PdfParser\Type\PdfString;
 use setasign\Fpdi\PdfParser\Type\PdfToken;
 use setasign\Fpdi\PdfParser\Type\PdfType;
-use setasign\Fpdi\PdfParser\Type\PdfTypeException;
 
 /**
  * A PDF parser class
@@ -259,25 +258,25 @@ class PdfParser
         switch ($token) {
             case '(':
                 $this->ensureExpectedType($token, $expectedType);
-                return $this->parsePdfString();
+                return PdfString::parse($this->streamReader);
 
             case '<':
                 if ($this->streamReader->getByte() === '<') {
                     $this->ensureExpectedType('<<', $expectedType);
                     $this->streamReader->addOffset(1);
-                    return $this->parsePdfDictionary();
+                    return PdfDictionary::parse($this->tokenizer, $this->streamReader, $this);
                 }
 
                 $this->ensureExpectedType($token, $expectedType);
-                return $this->parsePdfHexString();
+                return PdfHexString::parse($this->streamReader);
 
             case '/':
                 $this->ensureExpectedType($token, $expectedType);
-                return $this->parsePdfName();
+                return PdfName::parse($this->tokenizer, $this->streamReader);
 
             case '[':
                 $this->ensureExpectedType($token, $expectedType);
-                return $this->parsePdfArray();
+                return PdfArray::parse($this->tokenizer, $this);
 
             default:
                 if (\is_numeric($token)) {
@@ -292,7 +291,13 @@ class PdfParser
                                         );
                                     }
 
-                                    return $this->parsePdfIndirectObject((int)$token, (int)$token2);
+                                    return PdfIndirectObject::parse(
+                                        (int) $token,
+                                        (int) $token2,
+                                        $this,
+                                        $this->tokenizer,
+                                        $this->streamReader
+                                    );
                                 case 'R':
                                     if (
                                         $expectedType !== null &&
@@ -304,7 +309,7 @@ class PdfParser
                                         );
                                     }
 
-                                    return PdfIndirectObjectReference::create((int)$token, (int)$token2);
+                                    return PdfIndirectObjectReference::create((int) $token, (int) $token2);
                             }
 
                             $this->tokenizer->pushStack($token3);
@@ -347,65 +352,6 @@ class PdfParser
     }
 
     /**
-     * @return PdfString
-     */
-    protected function parsePdfString()
-    {
-        return PdfString::parse($this->streamReader);
-    }
-
-    /**
-     * @return false|PdfHexString
-     */
-    protected function parsePdfHexString()
-    {
-        return PdfHexString::parse($this->streamReader);
-    }
-
-    /**
-     * @return bool|PdfDictionary
-     * @throws PdfTypeException
-     */
-    protected function parsePdfDictionary()
-    {
-        return PdfDictionary::parse($this->tokenizer, $this->streamReader, $this);
-    }
-
-    /**
-     * @return PdfName
-     */
-    protected function parsePdfName()
-    {
-        return PdfName::parse($this->tokenizer, $this->streamReader);
-    }
-
-    /**
-     * @return false|PdfArray
-     * @throws PdfTypeException
-     */
-    protected function parsePdfArray()
-    {
-        return PdfArray::parse($this->tokenizer, $this);
-    }
-
-    /**
-     * @param int $objectNumber
-     * @param int $generationNumber
-     * @return false|PdfIndirectObject
-     * @throws Type\PdfTypeException
-     */
-    protected function parsePdfIndirectObject($objectNumber, $generationNumber)
-    {
-        return PdfIndirectObject::parse(
-            $objectNumber,
-            $generationNumber,
-            $this,
-            $this->tokenizer,
-            $this->streamReader
-        );
-    }
-
-    /**
      * Ensures that the token will evaluate to an expected object type (or not).
      *
      * @param string $token
@@ -413,7 +359,7 @@ class PdfParser
      * @return bool
      * @throws Type\PdfTypeException
      */
-    protected function ensureExpectedType($token, $expectedType)
+    private function ensureExpectedType($token, $expectedType)
     {
         static $mapping = [
             '(' => PdfString::class,
