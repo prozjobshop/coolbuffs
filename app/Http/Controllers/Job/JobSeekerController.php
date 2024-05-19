@@ -106,6 +106,17 @@ class JobSeekerController extends Controller
         $currencies = DataArrayHelper::currenciesArray();
 
         /*         * ************************************************** */
+        $data = array();
+        $data['countries'] = \App\Country::select('country_id','country')->lang()->active()->get();
+        $data['functional_areas'] = \App\FunctionalArea::select('functional_area_id','functional_area')->lang()->active()->get();
+        $data['currencies'] = DataArrayHelper::currenciesArray();
+        $data['job_skill'] = \App\JobSkill::select('job_skill_id','job_skill')->lang()->active()->get();
+        $data['industries'] = \App\Industry::select('id','industry')->lang()->active()->get();
+        $data['job_careers'] = \App\CareerLevel::select('career_level_id','career_level')->lang()->active()->get();
+        $data['job_experience'] = \App\JobExperience::select('job_experience_id','job_experience')->lang()->active()->orderBy('job_experience','DESC')->get();
+        $data['cities'] = \App\City::select('city_id','city')->lang()->active()->get();
+        $data['gender'] = \App\Gender::select('gender_id','gender')->lang()->active()->get();
+
 
         $seo = (object) array(
                     'seo_title' => $seoArray['description'],
@@ -127,7 +138,21 @@ class JobSeekerController extends Controller
                         ->with('careerLevelIdsArray', $careerLevelIdsArray)
                         ->with('genderIdsArray', $genderIdsArray)
                         ->with('jobExperienceIdsArray', $jobExperienceIdsArray)
+                        ->with('data',$data)
                         ->with('seo', $seo);
+    }
+    public function applicantListAjax(Request $request)
+    {
+       $applicants = User::select('name',)->get();
+    //    $functional_area_ids = $request->query('functional_area_id', array());
+       $data = [];
+
+       foreach ($applicants as $item){
+        if (!in_array($item['name'],$data)){
+                $data[] = $item['name'];
+        }     
+       }
+       return $data;
     }
 
 }

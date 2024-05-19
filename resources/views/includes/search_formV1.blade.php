@@ -4,7 +4,7 @@
 	<div class="searchbar">
 		<div class="srchbox seekersrch input-group ">
 		<div class="input-group">
-		  <input type="text"  name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
+		  <input type="search"  name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
 		  <span class="input-group-btn">
 			<input type="submit" class="btn" value="{{__('Search Applicant')}}">
 		  </span>
@@ -88,3 +88,26 @@
 
 		</div>
 </div> @endif
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script>
+   var availableTags = [];
+   $.ajax({
+	method: "GET",
+	url: "{{route('job.seeker.applicant.searching')}}",
+	success: function(response){
+		console.log(response);
+		startAutoComplete(response);
+
+	}
+   })
+   function startAutoComplete(availableTags)
+   {
+	$( "#empsearch" ).autocomplete({
+      source: availableTags,
+	  minLength: 2, // Minimum number of characters to trigger autocomplete
+      maxResults: 5, // Maximum number of results to display
+    });
+   }
+</script>
