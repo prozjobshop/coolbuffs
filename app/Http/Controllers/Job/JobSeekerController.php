@@ -54,7 +54,7 @@ class JobSeekerController extends Controller
         $order_by = $request->query('order_by', 'id');
         $limit = 10;
         $jobSeekers = $this->fetchJobSeekers($search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $job_skill_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency, $order_by, $limit);
-        echo("<script>console.log('PHP: " . json_encode($jobSeekers) . "');</script>");  
+        // echo("<script>console.log('PHP: " . json_encode($jobSeekers) . "');</script>");  
         /*         * ************************************************** */
 
         $jobSeekerIdsArray = $this->fetchIdsArray($search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency, 'users.id');

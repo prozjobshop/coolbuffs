@@ -388,5 +388,18 @@ class JobController extends Controller
         return view('job.my_favourite_jobs')
                         ->with('jobs', $jobs);
     }
+    public function jobListAjax(Request $request)
+    {
+       $applicants = Job::select('title',)->get();
+    //    $functional_area_ids = $request->query('functional_area_id', array());
+       $data = [];
+
+       foreach ($applicants as $item){
+        if (!in_array($item['title'],$data)){
+                $data[] = $item['title'];
+        }     
+       }
+       return $data;
+    }
 
 }

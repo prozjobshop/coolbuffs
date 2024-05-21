@@ -112,7 +112,7 @@ trait FetchJobSeekers
         return array_unique($array);
     }
 
-    public function createQuery($query, $search = '', $industry_ids = array(), $functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $career_level_ids = array(), $gender_ids = array(), $job_experience_ids = array(), $current_salary = 0, $expected_salary = 0, $salary_currency = '')
+    public function createQuery($query, $search = '', $industry_ids = array(), $functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $job_skill_ids = array(), $career_level_ids = array(), $gender_ids = array(), $job_experience_ids = array(), $current_salary = 0, $expected_salary = 0, $salary_currency = '')
     {
         $query->where('users.is_active', 1);
         if ($search != '') {

@@ -93,6 +93,7 @@
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <script>
    var availableTags = [];
+   var availableTagsJob = [];
    $.ajax({
 	method: "GET",
 	url: "{{route('job.seeker.applicant.searching')}}",
@@ -102,7 +103,24 @@
 
 	}
    })
+   // Second AJAX request for another table
+	$.ajax({
+		method: "GET",
+		url: "{{ route('job.home.candidate.searching') }}", // Replace with the actual route for the other table
+		success: function(response) {
+			console.log(response);
+			// Process the response for the other table here
+		}
+	});
    function startAutoComplete(availableTags)
+   {
+	$( "#empsearch" ).autocomplete({
+      source: availableTags,
+	  minLength: 2, // Minimum number of characters to trigger autocomplete
+      maxResults: 5, // Maximum number of results to display
+    });
+   }
+   function startAutoCompleteJob(availableTags)
    {
 	$( "#empsearch" ).autocomplete({
       source: availableTags,
