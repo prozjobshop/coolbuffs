@@ -43,17 +43,18 @@ class JobSeekerController extends Controller
         $country_ids = $request->query('country_id', array());
         $state_ids = $request->query('state_id', array());
         $city_ids = $request->query('city_id', array());
+        $job_skill_ids = $request->query('job_skill_id', array());
         $career_level_ids = $request->query('career_level_id', array());
         $gender_ids = $request->query('gender_id', array());
-        $industry_ids = $request->query('industry_ids', array());
+        $industry_ids = $request->query('industry_id', array());
         $job_experience_ids = $request->query('job_experience_id', array());
         $current_salary = $request->query('current_salary', '');
         $expected_salary = $request->query('expected_salary', '');
         $salary_currency = $request->query('salary_currency', '');
         $order_by = $request->query('order_by', 'id');
         $limit = 10;
-        $jobSeekers = $this->fetchJobSeekers($search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency, $order_by, $limit);
-
+        $jobSeekers = $this->fetchJobSeekers($search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $job_skill_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency, $order_by, $limit);
+        echo("<script>console.log('PHP: " . json_encode($jobSeekers) . "');</script>");  
         /*         * ************************************************** */
 
         $jobSeekerIdsArray = $this->fetchIdsArray($search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency, 'users.id');

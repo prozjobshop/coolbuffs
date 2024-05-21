@@ -60,14 +60,20 @@ trait FetchJobSeekers
         'users.package_end_date',
         'users.jobs_quota',
         'users.availed_jobs_quota',
-        'users.search'
+        'users.search',
     );
 
-    public function fetchJobSeekers($search = '', $industry_ids = array(), $functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $career_level_ids = array(), $gender_ids = array(), $job_experience_ids = array(), $current_salary = 0, $expected_salary = 0, $salary_currency = '', $order_by = 'id', $limit = 10)
+    public function fetchJobSeekers($search = '', $industry_ids = array(), $functional_area_ids = array(), $country_ids = array(), $state_ids = array(), $city_ids = array(), $job_skill_ids = array(),$career_level_ids = array(), $gender_ids = array(), $job_experience_ids = array(), $current_salary = 0, $expected_salary = 0, $salary_currency = '', $order_by = 'id', $limit = 10)
     {
         $asc_desc = 'DESC';
+        // $db = ProfileSkill::select('job_skills_id');
+        // $sql = $db->toSql();
+        // echo("<script>console.log('PHP: " . json_encode($sql) . "');</script>");  
         $query = User::select($this->fields);
-        $query = $this->createQuery($query, $search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency);
+        $query = $this->createQuery($query, $search, $industry_ids, $functional_area_ids, $country_ids, $state_ids, $city_ids, $job_skill_ids, $career_level_ids, $gender_ids, $job_experience_ids, $current_salary, $expected_salary, $salary_currency);
+        
+        // echo("<script>console.log('PHP: " . implode(',', $job_skill_ids) . "');</script>");
+        // echo("<script>console.log('PHP: " . json_encode($industry_ids) . "');</script>");
 
 //         // $query->where('users.country_id','!=', '');
 //         $query->orderByRaw('CASE 
@@ -80,16 +86,16 @@ trait FetchJobSeekers
 //      END')
 // ->orderBy($order_by, $asc_desc);
 
-$orderByRaw = 'CASE ';
+        $orderByRaw = 'CASE ';
 
-// Priority for users with valid packages excluding package_id 7
-$orderByRaw .= "WHEN users.package_start_date <= NOW() AND users.package_end_date >= NOW() AND users.package_id != 7 THEN 1 ";
+        // Priority for users with valid packages excluding package_id 7
+        $orderByRaw .= "WHEN users.package_start_date <= NOW() AND users.package_end_date >= NOW() AND users.package_id != 7 THEN 1 ";
 
-// Default priority for others
-$orderByRaw .= "ELSE 2 END";
+        // Default priority for others
+        $orderByRaw .= "ELSE 2 END";
 
-$query->orderByRaw($orderByRaw)
-    ->orderBy($order_by, $asc_desc);
+        $query->orderByRaw($orderByRaw)
+            ->orderBy($order_by, $asc_desc);
 
 
         // $query->orderBy('users.id', 'DESC');
@@ -117,6 +123,7 @@ $query->orderByRaw($orderByRaw)
             $query = $query->whereRaw("CONCAT(first_name,' ',last_name) LIKE '%".$search."%' ");
         }
         if (isset($industry_ids[0])) {
+            
             $query->whereIn('users.industry_id', $industry_ids);
         }
         if (isset($functional_area_ids[0])) {
@@ -130,6 +137,11 @@ $query->orderByRaw($orderByRaw)
         }
         if (isset($city_ids[0])) {
             $query->whereIn('users.city_id', $city_ids);
+        }
+        if (isset($job_skill_ids[0])) {
+            $query ->whereHas('profileSkills', function($query) use ($job_skill_ids) {
+                $query->whereIn('job_skill_id', $job_skill_ids);
+         });
         }
         if (isset($career_level_ids[0])) {
             $query->whereIn('users.career_level_id', $career_level_ids);
@@ -150,6 +162,9 @@ $query->orderByRaw($orderByRaw)
         if (!empty(trim($salary_currency))) {
             $query->where('users.salary_currency', 'like', $salary_currency);
         }
+
+        // $query->whereIn('job_skill_id', AnotherModel::select('id')->get());
+        // echo("<script>console.log('PHP: " . json_encode($query) . "');</script>");
         return $query;
     }
 
@@ -159,6 +174,7 @@ $query->orderByRaw($orderByRaw)
         $query->whereIn('user_id', $jobSeekerIdsArray);
 
         $array = $query->pluck('job_skill_id')->toArray();
+        // echo("<script>console.log('PHP: " . implode(',', $array) . "');</script>");
         return array_unique($array);
     }
 

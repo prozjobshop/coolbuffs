@@ -22,6 +22,10 @@
                         <!-- job start --> 
                         @if(isset($jobSeekers) && count($jobSeekers))
                         @foreach($jobSeekers as $jobSeeker)
+                        <!-- <script>
+                                console.log(<?php echo json_encode($jobSeeker); ?>);
+                        </script> -->
+						
                         <li>
                             <div class="row">
                                 <div class="col-lg-8 col-md-8">
@@ -122,11 +126,11 @@
 
     });
     function searchJob(){
-        var salary_from = parseInt($('#salary_from').val());
-        var salary_to = parseInt($('#salary_to').val());
+        var salary_from = parseInt($('#current_salary').val());
+        var salary_to = parseInt($('#expected_salary').val());
         var is_true = true;
         if(salary_from >= salary_to){
-            $('#salary_to_greater').text('(SalaryTo) must be greater than (Salary From)');
+            $('#salary_to_greater').text('(Expected Salary) must be greater than (Current Salary)');
             is_true = false;
         }else{
             $('#salary_to_greater').text('');
