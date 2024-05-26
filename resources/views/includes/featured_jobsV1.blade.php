@@ -18,7 +18,9 @@
                 <ul class="jobslistCarousal jobslist row owl-carousel">
                     @if(isset($featuredJobs) && count($featuredJobs))
                     @foreach($featuredJobs as $featuredJob)
-
+                    <script>
+                                console.log(<?php echo json_encode($featuredJob); ?>);
+                        </script>
                     <?php $company = $featuredJob->getCompany(); ?>
                     <?php
                     // echo "<pre>";
@@ -111,7 +113,7 @@
         ?>
 
         <!--button start-->
-        <div class="viewallbtn"><a href="{{route('job.list', ['is_featured'=>50])}}">{{__('View All Featured Jobs')}}</a></div>
+        <div class="viewallbtn"><a href="{{route('job.list', ['is_featured'=>1])}}">{{__('View All Featured Jobs')}}</a></div>
         <!--button end--> 
     </div>
 </div>

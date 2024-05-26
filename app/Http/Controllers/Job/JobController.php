@@ -86,6 +86,7 @@ class JobController extends Controller
         $salary_to = $request->query('salary_to', '');
         $salary_currency = $request->query('salary_currency', '');
         $is_featured = $request->query('is_featured', 2);
+         echo("<script>console.log('PHP: " . json_encode($is_featured) . "');</script>");  
         $order_by = $request->query('order_by', 'id');
         $limit = 15;
         
