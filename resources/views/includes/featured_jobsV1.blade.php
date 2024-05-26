@@ -18,9 +18,9 @@
                 <ul class="jobslistCarousal jobslist row owl-carousel">
                     @if(isset($featuredJobs) && count($featuredJobs))
                     @foreach($featuredJobs as $featuredJob)
-                    <script>
+                    <!-- <script>
                                 console.log(<?php echo json_encode($featuredJob); ?>);
-                        </script>
+                        </script> -->
                     <?php $company = $featuredJob->getCompany(); ?>
                     <?php
                     // echo "<pre>";
