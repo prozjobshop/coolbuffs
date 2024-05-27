@@ -4,7 +4,8 @@
 	<div class="searchbar">
 		<div class="srchbox seekersrch input-group ">
 		<div class="input-group">
-		  <input type="search"  name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
+		<!-- id="empsearch" -->
+		  <input type="text"  name="search"  value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
 		  <span class="input-group-btn">
 			<input type="submit" class="btn" value="{{__('Search Applicant')}}">
 		  </span>
@@ -92,7 +93,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-<script>
+<!-- <script>
    var availableTags = [];
    var availableTagsJob = [];
    $.ajax({
@@ -113,8 +114,8 @@
     });
    }
    
-</script>
-<script>
+</script> -->
+<!-- <script>
 	 $(document).ready(function ($) {
         $("#search-job-list").submit(function () {
             $(this).find(":input").filter(function () {
@@ -125,4 +126,4 @@
         $("#search-job-list").find(":input").prop("disabled", false);
 		}
 		)
-</script>
+</script> -->
