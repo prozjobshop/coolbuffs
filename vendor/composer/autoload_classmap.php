@@ -5772,6 +5772,7 @@ return array(
     'Ramsey\\Collection\\Queue' => $vendorDir . '/ramsey/collection/src/Queue.php',
     'Ramsey\\Collection\\QueueInterface' => $vendorDir . '/ramsey/collection/src/QueueInterface.php',
     'Ramsey\\Collection\\Set' => $vendorDir . '/ramsey/collection/src/Set.php',
+    'Ramsey\\Collection\\Sort' => $vendorDir . '/ramsey/collection/src/Sort.php',
     'Ramsey\\Collection\\Tool\\TypeTrait' => $vendorDir . '/ramsey/collection/src/Tool/TypeTrait.php',
     'Ramsey\\Collection\\Tool\\ValueExtractorTrait' => $vendorDir . '/ramsey/collection/src/Tool/ValueExtractorTrait.php',
     'Ramsey\\Collection\\Tool\\ValueToStringTrait' => $vendorDir . '/ramsey/collection/src/Tool/ValueToStringTrait.php',
