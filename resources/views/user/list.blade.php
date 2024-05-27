@@ -13,7 +13,7 @@
 <div class="listpgWraper">
     <div class="container">
         
-        <form action="{{route('job.seeker.list')}}" method="get">
+        <form action="{{route('job.seeker.list')}}" method="get" id="search-applicant-form">
             <!-- Search Result and sidebar start -->
             <div class="row"> @include('includes.job_seeker_list_side_bar')                
                 <div class="col-lg-6"> 
@@ -22,6 +22,10 @@
                         <!-- job start --> 
                         @if(isset($jobSeekers) && count($jobSeekers))
                         @foreach($jobSeekers as $jobSeeker)
+                        <!-- <script>
+                                console.log(<?php echo json_encode($jobSeeker); ?>);
+                        </script> -->
+						
                         <li>
                             <div class="row">
                                 <div class="col-lg-8 col-md-8">
@@ -121,6 +125,25 @@
         });
 
     });
+    function searchJob(){
+        var salary_from = parseInt($('#current_salary').val());
+        var salary_to = parseInt($('#expected_salary').val());
+        var is_true = true;
+        if(salary_from >= salary_to){
+            $('#salary_to_greater').text('(Expected Salary) must be greater than (Current Salary)');
+            is_true = false;
+        }else{
+            $('#salary_to_greater').text('');
+            is_true = true;
+        }
+        if(is_true){
+            $('#search-applicant-form').submit();
+        }
+     }
+    function submit_form() {
+    // $(".click_on_button_when_click_filter").click();
+        $('#search-applicant-form').submit();
+    }
 </script>
 @include('includes.country_state_city_js')
 @endpush

@@ -4,14 +4,15 @@
 	<div class="searchbar">
 		<div class="srchbox seekersrch input-group ">
 		<div class="input-group">
-		  <input type="text"  name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
+		  <input type="search"  name="search" id="empsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
 		  <span class="input-group-btn">
 			<input type="submit" class="btn" value="{{__('Search Applicant')}}">
 		  </span>
 		</div>
 		</div>
 	</div>
-</form> @else
+</form> 
+@else
 <div class="searchbar ml-xs-0 ml-sm-0 ml-md-2">
 	<p class="find_dream_job">FIND YOUR <span>DREAM JOB</span></p>
 	<p class="find_dream_job easily_quickly">EASILY AND QUICKLY</p>
@@ -23,7 +24,7 @@
 					<div class="srchbox">
 						<div class="srform mb-xs-1 mb-sm-1 mb-md-2 mb-lg-2 mb-xl-4 custom_margin_responsive">
 							<!-- <label for=""> {{__('Keywords / Job Title')}}</label> -->
-							<input type="text" name="search" id="jbsearch" value="{{Request::get('search', '')}}" class="form-control custom_job_title_field typeahead typeahead_job" placeholder="{{__('Enter Skills / Job Title')}}" autocomplete="off" style="font-size:18px; margin-left:-6px;" />
+							<input type="text" name="search" value="{{Request::get('search', '')}}" class="form-control custom_job_title_field typeahead typeahead_job" placeholder="{{__('Enter Skills / Job Title')}}" autocomplete="off" id="job_page_typehead" style="font-size:18px; margin-left:-6px;" />
 						</div>
 						@if((bool)$siteSetting->country_specific_site)
         {!! Form::hidden('country_id[]', Request::get('country_id[]', $siteSetting->default_country_id), array('id'=>'country_id')) !!}
@@ -88,3 +89,40 @@
 
 		</div>
 </div> @endif
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script>
+   var availableTags = [];
+   var availableTagsJob = [];
+   $.ajax({
+	method: "GET",
+	url: "{{route('job.seeker.applicant.searching')}}",
+	success: function(response){
+		// console.log(response);
+		startAutoComplete(response);
+
+	}
+   })
+   function startAutoComplete(availableTags)
+   {
+	$( "#empsearch" ).autocomplete({
+      source: availableTags,
+	  minLength: 1, // Minimum number of characters to trigger autocomplete
+      maxResults: 5, // Maximum number of results to display
+    });
+   }
+   
+</script>
+<script>
+	 $(document).ready(function ($) {
+        $("#search-job-list").submit(function () {
+            $(this).find(":input").filter(function () {
+                return !this.value;
+            }).attr("disabled", "disabled");
+            return true;
+        });
+        $("#search-job-list").find(":input").prop("disabled", false);
+		}
+		)
+</script>

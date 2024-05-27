@@ -47,9 +47,17 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-
-        'name', 'email', 'password',
-
+        'first_name', 'middle_name', 'last_name', 'name', 'email', 'original_email', 
+        'father_name', 'date_of_birth', 'gender_id', 'marital_status_id', 'nationality_id', 
+        'national_id_card_number', 'country_id', 'state_id', 'city_id', 'phone', 
+        'mobile_num', 'job_experience_id', 'career_level_id', 'industry_id', 
+        'functional_area_id', 'current_salary', 'expected_salary', 'salary_currency', 
+        'street_address', 'is_active', 'verified', 'verification_token', 'provider', 
+        'provider_id', 'password', 'remember_token', 'image', 'cover_image', 'lang', 
+        'created_at', 'updated_at', 'is_immediate_available', 'num_profile_views', 
+        'package_id', 'transaction', 'package_start_date', 'package_end_date', 
+        'jobs_quota', 'availed_jobs_quota', 'search', 'is_subscribed', 'video_link', 
+        'email_verified_at', 'is_resume', 'resume_temp'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'date_of_birth', 'package_start_date', 'package_end_date'];
