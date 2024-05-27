@@ -55,6 +55,7 @@ class IndexController extends Controller
         $FunctionalArea = FunctionalArea::orderBy('id', 'asc')->where("lang", '=', "en")->limit(6)->get();
         $topCompanyIds = $this->getCompanyIdsAndNumJobs(16);
         $topFunctionalAreaIds = $this->getFunctionalAreaIdsAndNumJobs(32);
+
         $topIndustryIds = $this->getIndustryIdsFromCompanies(32);
         $topCityIds = $this->getCityIdsAndNumJobs(32);
         $featuredJobs = Job::active()->featured()->notExpire()->limit(12)->orderBy('id', 'desc')->get();

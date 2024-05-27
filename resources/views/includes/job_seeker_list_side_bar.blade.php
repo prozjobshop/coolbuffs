@@ -20,7 +20,7 @@
                 ->get();
         @endphp
         @foreach($industries as $industry)
-                    @php
+                @php
                 $checked = (in_array($industry->id, Request::get('industry_id', array()))) ? 'checked="checked"' : '';
             @endphp
             <li>
