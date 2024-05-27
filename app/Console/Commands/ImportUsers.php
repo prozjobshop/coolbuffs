@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\User;
 use App\ProfileSummary;
+use App\ProfileLanguage;
 use League\Csv\Reader;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -143,6 +144,36 @@ class ImportUsers extends Command
                         ]
                     );
                 }
+
+                // Add languages to the profile_languages table
+                if (isset($record['languages']) && !empty($record['languages'])) {
+                    $languages = explode(', ', $record['languages']);
+                    foreach ($languages as $language) {
+                        // Extract language and fluency
+                        preg_match('/^(.*?) \((.*?)\) - Fluency: (\d+)$/', $language, $matches);
+                        if (count($matches) === 4) {
+                            $languageName = $matches[1];
+                            $fluency = $matches[3];
+
+                            // Assuming you have a method to get language_id and language_level_id by name and fluency
+                            $language_id = $this->getLanguageIdByName($languageName);
+                            $language_level_id = $this->getLanguageLevelIdByFluency($fluency);
+
+                            ProfileLanguage::updateOrCreate(
+                                [
+                                    'user_id' => $user->id,
+                                    'language_id' => $language_id,
+                                ],
+                                [
+                                    'language_level_id' => $language_level_id,
+                                    'created_at' => now(),
+                                    'updated_at' => now()
+                                ]
+                            );
+                        }
+                    
+                    }
+                }
             }
     
             $this->info('Users imported successfully!');
@@ -150,4 +181,37 @@ class ImportUsers extends Command
             $this->error('Error: ' . $e->getMessage());
         }   
     }
+
+    private function getLanguageIdByName($name)
+    {
+        // Implement your logic to get language_id by language name
+        // For example, querying from a languages table
+        // Assuming you have a Language model
+        $language = \App\Language::where('lang', $name)->first();
+        return $language ? $language->id : null;
+    }
+    private function getLanguageLevelIdByFluency($fluency)
+    {
+        // Map fluency to Beginner, Intermediate, and Expert
+        switch ($fluency) {
+            case 1:
+            case 2:
+                $levelName = 1;
+                break;
+            case 3:
+                $levelName = 2;
+                break;
+            case 4:
+            case 5:
+                $levelName = 3;
+                break;
+            default:
+                $levelName = null; // or throw an exception, log error, etc.
+                break;
+        }
+    
+        return $levelName;
+    }
+            
+
 }
