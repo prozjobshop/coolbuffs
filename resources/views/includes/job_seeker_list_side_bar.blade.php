@@ -136,8 +136,9 @@
                 <li>
                     <input type="checkbox" name="job_experience_id[]" id="job_experience_{{$jobExperience->job_experience_id}}" value="{{$jobExperience->job_experience_id}}" {{$checked}} onclick="submit_form()">
                     <label for="job_experience_{{$jobExperience->job_experience_id}}"></label>
-                    {{$jobExperience->job_experience}} <span>{{App\User::countNumJobSeekers('job_experience_id', $jobExperience->job_experience_id)}}</span> </li>
-                @endif
+                    {{$jobExperience->job_experience}} <span>{{App\User::countNumJobSeekers('job_experience_id', $jobExperience->job_experience_id)}}</span></li>
+                    <!-- <script> console.log(<?php echo json_encode(App\User::countNumJobSeekers('job_experience_id', $jobExperience->job_experience_id)); ?>);</script> -->
+                    @endif
                 @endforeach
                 @endif
             </ul>
@@ -269,15 +270,19 @@
             </div>
             <div class="form-group">
                 {!! Form::number('expected_salary', Request::get('expected_salary', null), array('class'=>'form-control', 'id'=>'expected_salary', 'placeholder'=>__('Expected Salary'))) !!}
+                <span style="color: red" id="salary_to_greater"></span>
             </div>
             <div class="form-group">
-                {!! Form::select('salary_currency', ['' =>__('Select Salary Currency')]+$currencies, Request::get('salary_currency', $siteSetting->default_currency_code), array('class'=>'form-control', 'id'=>'salary_currency')) !!}
+                {!! Form::select('salary_currency', ['' =>__('Select Salary Currency')]+$currencies, Request::get('salary_currency'), array('class'=>'form-control', 'id'=>'salary_currency')) !!}
+                <!-- , $siteSetting->default_currency_code THE REASON WHY IT WAS NOT FILTERING RIGHT-->
             </div>
             <!-- Salary end --> 
 
             <!-- button -->
             <div class="searchnt">
-                <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i> {{__('Search')}}</button>
+            <button type="button" class="btn click_on_button_when_click_filter" onclick="searchJob()">
+                    <i class="fa fa-search" aria-hidden="true"></i> {{__('Search')}}
+                </button>
             </div>
             <!-- button end--> 
         </div>

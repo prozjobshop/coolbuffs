@@ -86,6 +86,7 @@ class JobController extends Controller
         $salary_to = $request->query('salary_to', '');
         $salary_currency = $request->query('salary_currency', '');
         $is_featured = $request->query('is_featured', 2);
+         echo("<script>console.log('PHP: " . json_encode($is_featured) . "');</script>");  
         $order_by = $request->query('order_by', 'id');
         $limit = 15;
         
@@ -387,6 +388,19 @@ class JobController extends Controller
         $jobs = Job::whereIn('slug', $myFavouriteJobSlugs)->paginate(10);
         return view('job.my_favourite_jobs')
                         ->with('jobs', $jobs);
+    }
+    public function jobListAjax(Request $request)
+    {
+       $applicants = Job::select('title',)->get();
+    //    $functional_area_ids = $request->query('functional_area_id', array());
+       $data = [];
+
+       foreach ($applicants as $item){
+        if (!in_array($item['title'],$data)){
+                $data[] = $item['title'];
+        }     
+       }
+       return $data;
     }
 
 }

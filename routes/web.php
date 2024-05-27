@@ -87,9 +87,10 @@ Route::get('faq', 'FaqController@index')->name('faq');
 
 Route::get('packages', 'PackageController@index')->name('packages');
 
-/* * ******** Home Screen Applicant Search Feature ******* */
+/* * ******** Home Screen Applicant and Job Search Feature ******* */
 
 Route::get('applicantList', 'Job\JobSeekerController@applicantListAjax')-> name('job.seeker.applicant.searching');
+Route::get('joblist', 'Job\JobController@jobListAjax')-> name('job.home.candidate.searching');
 
 /* * ******** CronController ******* */
 
