@@ -99,7 +99,7 @@ class Job extends Model
     {
         return $this->belongsTo('App\FunctionalArea', 'functional_area_id', 'functional_area_id');
     }
-
+    
     public function getFunctionalArea($field = '')
     {
         $functionalArea = $this->functionalArea()->lang()->first();

@@ -22,6 +22,7 @@
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
+        "league/csv": "^9.16",
         "maatwebsite/excel": "*",
         "niklasravnsborg/laravel-pdf": "^4.1",
         "nlp-tools/nlp-tools": "^0.1.3",

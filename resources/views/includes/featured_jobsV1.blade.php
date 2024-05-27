@@ -7,6 +7,11 @@
             <p class="featuredJobsdescription">
                 A featured job search allows you to influence your user's search results by ranking jobs according to promotional value rather than purely by relevance. A featured job search only returns relevant jobs with an assigned promotional value.
             </p>
+            <?php
+            // echo "<pre>";
+            //     print_r($featuredJobs);
+            // echo "</pre>";
+            ?>
         </div>
         <div class="row">
             <div class="col-lg-3">
@@ -18,13 +23,7 @@
                 <ul class="jobslistCarousal jobslist row owl-carousel">
                     @if(isset($featuredJobs) && count($featuredJobs))
                     @foreach($featuredJobs as $featuredJob)
-
                     <?php $company = $featuredJob->getCompany(); ?>
-                    <?php
-                    // echo "<pre>";
-                    //     print_r();
-                    // echo "</pre>";
-                    ?>
                     @if(null !== $company)
                         <li class="col-md-12 mt-0">
                             <div class="jobint pl-5 pt-4">
