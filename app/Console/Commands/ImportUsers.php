@@ -7,6 +7,7 @@ use App\User;
 use App\ProfileSummary;
 use App\ProfileLanguage;
 use App\ProfileEducation;
+use App\ProfileExperience;
 use League\Csv\Reader;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -84,7 +85,7 @@ class ImportUsers extends Command
                         'first_name' => $first_name,
                         'middle_name' => $middle_name,
                         'last_name' => $last_name,
-                        'name' => $record['name'] ?? null,
+                        'name' => trim($first_name . ' ' . $middle_name . ' ' . $last_name),
                         'original_email' => $record['original_email'] ?? null,
                         'father_name' => $record['father_name'] ?? null,
                         'date_of_birth' => !empty($record['date_of_birth']) ? Carbon::parse($record['date_of_birth']) : null,
