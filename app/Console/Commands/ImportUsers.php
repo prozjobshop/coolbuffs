@@ -178,9 +178,9 @@ class ImportUsers extends Command
                 }
                 if (isset($record['educations']) && !empty($record['educations'])) {
                     $educations = json_decode($record['educations'], true);
-                    // foreach ($educations as $education) {
-                    if (!empty($educations)){
-                        $education = $educations[0];
+                    foreach ($educations as $education) {
+                    // if (!empty($educations)){
+                    //     $education = $educations[0];
                         $isValidDegreeTitle = $this->isValidDegreeTitle($education['description']);
                             ProfileEducation::updateOrCreate(
                                 [
@@ -249,7 +249,7 @@ class ImportUsers extends Command
     private function isValidDegreeTitle($description)
     {
         $description = strtolower($description);
-        $pattern = '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com)|master|m(\.sc|sc|\.tech|tech|\.s|s)|mba|phd|doctorate|dphil|commerce|bachelors?|masters?|doctorates?)\b\s*([A-Za-z]*)([.,]?)(\s*\(.*\))?/i';
+        $pattern = '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com)|master|m(\.sc|sc|\.tech|tech|\.s|s)|mba|phd|doctorate|dphil|commerce|bachelors?|masters?|doctorates?|diploma|ssc|secondary\s+school|matriculates?|matriculation|adp|associate\s+degree|intermediate)\b\s*([A-Za-z]*)([.,]?)(\s*\(.*\))?/i';
         return preg_match($pattern, $description);
     }
 
