@@ -202,6 +202,57 @@ class ImportUsers extends Command
                             );
                         }
                     }
+
+                    $experiences = json_decode($record['professional_experiences'], true);
+
+                    foreach ($experiences as $exp) {
+                        // Remove the prefix 'Title:' and trim the title
+                        $title = isset($exp['title']) ? trim(str_ireplace('Title: ', '', $exp['title'])) : null;
+    
+                        // Check if the cleaned title is an empty string and set it to null if it is
+                        if ($title === '') {
+                            $title = null;
+                        }
+    
+                        $company = !empty($exp['company']) ? $exp['company'] : null;
+    
+                        // Check and parse start date
+                        if (isset($exp['start_date']) && preg_match('/^\d{4}-\d{2}$/', $exp['start_date'])) {
+                            try {
+                                $date_start = Carbon::createFromFormat('Y-m', $exp['start_date'])->startOfMonth()->format('Y-m-d H:i:s');
+                            } catch (\Exception $e) {
+                                $this->error("Failed to parse start date '{$exp['start_date']}' for user {$record['user_id']} with title '{$title}'");
+                                $date_start = null; // Set to null on failure
+                            }
+                        }
+    
+                        // Check and parse end date
+                        if (isset($exp['end_date']) && preg_match('/^\d{4}-\d{2}$/', $exp['end_date'])) {
+                            try {
+                                $date_end = Carbon::createFromFormat('Y-m', $exp['end_date'])->startOfMonth()->format('Y-m-d H:i:s');
+                            } catch (\Exception $e) {
+                                $this->error("Failed to parse end date '{$exp['end_date']}' for user {$record['user_id']} with title '{$title}'");
+                                $date_end = null; // Set to null on failure
+                            }
+                        }
+    
+                        // Insert or update the experience
+                        ProfileExperience::updateOrCreate(
+                            ['user_id' => $user->id, 'title' => $title],
+                            [
+                                'company' => $company,
+                                'country_id' => $exp['country_id'] ?? null,
+                                'state_id' => $exp['state_id'] ?? null,
+                                'city_id' => $exp['city_id'] ?? null,
+                                'date_start' => $date_start,
+                                'date_end' => $date_end,
+                                'is_currently_working' => $exp['is_currently_working'] ?? null,
+                                'description' => $exp['description'] ?? null,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
+                            ]
+                        );
+                    }
             }
     
             $this->info('Information imported successfully!');
