@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\User;
 use App\ProfileSummary;
 use App\ProfileLanguage;
+use App\ProfileEducation;
 use App\ProfileExperience;
 use League\Csv\Reader;
 use Carbon\Carbon;
@@ -172,7 +173,33 @@ class ImportUsers extends Command
                                 ]
                             );
                         }
+                    }
 
+                }
+                if (isset($record['educations']) && !empty($record['educations'])) {
+                    $educations = json_decode($record['educations'], true);
+                    // foreach ($educations as $education) {
+                    if (!empty($educations)) {
+                        $education = $educations[0];
+                        $isValidDegreeTitle = $this->isValidDegreeTitle($education['description']);
+                        ProfileEducation::updateOrCreate(
+                            [
+                                'user_id' => $user->id,
+                                'degree_title' => $isValidDegreeTitle ? $education['description'] : null,
+                                'institution' => $education['issuing_organization'] ?? null,
+                                'date_completion' => isset($education['end_year']) ? $this->parseEndYear($education['end_year']) : null,
+                            ],
+                            [
+                                'degree_level_id' => $this->getDegreeLevelId($education['description']),
+                                'country_id' => $education['country_id'] ?? null,
+                                'state_id' => $education['state_id'] ?? null,
+                                'city_id' => $education['city_id'] ?? null,
+                                'degree_result' => $education['degree_result'] ?? null,
+                                'result_type_id' => $education['result_type_id'] ?? null,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]
+                        );
                     }
                 }
 
@@ -186,7 +213,7 @@ class ImportUsers extends Command
                     if ($title === '') {
                         $title = null;
                     }
-                    
+
                     $company = !empty($exp['company']) ? $exp['company'] : null;
 
                     // Check and parse start date
@@ -226,11 +253,9 @@ class ImportUsers extends Command
                         ]
                     );
                 }
-
-
             }
 
-            $this->info('Users imported successfully!');
+            $this->info('Information imported successfully!');
         } catch (\Exception $e) {
             $this->error('Error: ' . $e->getMessage());
         }
@@ -266,6 +291,60 @@ class ImportUsers extends Command
 
         return $levelName;
     }
+    /**
+     * Check if the given description is a valid degree title.
+     *
+     * @param string $description
+     * @return bool
+     */
+    private function isValidDegreeTitle($description)
+    {
+        $description = strtolower($description);
+        $pattern = '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com)|master|m(\.sc|sc|\.tech|tech|\.s|s)|mba|phd|doctorate|dphil|commerce|bachelors?|masters?|doctorates?)\b\s*([A-Za-z]*)([.,]?)(\s*\(.*\))?/i';
+        return preg_match($pattern, $description);
+    }
 
+    /**
+     * Get the degree level id based on the description.
+     *
+     * @param string $description
+     * @return int
+     */
+    private function getDegreeLevelId($description)
+    {
+        $description = strtolower($description);
 
+        // Define regex patterns for each degree level
+        $patterns = [
+            'bachelor' => '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com))\b/i',
+            'master' => '/\b(master|msc|m\.tech|ms)\b/i',
+            'phd' => '/\b(phd|doctorate|dphil)\b/i'
+        ];
+
+        if (preg_match($patterns['bachelor'], $description)) {
+            return 4;
+        } elseif (preg_match($patterns['master'], $description)) {
+            return 5;
+        } elseif (preg_match($patterns['phd'], $description)) {
+            return 6;
+        } else {
+            return null; // Others
+        }
+    }
+
+    private function parseEndYear($endYear)
+    {
+        // If endYear is an integer, return it.
+        if (is_int($endYear)) {
+            return $endYear;
+        }
+
+        // If endYear is a string that can be parsed to an integer, convert it.
+        if (is_string($endYear) && is_numeric($endYear)) {
+            return (int) $endYear;
+        }
+
+        // If endYear is neither an integer nor a numeric string, return null.
+        return null;
+    }
 }
