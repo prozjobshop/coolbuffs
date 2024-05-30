@@ -44,24 +44,24 @@ class ImportUsers extends Command
      */
     public function handle()
     {
-        try {
+        try{
             $csv = Reader::createFromPath(storage_path('app/public/profiles.csv'), 'r');
             $csv->setHeaderOffset(0);
-
+    
             foreach ($csv as $record) {
                 // Handle multiple emails
                 $email = isset($record['email']) ? explode(',', $record['email'])[0] : null;
                 $email = trim($email);
-
+    
                 // Handle multiple mobile numbers
                 $mobile_num = isset($record['mobile_num']) ? explode(',', $record['mobile_num'])[0] : null;
                 $mobile_num = trim($mobile_num);
-
+    
                 // Split first and last names
                 $first_name = isset($record['first_name']) ? $record['first_name'] : null;
                 $last_name = isset($record['last_name']) ? $record['last_name'] : null;
                 $middle_name = null;
-
+    
                 if ($first_name) {
                     $first_name_parts = explode(' ', trim($first_name));
                     if (count($first_name_parts) > 1) {
@@ -69,7 +69,7 @@ class ImportUsers extends Command
                         $middle_name = implode(' ', $first_name_parts);
                     }
                 }
-
+    
                 if ($last_name) {
                     $last_name_parts = explode(' ', trim($last_name));
                     if (count($last_name_parts) > 1) {
@@ -77,7 +77,7 @@ class ImportUsers extends Command
                         $middle_name = $middle_name ? $middle_name . ' ' . implode(' ', $last_name_parts) : implode(' ', $last_name_parts);
                     }
                 }
-
+    
                 //Add to users table
                 $user = User::updateOrCreate(
                     ['email' => $email],
@@ -174,91 +174,91 @@ class ImportUsers extends Command
                             );
                         }
                     }
-
+                    
                 }
                 if (isset($record['educations']) && !empty($record['educations'])) {
                     $educations = json_decode($record['educations'], true);
                     // foreach ($educations as $education) {
-                    if (!empty($educations)) {
+                    if (!empty($educations)){
                         $education = $educations[0];
                         $isValidDegreeTitle = $this->isValidDegreeTitle($education['description']);
-                        ProfileEducation::updateOrCreate(
+                            ProfileEducation::updateOrCreate(
+                                [
+                                    'user_id' => $user->id,
+                                    'degree_title' => $isValidDegreeTitle ? $education['description'] : null,
+                                    'institution' => $education['issuing_organization'] ?? null,
+                                    'date_completion' => isset($education['end_year']) ? $this->parseEndYear($education['end_year']) : null,
+                                ],
+                                [
+                                    'degree_level_id' => $this->getDegreeLevelId($education['description']),
+                                    'country_id' => $education['country_id'] ?? null,
+                                    'state_id' => $education['state_id'] ?? null,
+                                    'city_id' => $education['city_id'] ?? null,
+                                    'degree_result' => $education['degree_result'] ?? null,
+                                    'result_type_id' => $education['result_type_id'] ?? null,
+                                    'created_at' => now(),
+                                    'updated_at' => now(),
+                                ]    
+                            );
+                        }
+                    }
+
+                    $experiences = json_decode($record['professional_experiences'], true);
+
+                    foreach ($experiences as $exp) {
+                        // Remove the prefix 'Title:' and trim the title
+                        $title = isset($exp['title']) ? trim(str_ireplace('Title: ', '', $exp['title'])) : null;
+    
+                        // Check if the cleaned title is an empty string and set it to null if it is
+                        if ($title === '') {
+                            $title = null;
+                        }
+    
+                        $company = !empty($exp['company']) ? $exp['company'] : null;
+    
+                        // Check and parse start date
+                        if (isset($exp['start_date']) && preg_match('/^\d{4}-\d{2}$/', $exp['start_date'])) {
+                            try {
+                                $date_start = Carbon::createFromFormat('Y-m', $exp['start_date'])->startOfMonth()->format('Y-m-d H:i:s');
+                            } catch (\Exception $e) {
+                                $this->error("Failed to parse start date '{$exp['start_date']}' for user {$record['user_id']} with title '{$title}'");
+                                $date_start = null; // Set to null on failure
+                            }
+                        }
+    
+                        // Check and parse end date
+                        if (isset($exp['end_date']) && preg_match('/^\d{4}-\d{2}$/', $exp['end_date'])) {
+                            try {
+                                $date_end = Carbon::createFromFormat('Y-m', $exp['end_date'])->startOfMonth()->format('Y-m-d H:i:s');
+                            } catch (\Exception $e) {
+                                $this->error("Failed to parse end date '{$exp['end_date']}' for user {$record['user_id']} with title '{$title}'");
+                                $date_end = null; // Set to null on failure
+                            }
+                        }
+    
+                        // Insert or update the experience
+                        ProfileExperience::updateOrCreate(
+                            ['user_id' => $user->id, 'title' => $title],
                             [
-                                'user_id' => $user->id,
-                                'degree_title' => $isValidDegreeTitle ? $education['description'] : null,
-                                'institution' => $education['issuing_organization'] ?? null,
-                                'date_completion' => isset($education['end_year']) ? $this->parseEndYear($education['end_year']) : null,
-                            ],
-                            [
-                                'degree_level_id' => $this->getDegreeLevelId($education['description']),
-                                'country_id' => $education['country_id'] ?? null,
-                                'state_id' => $education['state_id'] ?? null,
-                                'city_id' => $education['city_id'] ?? null,
-                                'degree_result' => $education['degree_result'] ?? null,
-                                'result_type_id' => $education['result_type_id'] ?? null,
-                                'created_at' => now(),
-                                'updated_at' => now(),
+                                'company' => $company,
+                                'country_id' => $exp['country_id'] ?? null,
+                                'state_id' => $exp['state_id'] ?? null,
+                                'city_id' => $exp['city_id'] ?? null,
+                                'date_start' => $date_start,
+                                'date_end' => $date_end,
+                                'is_currently_working' => $exp['is_currently_working'] ?? null,
+                                'description' => $exp['description'] ?? null,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
                             ]
                         );
                     }
-                }
-
-                $experiences = json_decode($record['professional_experiences'], true);
-
-                foreach ($experiences as $exp) {
-                    // Remove the prefix 'Title:' and trim the title
-                    $title = isset($exp['title']) ? trim(str_ireplace('Title: ', '', $exp['title'])) : null;
-
-                    // Check if the cleaned title is an empty string and set it to null if it is
-                    if ($title === '') {
-                        $title = null;
-                    }
-
-                    $company = !empty($exp['company']) ? $exp['company'] : null;
-
-                    // Check and parse start date
-                    if (isset($exp['start_date']) && preg_match('/^\d{4}-\d{2}$/', $exp['start_date'])) {
-                        try {
-                            $date_start = Carbon::createFromFormat('Y-m', $exp['start_date'])->startOfMonth()->format('Y-m-d H:i:s');
-                        } catch (\Exception $e) {
-                            $this->error("Failed to parse start date '{$exp['start_date']}' for user {$record['user_id']} with title '{$title}'");
-                            $date_start = null; // Set to null on failure
-                        }
-                    }
-
-                    // Check and parse end date
-                    if (isset($exp['end_date']) && preg_match('/^\d{4}-\d{2}$/', $exp['end_date'])) {
-                        try {
-                            $date_end = Carbon::createFromFormat('Y-m', $exp['end_date'])->startOfMonth()->format('Y-m-d H:i:s');
-                        } catch (\Exception $e) {
-                            $this->error("Failed to parse end date '{$exp['end_date']}' for user {$record['user_id']} with title '{$title}'");
-                            $date_end = null; // Set to null on failure
-                        }
-                    }
-
-                    // Insert or update the experience
-                    ProfileExperience::updateOrCreate(
-                        ['user_id' => $user->id, 'title' => $title],
-                        [
-                            'company' => $company,
-                            'country_id' => $exp['country_id'] ?? null,
-                            'state_id' => $exp['state_id'] ?? null,
-                            'city_id' => $exp['city_id'] ?? null,
-                            'date_start' => $date_start,
-                            'date_end' => $date_end,
-                            'is_currently_working' => $exp['is_currently_working'] ?? null,
-                            'description' => $exp['description'] ?? null,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ]
-                    );
-                }
             }
-
+    
             $this->info('Information imported successfully!');
         } catch (\Exception $e) {
             $this->error('Error: ' . $e->getMessage());
-        }
+        }   
     }
 
     private function getLanguageIdByName($name)
@@ -288,7 +288,7 @@ class ImportUsers extends Command
                 $levelName = null; // or throw an exception, log error, etc.
                 break;
         }
-
+    
         return $levelName;
     }
     /**
@@ -311,40 +311,40 @@ class ImportUsers extends Command
      * @return int
      */
     private function getDegreeLevelId($description)
-    {
-        $description = strtolower($description);
+{
+    $description = strtolower($description);
 
-        // Define regex patterns for each degree level
-        $patterns = [
-            'bachelor' => '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com))\b/i',
-            'master' => '/\b(master|msc|m\.tech|ms)\b/i',
-            'phd' => '/\b(phd|doctorate|dphil)\b/i'
-        ];
+    // Define regex patterns for each degree level
+    $patterns = [
+        'bachelor' => '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com))\b/i',
+        'master' => '/\b(master|msc|m\.tech|ms)\b/i',
+        'phd' => '/\b(phd|doctorate|dphil)\b/i'
+    ];
 
-        if (preg_match($patterns['bachelor'], $description)) {
-            return 4;
-        } elseif (preg_match($patterns['master'], $description)) {
-            return 5;
-        } elseif (preg_match($patterns['phd'], $description)) {
-            return 6;
-        } else {
-            return null; // Others
-        }
+    if (preg_match($patterns['bachelor'], $description)) {
+        return 4;
+    } elseif (preg_match($patterns['master'], $description)) {
+        return 5;
+    } elseif (preg_match($patterns['phd'], $description)) {
+        return 6;
+    } else {
+        return null; // Others
+    }
+}
+            
+private function parseEndYear($endYear)
+{
+    // If endYear is an integer, return it.
+    if (is_int($endYear)) {
+        return $endYear;
     }
 
-    private function parseEndYear($endYear)
-    {
-        // If endYear is an integer, return it.
-        if (is_int($endYear)) {
-            return $endYear;
-        }
-
-        // If endYear is a string that can be parsed to an integer, convert it.
-        if (is_string($endYear) && is_numeric($endYear)) {
-            return (int) $endYear;
-        }
-
-        // If endYear is neither an integer nor a numeric string, return null.
-        return null;
+    // If endYear is a string that can be parsed to an integer, convert it.
+    if (is_string($endYear) && is_numeric($endYear)) {
+        return (int) $endYear;
     }
+
+    // If endYear is neither an integer nor a numeric string, return null.
+    return null;
+}
 }
