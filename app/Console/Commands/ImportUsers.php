@@ -265,7 +265,7 @@ class ImportUsers extends Command
 
     // Define regex patterns for each degree level
     $patterns = [
-        'bachelor' => '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com)|bachelors?\b/i',
+        'bachelor' => '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com))\b/i',
         'master' => '/\b(master|msc|m\.tech|ms)\b/i',
         'phd' => '/\b(phd|doctorate|dphil)\b/i'
     ];
@@ -275,7 +275,7 @@ class ImportUsers extends Command
     } elseif (preg_match($patterns['master'], $description)) {
         return 5;
     } elseif (preg_match($patterns['phd'], $description)) {
-        return 7;
+        return 6;
     } else {
         return null; // Others
     }
