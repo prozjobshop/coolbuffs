@@ -249,7 +249,7 @@ class ImportUsers extends Command
     private function isValidDegreeTitle($description)
     {
         $description = strtolower($description);
-        $pattern = '/\b(bachelor|b\.tech|btech|bsc|bs|bcomm|b\.com|bcom|master|msc|m\.tech|mtech|ms|mba|phd|doctorate|dphil|commerce|bachelors?|masters?|doctorates?)\b/i';
+        $pattern = '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com)|master|m(\.sc|sc|\.tech|tech|\.s|s)|mba|phd|doctorate|dphil|commerce|bachelors?|masters?|doctorates?)\b\s*([A-Za-z]*)([.,]?)(\s*\(.*\))?/i';
         return preg_match($pattern, $description);
     }
 
@@ -265,7 +265,7 @@ class ImportUsers extends Command
 
     // Define regex patterns for each degree level
     $patterns = [
-        'bachelor' => '/\b(bachelor|b\.tech|bsc|bs)\b/i',
+        'bachelor' => '/\b(bachelor|b(\.e|\.tech|tech|\.sc|sc|\.s|s)|bcomm|b(\.com|com)|bachelors?\b/i',
         'master' => '/\b(master|msc|m\.tech|ms)\b/i',
         'phd' => '/\b(phd|doctorate|dphil)\b/i'
     ];
@@ -275,7 +275,7 @@ class ImportUsers extends Command
     } elseif (preg_match($patterns['master'], $description)) {
         return 5;
     } elseif (preg_match($patterns['phd'], $description)) {
-        return 6;
+        return 7;
     } else {
         return null; // Others
     }
