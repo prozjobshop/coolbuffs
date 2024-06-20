@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\CallRoute',
         Commands\ImportUsers::class,
+        Commands\ImportJobSkills::class,
     ];
 
     /**
