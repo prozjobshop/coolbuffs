@@ -1,7 +1,3 @@
-/* Increase font size for all elements */
-.ui-widget, .ui-widget * {
-    font-size: 20px; /* Adjust the font size to your preference */
-}
-.ui-autocomplete {
-    padding-left: 50px; /* Adjust padding to your preference */
-}
+/* #span-style{
+    padding-bottom: 20px;
+} */

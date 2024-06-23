@@ -485,8 +485,7 @@ section#joblisting-header h1 {
 } */
 /*typeahead input placeholder color*/
 .tt-input::placeholder {
-  color: #E2F2F9;
-  opacity: 1;
+  color: #495057 !important; 
 }
 /* .tt-input{ */
     /* border: 1px solid #BEC4C8 !important; */

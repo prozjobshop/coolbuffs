@@ -117,7 +117,6 @@ trait FetchJobSeekers
         $query->where('users.is_active', 1);
         if ($search != '') {
             // $query = $query->whereRaw("MATCH (`search`) AGAINST ('$search*' IN BOOLEAN MODE)");
-
             // $query = $query->where('first_name','LIKE','%'.$search);
             // $query = $query->orWhere('last_name','LIKE','%'.$search.'%');
             $query = $query->whereRaw("CONCAT(first_name,' ',last_name) LIKE '%".$search."%' ");
