@@ -13,7 +13,7 @@
                 <form action="{{route('job.seeker.list')}}" method="get">
                     <div class="searchform row custom_top_margin_second_header">
                         <div class="col-lg-9">
-                            <input type="text" name="search" value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Enter Applicant Details')}}" />
+                            <input type="text" name="search" value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Search Applicant...')}}" />
                         </div>
 
                         <div class="col-lg-3">

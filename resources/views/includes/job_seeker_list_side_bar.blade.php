@@ -7,34 +7,34 @@
         <input type="hidden" name="search" value="{{Request::get('search', '')}}"/>
 
 
-<!-- Jobs By Industry -->
+<!-- Jobs By functional area end --> 
 <div class="widget">
-<h4 class="widget-title">{{__('By Industry')}}</h4>
-<ul class="optionlist view_more_ul">
-    @if(isset($industryIdsArray) && count($industryIdsArray))
-        @php
-            $industries = App\Industry::whereIn('id', $industryIdsArray)
-                ->lang()
-                ->active()
-                ->orderBy('industry') // Order by the 'industry' column
-                ->get();
-        @endphp
-        @foreach($industries as $industry)
-                @php
-                $checked = (in_array($industry->id, Request::get('industry_id', array()))) ? 'checked="checked"' : '';
+    <h4 class="widget-title">{{__('By Functional Areas')}}</h4>
+    <ul class="optionlist view_more_ul">
+        @if(isset($functionalAreaIdsArray) && count($functionalAreaIdsArray))
+            @php
+                $functionalAreas = App\FunctionalArea::whereIn('functional_area_id', $functionalAreaIdsArray)
+                    ->lang()
+                    ->active()
+                    ->orderBy('functional_area') // Order by the 'functional_area' column
+                    ->get();
             @endphp
-            <li>
-                <input type="checkbox" name="industry_id[]" id="industry_{{ $industry->id }}" value="{{ $industry->id }}" {{ $checked }} onclick="submit_form()">
-                <label for="industry_{{ $industry->id }}"></label>
-                {{ $industry->industry }} <span>{{ App\User::countNumJobSeekers('industry_id', $industry->id) }}</span>
-            </li>
-        @endforeach
-    @endif
-</ul>
-<span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
+            @foreach($functionalAreas as $functionalArea)
+                @php
+                    $checked = (in_array($functionalArea->functional_area_id, Request::get('functional_area_id', array()))) ? 'checked="checked"' : '';
+                @endphp
+                <li>
+                    <input type="checkbox" name="functional_area_id[]" id="functional_area_id_{{ $functionalArea->functional_area_id }}" value="{{ $functionalArea->functional_area_id }}" {{ $checked }} onclick="submit_form()">
+                    <label for="functional_area_id_{{ $functionalArea->functional_area_id }}"></label>
+                    {{ $functionalArea->functional_area }} <span>{{ App\User::countNumJobSeekers('functional_area_id', $functionalArea->functional_area_id) }}</span>
+                </li>                
+            @endforeach
+        @endif
+    </ul>
+    <!-- title end --> 
+    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
 </div>
-
-        <!-- Jobs By Industry end --> 
+            <!-- Jobs By functional area end --> 
         <!-- Jobs By Skill -->
         <div class="widget">
     <h4 class="widget-title">{{__('By Skill')}}</h4>
@@ -64,34 +64,6 @@
 
         <!-- Jobs By skills end --> 
 
-<!-- Jobs By functional area end --> 
-<div class="widget">
-    <h4 class="widget-title">{{__('By Functional Areas')}}</h4>
-    <ul class="optionlist view_more_ul">
-        @if(isset($functionalAreaIdsArray) && count($functionalAreaIdsArray))
-            @php
-                $functionalAreas = App\FunctionalArea::whereIn('functional_area_id', $functionalAreaIdsArray)
-                    ->lang()
-                    ->active()
-                    ->orderBy('functional_area') // Order by the 'functional_area' column
-                    ->get();
-            @endphp
-            @foreach($functionalAreas as $functionalArea)
-                @php
-                    $checked = (in_array($functionalArea->functional_area_id, Request::get('functional_area_id', array()))) ? 'checked="checked"' : '';
-                @endphp
-                <li>
-                    <input type="checkbox" name="functional_area_id[]" id="functional_area_id_{{ $functionalArea->functional_area_id }}" value="{{ $functionalArea->functional_area_id }}" {{ $checked }} onclick="submit_form()">
-                    <label for="functional_area_id_{{ $functionalArea->functional_area_id }}"></label>
-                    {{ $functionalArea->functional_area }} <span>{{ App\User::countNumJobSeekers('functional_area_id', $functionalArea->functional_area_id) }}</span>
-                </li>                
-            @endforeach
-        @endif
-    </ul>
-    <!-- title end --> 
-    <span class="text text-primary view_more hide_vm">{{__('View More')}}</span>
-</div>
-            <!-- Jobs By functional area end --> 
   <!-- Jobs By Career Level -->
   <div class="widget">
     <h4 class="widget-title">{{__('By Career Level')}}</h4>
