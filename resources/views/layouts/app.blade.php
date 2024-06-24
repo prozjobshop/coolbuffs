@@ -37,9 +37,8 @@ if (!isset($seo)) {
     <!-- Slider -->
 
     <link href="{{asset('/')}}js/revolution-slider/css/settings.css" rel="stylesheet">
-    <!-- AJAX STYLING -->
 
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    
     <link rel="stylesheet" href="../../css/search.css">
 
     <!-- Owl carousel -->

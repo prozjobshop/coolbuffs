@@ -5,8 +5,8 @@
 		<div class="srchbox seekersrch input-group ">
 		<div class="input-group">
 		<!-- id="empsearch" -->
-		  <input type="text"  name="search"  value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" />
-		  <span class="input-group-btn">
+		  <input type="text"  name="search"  value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" style="padding: 0px 0px 0px 10px"/>
+		  <span class="input-group-btn" style="padding-top:5px">
 			<input type="submit" class="btn" value="{{__('Search Applicant')}}">
 		  </span>
 		</div>
@@ -90,40 +90,3 @@
 
 		</div>
 </div> @endif
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-<!-- <script>
-   var availableTags = [];
-   var availableTagsJob = [];
-   $.ajax({
-	method: "GET",
-	url: "{{route('job.seeker.applicant.searching')}}",
-	success: function(response){
-		// console.log(response);
-		startAutoComplete(response);
-
-	}
-   })
-   function startAutoComplete(availableTags)
-   {
-	$( "#empsearch" ).autocomplete({
-      source: availableTags,
-	  minLength: 1, // Minimum number of characters to trigger autocomplete
-      maxResults: 5, // Maximum number of results to display
-    });
-   }
-   
-</script> -->
-<!-- <script>
-	 $(document).ready(function ($) {
-        $("#search-job-list").submit(function () {
-            $(this).find(":input").filter(function () {
-                return !this.value;
-            }).attr("disabled", "disabled");
-            return true;
-        });
-        $("#search-job-list").find(":input").prop("disabled", false);
-		}
-		)
-</script> -->

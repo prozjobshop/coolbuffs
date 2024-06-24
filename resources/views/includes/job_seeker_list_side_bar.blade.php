@@ -35,7 +35,6 @@
 </div>
 
         <!-- Jobs By Industry end --> 
-
         <!-- Jobs By Skill -->
         <div class="widget">
     <h4 class="widget-title">{{__('By Skill')}}</h4>
