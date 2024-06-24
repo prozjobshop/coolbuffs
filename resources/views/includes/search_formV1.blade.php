@@ -5,7 +5,7 @@
 		<div class="srchbox seekersrch input-group ">
 		<div class="input-group">
 		<!-- id="empsearch" -->
-		  <input type="text"  name="search"  value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Enter Applicant Details')}}" autocomplete="off" style="padding: 0px 0px 0px 10px"/>
+		  <input type="text"  name="search"  value="{{Request::get('search', '')}}" class="form-control typeahead typeahead_user" placeholder="{{__('Search Applicant...')}}" autocomplete="off" style="padding: 0px 0px 0px 10px"/>
 		  <span class="input-group-btn" style="padding-top:5px">
 			<input type="submit" class="btn" value="{{__('Search Applicant')}}">
 		  </span>
