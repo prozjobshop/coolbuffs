@@ -34,6 +34,10 @@ trait CompanyPackageTrait
 
         $company->jobs_quota = $package->package_num_listings;
 
+        $company->viewed_resume_quota = $package->package_resume_downloads;
+
+        $company->availed_viewed_resume_quota = 0;
+
         $company->availed_jobs_quota = 0;
 
         $company->payment_method = $method;
@@ -74,8 +78,6 @@ trait CompanyPackageTrait
 
         $current_end_date = Carbon::createFromDate($package_end_date->format('Y'), $package_end_date->format('m'), $package_end_date->format('d'));
 
-
-
         $company->package_id = $package->id;
 
         $company->package_end_date = $current_end_date->addDays($package->package_num_days);
@@ -98,17 +100,21 @@ trait CompanyPackageTrait
 
         $current_end_date = Carbon::createFromDate(Carbon::parse($cvs_package_end_date)->format('Y'), Carbon::parse($cvs_package_end_date)->format('m'), Carbon::parse($cvs_package_end_date)->format('d'));
 
-
-
         $company->cvs_package_id = $package->id;
 
         $company->cvs_package_end_date = $current_end_date->addDays($package->package_num_days);
 
         $company->cvs_quota = ($company->cvs_quota - $company->availed_cvs_quota) + $package->package_num_listings;
 
+        $company->cvs_quota = ($company->cvs_quota - $company->availed_cvs_quota) + $package->package_num_listings;
+
+        $company->viewed_resume_quota = ($company->viewed_resume_quota - $company->availed_viewed_resume_quota) + $package->package_resume_downloads;
+
         $company->payment_method = $method;
 
         $company->availed_cvs_quota = 0;
+
+        $company->availed_viewed_resume_quota = 0;
 
         $company->update();
 

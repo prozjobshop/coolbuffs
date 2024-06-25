@@ -378,6 +378,52 @@ if (!isset($seo)) {
             }, 2000);
         });
 
+       $(document).ready(function() {
+            setTimeout(() => {
+                var list_functional_class = $('.functional_find');
+                var listTypeHead = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('functional'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    prefetch: {
+                        url: "{{ route('filter.functional') }}",
+                        // Optionally enable caching based on your needs
+                        // cache: true,
+                    },
+                    remote: {
+                        url: "{{ route('filter.functional') }}"+"/"+'%QUERY',
+                        wildcard: '%QUERY',
+                    },
+                });
+
+                list_functional_class.typeahead({
+                    hint: true,
+                    highlight: true
+                },
+                {
+                    name: 'list_functional',
+                    display: function (data) {
+                        return data.functional_area;
+                    },
+                    source: listTypeHead,
+                    limit: 15,
+                    templates: {
+                        empty: [
+                            '<div class="empty-message">',
+                            'No record found',
+                            '</div>'
+                        ].join('\n'),
+                        suggestion: function(data) {
+                            return '<p>' + data.functional_area + '</p>';
+                        }
+                    }
+                });
+
+                list_functional_class.bind('typeahead:select', function(ev, suggestion) {
+                    $('#jbsearch').val(suggestion.functional_area);
+                });
+    }, 2000);
+});
+
     </script>
 
 </body>
