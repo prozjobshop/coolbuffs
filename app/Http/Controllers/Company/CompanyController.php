@@ -337,6 +337,33 @@ class CompanyController extends Controller
                         ->with('jobs', $jobs);
     }
 
+    // public function resumeViewed(Request $request)
+    // {
+    //     // Retrieve the authenticated company user
+    //     $company = Auth::guard('company')->user();
+
+    //     // Retrieve the availed_viewed_resume_quota value
+    //     $availedViewedResumeQuota = $company->availed_viewed_resume_quota;
+
+    //     return view('job.viewed_cvs')
+    //                     ->with('availedViewedResumeQuota', $availedViewedResumeQuota);
+
+    // }
+    public function incrementQuota(Request $request)
+{
+    // Retrieve the authenticated company user
+    $company = Auth::guard('company')->user();
+
+    // Increment the availed_viewed_resume_quota
+    $company->increment('availed_viewed_resume_quota');
+
+    // Optionally, save the updated model
+    $company->save();
+
+    // Return a response (e.g., success message, updated quota)
+    return response()->json(['message' => 'Quota incremented successfully']);
+}
+
     public function listAppliedUsers(Request $request, $job_id)
     {
         $job_applications = JobApply::where('job_id', '=', $job_id)->get();
