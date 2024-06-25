@@ -11,7 +11,7 @@
     </li>
     <li class="col-md-4 col-6">
         <div class="inbox"> <i class="fa fa-download" aria-hidden="true"></i>
-            <h6><a href="#">{{__('N/A')}}</a></h6>
+        <h6><a href="{{ route('viewed.cvs') }}">{{ Auth::guard('company')->user()->availed_viewed_resume_quota }}</a></h6>
             <strong>{{__('Resumes Viewed')}}</strong> </div>
     </li>
     {{-- <li class="col-md-4 col-6">
