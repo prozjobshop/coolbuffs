@@ -99,6 +99,7 @@ class PackageController extends Controller
                     'packages.package_num_days',
                     'packages.package_sequence',
                     'packages.package_num_listings',
+                    'packages.package_resume_downloads',
                     'packages.package_for',
                 ])->orderBy('packages.package_sequence');
         return Datatables::of($packages)
@@ -119,6 +120,10 @@ class PackageController extends Controller
                             if ($request->has('package_num_listings') && !empty($request->package_num_listings)) {
                                 $query->where('packages.package_num_listings', 'like', "{$request->get('package_num_listings')}%");
                             }
+                            if ($request->has('package_resume_downloads') && !empty($request->package_resume_downloads)) {
+                                $query->where('packages.package_resume_downloads', 'like', "{$request->get('package_resume_downloads')}%");
+                            }
+
 
                             if ($request->has('package_for') && !empty($request->package_for)) {
                                 $query->where('packages.package_for', 'like', "{$request->get('package_for')}");
