@@ -31,6 +31,8 @@ ic@if($packages->count())
                     </li>
 
                     <li class="plan-pages">{{__('Can post jobs')}} : {{$package->package_num_listings}}</li>
+					<li class="plan-pages">{{__('Can download resumes')}} : {{$package->package_resume_downloads}}</li>
+
 
                     <li class="plan-pages">{{__('Package Duration')}} : {{$package->package_num_days}} {{__('Days')}}</li>
 
