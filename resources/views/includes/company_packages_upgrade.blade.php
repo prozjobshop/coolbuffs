@@ -1,4 +1,4 @@
-@if($packages->count())
+ic@if($packages->count())
 
 <div class="paypackages"> 
 
