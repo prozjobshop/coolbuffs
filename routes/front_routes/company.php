@@ -7,7 +7,7 @@ Route::get('companies', 'Company\CompaniesController@company_listing')->name('co
 Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');
 Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
 Route::get('posted-jobs', 'Company\CompanyController@postedJobs')->name('posted.jobs');
-Route::get('viewed-cvs', 'Company\CompanyController@resumeViewed')->name('viewed.cvs');
+Route::post('viewed-cvs', 'Company\CompanyController@incrementQuota')->name('viewed.cvs');
 Route::get('company/{slug}', 'Company\CompanyController@companyDetail')->name('company.detail');
 Route::post('contact-company-message-send', 'Company\CompanyController@sendContactForm')->name('contact.company.message.send');
 Route::post('contact-applicant-message-send', 'Company\CompanyController@sendApplicantContactForm')->name('contact.applicant.message.send');
