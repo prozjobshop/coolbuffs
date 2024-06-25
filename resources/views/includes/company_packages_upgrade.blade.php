@@ -32,7 +32,9 @@
                     </li>
 
                     <li class="plan-pages">{{__('Can post jobs')}} : {{$package->package_num_listings}}</li>
+
                     <li class="plan-pages">{{__('Can download resumes')}} : {{$package->package_resume_downloads}}</li>
+
                     <li class="plan-pages">{{__('Package Duration')}} : {{$package->package_num_days}} {{__('Days')}}</li>
 
                     <li class="order paypal"><a href="javascript:void(0)" data-toggle="modal" data-target="#buypack{{$package->id}}" class="reqbtn">{{__('Buy Now')}}</a></li>
