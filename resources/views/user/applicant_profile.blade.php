@@ -83,8 +83,10 @@ if(null!==($package)){
                 
                 
                 
-
-                @if(null !== $profileCv)<a href="{{asset('cvs/'.$profileCv->cv_file)}}" class="btn"><i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}</a>@endif
+                @if($profileCv)
+        <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn" onclick="incrementQuota()">
+        <i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}
+        </a>@endif
 
                 <a href="javascript:;" onclick="send_message()" class="btn"><i class="fa fa-envelope" aria-hidden="true"></i> {{__('Send Message')}}</a>
 				
@@ -325,6 +327,19 @@ if(null!==($package)){
 
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function incrementQuota() {
+        // Perform an Ajax request to increment the quota
+        axios.post("{{route('viewed.cvs')}}")
+            .then(function (response) {
+                console.log(response.data); // Optional: Handle response
+            })
+            .catch(function (error) {
+                console.error(error); // Optional: Handle error
+            });
+    }
+</script>
 @include('includes.footer')
 @endsection
 @push('styles')
@@ -395,6 +410,7 @@ if(null!==($package)){
             }
             });
     }
+    
     function showEducation()
     {
     $.post("{{ route('show.applicant.profile.education', $user->id) }}", {user_id: {{$user->id}}, _method: 'POST', _token: '{{ csrf_token() }}'})

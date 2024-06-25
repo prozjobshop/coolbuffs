@@ -1,11 +1,14 @@
 @if($packages->count())
+
 <div class="paypackages"> 
 
     <!---four-plan-->
     <div class="four-plan">
         <h3>{{__('Upgrade Package')}}</h3>
+
         <div class="row"> 
             @foreach($packages as $package)
+
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <ul class="boxes">
                     <li class="plan-name">{{$package->package_title}}</li>
@@ -17,7 +20,9 @@
                         </div>
                     </li>
                     <li class="plan-pages">{{__('Can post jobs')}} : {{$package->package_num_listings}}</li>
+
                     <li class="plan-pages">{{__('Can download resumes')}} : {{$package->package_resume_downloads}}</li>
+
                     <li class="plan-pages">{{__('Package Duration')}} : {{$package->package_num_days}} {{__('Days')}}</li>
                     <li class="order paypal"><a href="javascript:void(0)" data-toggle="modal" data-target="#buypack{{$package->id}}" class="reqbtn">{{__('Buy Now')}}</a></li>
                 </ul>
@@ -30,7 +35,7 @@
                                     <i class="fa fa-times"></i>
                                 </button>
                                 <div class="invitereval">
-                                    <h3>Please Choose Your Payment Method to Pay</h3>    
+                                    <h3>{{__('Please Choose Your Payment Method to Pay')}}</h3>    
                                     <div class="totalpay">{{__('Total Amount to pay')}}: <strong>{{$package->package_price}}</strong></div>
                                     <ul class="btn2s">
                                         @if((bool)$siteSetting->is_paypal_active)
@@ -40,7 +45,7 @@
                                         <li class="order"><a href="{{route('stripe.order.form', [$package->id, 'upgrade'])}}" data-turbolinks="false"><i class="fa fa-cc-stripe" aria-hidden="true"></i> {{__('Stripe')}}</a></li>
                                         @endif
                                         @if((bool)$siteSetting->is_payu_active)
-                                           <li class="order payu"><a href="{{route('payu.order.package', ['package_id' => $package->id, 'type' => 'upgrade'])}}">{{__('PayU')}}</a></li>
+                                        <li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('PayU')}}</a></li>
                                         @endif
                                     </ul>
                                 </div>
@@ -52,6 +57,7 @@
             </div>
             @endforeach 
         </div>
+
     </div>
     <!---end four-plan--> 
 </div>
