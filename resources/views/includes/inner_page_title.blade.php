@@ -13,11 +13,11 @@
                 <form action="{{route('job.seeker.list')}}" method="get">
                     <div class="searchform row custom_top_margin_second_header">
                         <div class="col-lg-9">
-                            <input type="text" name="search" value="{{Request::get('search', '')}}" class="form-control functional_find" placeholder="{{__('Search Job Role...')}}" />
+                            <input type="text" name="search" value="{{Request::get('search', '')}}" class="form-control functional_find" placeholder="{{__('Search Role...')}}" />
                         </div>
 
                         <div class="col-lg-3">
-                            <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i> {{__('Search Applicant Role')}}</button>
+                            <button type="submit" class="btn"><i class="fa fa-search" aria-hidden="true"></i> {{__('Search')}}</button>
                         </div>
                     </div>
                 </form>
