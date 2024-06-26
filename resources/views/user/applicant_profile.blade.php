@@ -336,6 +336,7 @@ if(null!==($package)){
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     function incrementQuota() {
+        
         // Perform an Ajax request to increment the quota
         axios.post("{{route('viewed.cvs')}}")
             .then(function (response) {

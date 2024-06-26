@@ -57,10 +57,14 @@ trait CompanyPackageTrait
     {
         $cvs_package_end_date = $company->cvs_package_end_date;
         $current_end_date = Carbon::createFromDate(Carbon::parse($cvs_package_end_date)->format('Y'), Carbon::parse($cvs_package_end_date)->format('m'), Carbon::parse($cvs_package_end_date)->format('d'));
+
+
         $company->cvs_package_id = $package->id;
         $company->cvs_package_end_date = $current_end_date->addDays($package->package_num_days);
         $company->cvs_quota = ($company->cvs_quota - $company->availed_cvs_quota) + $package->package_num_listings;
         $company->payment_method = $method;
         $company->update();
     }
+
 }
+
