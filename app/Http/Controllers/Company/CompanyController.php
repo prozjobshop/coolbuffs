@@ -540,7 +540,7 @@ class CompanyController extends Controller
     public function unlock($user_id)
     {
         $cvsSearch = Auth::guard('company')->user();
-        if (null !== ($cvsSearch)) {
+        if ($cvsSearch && $cvsSearch->availed_cvs_quota < $cvsSearch->cvs_quota) {
             if ($cvsSearch->availed_cvs_ids != '') {
 
                 $newString = $this->addtoString($cvsSearch->availed_cvs_ids, $user_id);
@@ -565,7 +565,7 @@ class CompanyController extends Controller
             }
             return redirect()->back();
         } else {
-            return redirect('/company-packages');
+            return redirect()->back()->with('error', 'You do not have enough credit to unlock this user resume.');
         }
     }
     function addtoString($str, $item)
