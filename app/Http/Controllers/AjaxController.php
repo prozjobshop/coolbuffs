@@ -15,6 +15,7 @@ use App\Traits\CountryStateCity;
 use App\Seo;
 use App\Cms;
 use App\Job;
+use App\FunctionalArea;
 use App\Company;
 use App\User;
 use App\CmsContent;
@@ -217,6 +218,20 @@ class AjaxController extends Controller
         }
 
         return response()->json($user);
+    }
+    public function filterFunctionalArea($q = null)
+    {
+        $functional_area = new FunctionalArea();
+        
+        if ($q != null) {
+            $functional_area = $functional_area->where('functional_area', 'LIKE', '%'.$q.'%')
+                                    ->where('is_active', 1)
+                                    ->get();
+        } else {
+            $functional_area = $functional_area->where('is_active', 1)->get();
+        }
+
+        return response()->json($functional_area);
     }
 
     public function filterDefaultSubjectJob(Request $request){

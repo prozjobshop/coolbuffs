@@ -119,7 +119,10 @@ trait FetchJobSeekers
             // $query = $query->whereRaw("MATCH (`search`) AGAINST ('$search*' IN BOOLEAN MODE)");
             // $query = $query->where('first_name','LIKE','%'.$search);
             // $query = $query->orWhere('last_name','LIKE','%'.$search.'%');
-            $query = $query->whereRaw("CONCAT(first_name,' ',last_name) LIKE '%".$search."%' ");
+            // $query = $query->whereRaw("CONCAT(first_name,' ',last_name) LIKE '%".$search."%' ");
+            $query->whereHas('functionalArea', function ($query) use ($search) {
+                $query->where('functional_area', 'LIKE', '%'.$search.'%');
+            });
         }
         if (isset($industry_ids[0])) {
             
