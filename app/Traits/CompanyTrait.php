@@ -60,8 +60,8 @@ trait CompanyTrait
     private function getCompanySEO($company)
     {
         $title = $company->name;
-		
-		$description = 'Company ';
+        
+        $description = 'Company ';
         $keywords = '';
 
         $description .= ' ' . $company->name;
