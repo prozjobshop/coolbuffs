@@ -3,5 +3,6 @@
     <div class="credit">{{__('Package Duration')}} : <strong>{{Auth::guard('company')->user()->package_start_date->format('d M, Y')}}</strong> - <strong>{{Auth::guard('company')->user()->package_end_date->format('d M, Y')}}</strong></div>
     {{-- <div class="credit">{{__('Availed quota')}} : <strong>Unlimited</strong></div> --}}
     <div class="credit">{{__('Availed quota')}} : <strong>{{Auth::guard('company')->user()->availed_jobs_quota}}</strong> / <strong>{{Auth::guard('company')->user()->jobs_quota}}</strong></div>
-    <div class="credit">{{__('Downloaded CVs')}} : <strong>{{ Auth::guard('company')->user()->availed_viewed_resume_quota }}</strong> / <strong>{{ Auth::guard('company')->user()->viewed_resume_quota }}</strong></div>
+    <div class="credit">{{__('Available Downloads')}} : <strong>{{ Auth::guard('company')->user()->availed_viewed_resume_quota }}</strong> / <strong>{{ Auth::guard('company')->user()->viewed_resume_quota }}</strong></div>
+    <div class="credit">{{__('Viewed CVs')}} : <strong>{{ Auth::guard('company')->user()->availed_cvs_quota }}</strong> / <strong>{{ Auth::guard('company')->user()->cvs_quota }}</strong></div>
 </div>

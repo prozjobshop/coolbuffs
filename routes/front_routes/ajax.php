@@ -16,5 +16,6 @@ Route::post('filter-degree-types-dropdown', 'AjaxController@filterDegreeTypes')-
 Route::get('filter-job-title/{q?}','AjaxController@filterJobTitle')->name('filter.job.title');
 Route::get('filter-company-name/{q?}','AjaxController@filterCompanyName')->name('filter.company.name');
 Route::get('filter-user-name/{q?}','AjaxController@filterUserName')->name('filter.user.name');
+Route::get('filter-functional/{q?}','AjaxController@filterFunctionalArea')->name('filter.functional');
 Route::post('filter-default-subject-dropdown-job', 'AjaxController@filterDefaultSubjectJob')->name('filter.default.subject.dropdown.job');
 Route::post('filter-default-subject-dropdown-job-profile', 'AjaxController@filterDefaultSubjectJobProfile')->name('filter.default.subject.dropdown.job.profile');

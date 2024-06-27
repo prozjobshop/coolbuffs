@@ -71,9 +71,11 @@ use App\Events\JobPosted;
 use Illuminate\Support\Str;
 
 
+use App\Traits\CompanyPackageTrait;
+
+
 
 trait JobTrait
-
 {
 
 
@@ -83,7 +85,6 @@ trait JobTrait
 
 
     public function deleteJob(Request $request)
-
     {
 
         $id = $request->input('id');
@@ -109,7 +110,6 @@ trait JobTrait
 
 
     private function updateFullTextSearch($job)
-
     {
 
         $str = '';
@@ -159,7 +159,6 @@ trait JobTrait
 
 
     private function assignJobValues($job, $request)
-
     {
 
         $job->title = $request->input('title');
@@ -168,7 +167,7 @@ trait JobTrait
 
         $job->benefits = $request->input('benefits');
 
-        if($request->input('country_id') != 'all'){
+        if ($request->input('country_id') != 'all') {
 
             $job->country_id = $request->input('country_id');
 
@@ -209,7 +208,7 @@ trait JobTrait
 
         $job->salary_period_id = $request->input('salary_period_id');
 
-        if($request->input('current_location_id') != 'all'){
+        if ($request->input('current_location_id') != 'all') {
             $job->current_location_id = $request->input('current_location_id');
         }
         return $job;
@@ -219,7 +218,6 @@ trait JobTrait
 
 
     public function createJob()
-
     {
         $companies = DataArrayHelper::companiesArray();
 
@@ -249,40 +247,39 @@ trait JobTrait
 
         return view('admin.job.add')
 
-                        ->with('companies', $companies)
+            ->with('companies', $companies)
 
-                        ->with('countries', $countries)
+            ->with('countries', $countries)
 
-                        ->with('currencies', array_unique($currencies))
+            ->with('currencies', array_unique($currencies))
 
-                        ->with('careerLevels', $careerLevels)
+            ->with('careerLevels', $careerLevels)
 
-                        ->with('functionalAreas', $functionalAreas)
+            ->with('functionalAreas', $functionalAreas)
 
-                        ->with('jobTypes', $jobTypes)
+            ->with('jobTypes', $jobTypes)
 
-                        ->with('jobShifts', $jobShifts)
+            ->with('jobShifts', $jobShifts)
 
-                        ->with('genders', $genders)
+            ->with('genders', $genders)
 
-                        ->with('jobExperiences', $jobExperiences)
+            ->with('jobExperiences', $jobExperiences)
 
-                        ->with('jobSkills', $jobSkills)
+            ->with('jobSkills', $jobSkills)
 
-                        ->with('jobSkillIds', $jobSkillIds)
+            ->with('jobSkillIds', $jobSkillIds)
 
-                        ->with('degreeLevels', $degreeLevels)
+            ->with('degreeLevels', $degreeLevels)
 
-                        ->with('salaryPeriods', $salaryPeriods);
+            ->with('salaryPeriods', $salaryPeriods);
 
     }
 
 
 
     public function storeJob(JobFormRequest $request)
-
     {
-        
+
         $job = new Job();
 
         $job->company_id = $request->input('company_id');
@@ -295,12 +292,12 @@ trait JobTrait
 
         $data = array();
         $questions = $request->input('questions');
-        if( $questions != '' && count($questions) > 0 ) {
+        if ($questions != '' && count($questions) > 0) {
             foreach ($questions as $key => $question) {
                 array_push($data, $question);
             }
         }
-        
+
         $job->data = json_encode($data);
 
         $job->save();
@@ -333,9 +330,8 @@ trait JobTrait
 
 
     public function editJob($id)
-
     {
-        
+
         $companies = DataArrayHelper::companiesArray();
 
         $countries = DataArrayHelper::defaultCountriesArray();
@@ -363,45 +359,44 @@ trait JobTrait
 
         $job = Job::findOrFail($id);
         $jobSkillIds = $job->getJobSkillsArray();
-        
+
         return view('admin.job.edit')
 
-                        ->with('companies', $companies)
+            ->with('companies', $companies)
 
-                        ->with('countries', $countries)
+            ->with('countries', $countries)
 
-                        ->with('currencies', array_unique($currencies))
+            ->with('currencies', array_unique($currencies))
 
-                        ->with('careerLevels', $careerLevels)
+            ->with('careerLevels', $careerLevels)
 
-                        ->with('functionalAreas', $functionalAreas)
+            ->with('functionalAreas', $functionalAreas)
 
-                        ->with('jobTypes', $jobTypes)
+            ->with('jobTypes', $jobTypes)
 
-                        ->with('jobShifts', $jobShifts)
+            ->with('jobShifts', $jobShifts)
 
-                        ->with('genders', $genders)
+            ->with('genders', $genders)
 
-                        ->with('jobExperiences', $jobExperiences)
+            ->with('jobExperiences', $jobExperiences)
 
-                        ->with('jobSkills', $jobSkills)
+            ->with('jobSkills', $jobSkills)
 
-                        ->with('jobSkillIds', $jobSkillIds)
+            ->with('jobSkillIds', $jobSkillIds)
 
-                        ->with('degreeLevels', $degreeLevels)
+            ->with('degreeLevels', $degreeLevels)
 
-                        ->with('salaryPeriods', $salaryPeriods)
+            ->with('salaryPeriods', $salaryPeriods)
 
-                        ->with('job', $job);
+            ->with('job', $job);
 
     }
 
 
 
     public function updateJob($id, JobFormRequest $request)
-
     {
-        
+
         $job = Job::findOrFail($id);
 
         $job->company_id = $request->input('company_id');
@@ -423,10 +418,10 @@ trait JobTrait
 
 
         /*         * ************************************ */
-        
+
         $data = array();
         $questions = $request->input('questions');
-        if( $questions != '' && count($questions) > 0 ) {
+        if ($questions != '' && count($questions) > 0) {
             foreach ($questions as $key => $question) {
                 array_push($data, $question);
             }
@@ -459,14 +454,13 @@ trait JobTrait
 
 
     public function createFrontJob()
-
     {
 
         $company = Auth::guard('company')->user();
 
-		
 
-		if ((bool)$company->is_active === false) {
+
+        if ((bool) $company->is_active === false) {
 
             flash(__('Your account is inactive contact site admin to activate it'))->error();
 
@@ -476,33 +470,36 @@ trait JobTrait
 
         }
 
-		if((bool)config('company.is_company_package_active')){
+        if (!$this->hasRemainingJobQuota($company)) {
+            flash('You have used all your job posting quota.')->error();
+            return \Redirect::route('company.home'); // Redirect to a suitable route
+        }
 
-			if(
+        if ((bool) config('company.is_company_package_active')) {
 
-				($company->package_end_date === null) || 
+            if (
 
-				($company->package_end_date->lt(Carbon::now())) 
+                ($company->package_end_date === null) ||
 
-				// ||($company->jobs_quota <= $company->availed_jobs_quota)
+                ($company->package_end_date->lt(Carbon::now()))
 
-				)
+                // ||($company->jobs_quota <= $company->availed_jobs_quota)
 
-			{
+            ) {
 
-				flash(__('Please subscribe to package first'))->error();
+                flash(__('Please subscribe to package first'))->error();
 
-				return \Redirect::route('company.home');
+                return \Redirect::route('company.home');
 
-				exit;
+                exit;
 
-			}
+            }
 
-		}
+        }
 
-        
 
-		$countries = DataArrayHelper::langCountriesArray();
+
+        $countries = DataArrayHelper::langCountriesArray();
 
         $currencies = DataArrayHelper::currenciesArray();
 
@@ -530,36 +527,45 @@ trait JobTrait
 
         return view('job.add_edit_job')
 
-                        ->with('countries', $countries)
+            ->with('countries', $countries)
 
-                        ->with('currencies', array_unique($currencies))
+            ->with('currencies', array_unique($currencies))
 
-                        ->with('careerLevels', $careerLevels)
+            ->with('careerLevels', $careerLevels)
 
-                        ->with('functionalAreas', $functionalAreas)
+            ->with('functionalAreas', $functionalAreas)
 
-                        ->with('jobTypes', $jobTypes)
+            ->with('jobTypes', $jobTypes)
 
-                        ->with('jobShifts', $jobShifts)
+            ->with('jobShifts', $jobShifts)
 
-                        ->with('genders', $genders)
+            ->with('genders', $genders)
 
-                        ->with('jobExperiences', $jobExperiences)
+            ->with('jobExperiences', $jobExperiences)
 
-                        ->with('jobSkills', $jobSkills)
+            ->with('jobSkills', $jobSkills)
 
-                        ->with('jobSkillIds', $jobSkillIds)
+            ->with('jobSkillIds', $jobSkillIds)
 
-                        ->with('degreeLevels', $degreeLevels)
+            ->with('degreeLevels', $degreeLevels)
 
-                        ->with('salaryPeriods', $salaryPeriods);
+            ->with('salaryPeriods', $salaryPeriods);
 
+    }
+
+    private function hasRemainingJobQuota($company)
+    {
+        if (!config('company.is_company_package_active')) {
+            return true; // No package restriction
+        }
+
+        return ($company->jobs_quota > $company->availed_jobs_quota);
     }
 
 
 
-    public function storeFrontJob(JobFrontFormRequest $request)
 
+    public function storeFrontJob(JobFrontFormRequest $request)
     {
 
         $company = Auth::guard('company')->user();
@@ -574,13 +580,13 @@ trait JobTrait
 
         $data = array();
         $questions = $request->input('questions');
-        if( $questions != '' && count($questions) > 0 ) {
+        if ($questions != '' && count($questions) > 0) {
             foreach ($questions as $key => $question) {
                 array_push($data, $question);
             }
         }
         $job->data = json_encode($data);
-        
+
         $job->save();
 
         /*         * ******************************* */
@@ -625,7 +631,6 @@ trait JobTrait
 
 
     public function editFrontJob($id)
-
     {
 
         $countries = DataArrayHelper::langCountriesArray();
@@ -658,43 +663,42 @@ trait JobTrait
 
         return view('job.add_edit_job')
 
-                        ->with('countries', $countries)
+            ->with('countries', $countries)
 
-                        ->with('currencies', array_unique($currencies))
+            ->with('currencies', array_unique($currencies))
 
-                        ->with('careerLevels', $careerLevels)
+            ->with('careerLevels', $careerLevels)
 
-                        ->with('functionalAreas', $functionalAreas)
+            ->with('functionalAreas', $functionalAreas)
 
-                        ->with('jobTypes', $jobTypes)
+            ->with('jobTypes', $jobTypes)
 
-                        ->with('jobShifts', $jobShifts)
+            ->with('jobShifts', $jobShifts)
 
-                        ->with('genders', $genders)
+            ->with('genders', $genders)
 
-                        ->with('jobExperiences', $jobExperiences)
+            ->with('jobExperiences', $jobExperiences)
 
-                        ->with('jobSkills', $jobSkills)
+            ->with('jobSkills', $jobSkills)
 
-                        ->with('jobSkillIds', $jobSkillIds)
+            ->with('jobSkillIds', $jobSkillIds)
 
-                        ->with('degreeLevels', $degreeLevels)
+            ->with('degreeLevels', $degreeLevels)
 
-                        ->with('salaryPeriods', $salaryPeriods)
+            ->with('salaryPeriods', $salaryPeriods)
 
-                        ->with('job', $job);
+            ->with('job', $job);
 
     }
 
 
 
     public function updateFrontJob($id, JobFrontFormRequest $request)
-
     {
 
         $job = Job::findOrFail($id);
 
-		$job = $this->assignJobValues($job, $request);
+        $job = $this->assignJobValues($job, $request);
 
         /*         * ******************************* */
 
@@ -707,7 +711,7 @@ trait JobTrait
         /*         * ************************************ */
         $data = array();
         $questions = $request->input('questions');
-        if( $questions != '' && count($questions) > 0 ) {
+        if ($questions != '' && count($questions) > 0) {
             foreach ($questions as $key => $question) {
                 array_push($data, $question);
             }
@@ -737,48 +741,48 @@ trait JobTrait
     {
         if (!empty($value)) {
             if ($field == 'title') {
-                return DB::table('jobs')->where('title', 'like', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('title', 'like', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'company_id') {
-                return DB::table('jobs')->where('company_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('company_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'industry_id') {
                 $company_ids = Company::where('industry_id', '=', $value)->where('is_active', '=', 1)->pluck('id')->toArray();
-                return DB::table('jobs')->whereIn('company_id', $company_ids)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->whereIn('company_id', $company_ids)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'job_skill_id') {
                 $job_ids = JobSkillManager::where('job_skill_id', '=', $value)->pluck('job_id')->toArray();
-                return DB::table('jobs')->whereIn('id', array_unique($job_ids))->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->whereIn('id', array_unique($job_ids))->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'functional_area_id') {
-                return DB::table('jobs')->where('functional_area_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('functional_area_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'careel_level_id') {
-                return DB::table('jobs')->where('careel_level_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('careel_level_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'job_type_id') {
-                return DB::table('jobs')->where('job_type_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('job_type_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'job_shift_id') {
-                return DB::table('jobs')->where('job_shift_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('job_shift_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'gender_id') {
-                return DB::table('jobs')->where('gender_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('gender_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'degree_level_id') {
-                return DB::table('jobs')->where('degree_level_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('degree_level_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'job_experience_id') {
-                return DB::table('jobs')->where('job_experience_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('job_experience_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'country_id') {
-                return DB::table('jobs')->where('country_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('country_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'state_id') {
-                return DB::table('jobs')->where('state_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('state_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
             if ($field == 'city_id') {
-                return DB::table('jobs')->where('city_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>',  \Carbon\Carbon::now())->count('id');
+                return DB::table('jobs')->where('city_id', '=', $value)->where('is_active', '=', 1)->where('expiry_date', '>', \Carbon\Carbon::now())->count('id');
             }
         }
     }
@@ -786,20 +790,18 @@ trait JobTrait
 
 
     public function scopeNotExpire($query)
-
     {
 
         return $query->whereDate('expiry_date', '>=', Carbon::now()); //where('expiry_date', '>=', date('Y-m-d'));
 
     }
 
-    
+
 
     public function isJobExpired()
-
     {
 
-        return ($this->expiry_date < Carbon::now())? true:false;
+        return ($this->expiry_date < Carbon::now()) ? true : false;
 
     }
 

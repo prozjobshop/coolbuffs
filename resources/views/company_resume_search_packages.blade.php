@@ -62,7 +62,7 @@
             </div>
             @endforeach </div>
     </div>
-     @else
+     @else  
     <div class="four-plan">
         <h3>{{__('Our Cvs Search Packages')}}</h3>
         <div class="row"> @foreach($packages as $package)
