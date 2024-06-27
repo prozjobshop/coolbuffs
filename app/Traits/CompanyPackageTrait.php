@@ -21,7 +21,6 @@ trait CompanyPackageTrait
         $company->availed_jobs_quota = 0;
         $company->payment_method = $method;
         $company->availed_viewed_resume_quota = 0;
-        
         $company->update();
     }
 
