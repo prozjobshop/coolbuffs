@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of Jrean\UserVerification package.
  *
  * (c) Jean Ragouin <go@askjong.com> <www.askjong.com>
@@ -19,4 +19,6 @@ Route::group([
 
     Route::get('email-verification/check/{token}', app()->getNamespace().'Http\Controllers\Auth\RegisterController@getVerification')
         ->name('email-verification.check');
-});
+
+    
+
