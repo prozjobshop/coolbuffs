@@ -5,11 +5,6 @@
 <!-- Header end --> 
 <!-- Inner Page Title start --> 
 @include('includes.inner_page_title', ['page_title'=>__($page_title)]) 
-@if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif  
 <?php $true = FALSE; ?>
 
 <?php 
@@ -84,7 +79,6 @@ if(null!==($package)){
 
                 <a style="color:#fff" href="{{route('reject.applicant.profile', [$job_application->id])}}" class="btn btn-warning"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{__('Reject')}}</a>     
                 @endif
-
 
                 
                 
@@ -336,7 +330,6 @@ if(null!==($package)){
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     function incrementQuota() {
-        
         // Perform an Ajax request to increment the quota
         axios.post("{{route('viewed.cvs')}}")
             .then(function (response) {
