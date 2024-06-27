@@ -62,6 +62,7 @@ trait CompanyPackageTrait
 
         $company->cvs_package_id = $package->id;
         $company->cvs_package_end_date = $current_end_date->addDays($package->package_num_days);
+        $company->availed_cvs_quota = 0;
         $company->cvs_quota = ($company->cvs_quota - $company->availed_cvs_quota) + $package->package_num_listings;
         $company->payment_method = $method;
         $company->update();
