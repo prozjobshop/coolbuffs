@@ -18,6 +18,7 @@
                 <div class="credit">{{__('Availed quota')}} : <strong>Unlimited</strong></div>
                 <!-- <div class="credit">{{__('Availed quota')}} : <strong>{{$company->availed_cvs_quota}}</strong> - <strong>{{$company->cvs_quota}}</strong></div> -->
 
+
             </div>
             @endif
                 
