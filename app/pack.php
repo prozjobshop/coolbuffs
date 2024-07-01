@@ -12,7 +12,7 @@ class Package extends Model
     protected $fillable = [
         'package_num_days', 
         'package_num_listings', 
-        'viewed_resume_quota'
+        'download_resume_quota'
     ];
 
     // Define other necessary attributes and relationships here

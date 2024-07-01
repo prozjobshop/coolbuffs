@@ -15,7 +15,7 @@
                 <div class="instoretxt">
                 <div class="credit">{{__('Your Package is')}}: <strong>{{$success_package->package_title}} - {{ $siteSetting->default_currency_code }}{{$success_package->package_price}}</strong></div>
                 <div class="credit">{{__('Package Duration')}} : <strong>{{Carbon\Carbon::parse($company->cvs_package_start_date)->format('d M, Y')}}</strong> - <strong>{{Carbon\Carbon::parse($company->cvs_package_end_date)->format('d M, Y')}}</strong></div>
-                <div class="credit">{{__('Availed quota')}} : <strong>Unlimited</strong></div>
+                <div class="credit">{{__('Availed quota')}} : <strong>{{Auth::guard('company')->user()->availed_cvs_quota}}</strong> / <strong>{{Auth::guard('company')->user()->cvs_quota}}</strong></div>
                 <!-- <div class="credit">{{__('Availed quota')}} : <strong>{{$company->availed_cvs_quota}}</strong> - <strong>{{$company->cvs_quota}}</strong></div> -->
 
             </div>

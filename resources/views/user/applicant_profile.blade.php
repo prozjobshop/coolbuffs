@@ -5,11 +5,6 @@
 <!-- Header end --> 
 <!-- Inner Page Title start --> 
 @include('includes.inner_page_title', ['page_title'=>__($page_title)]) 
-@if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif  
 <?php $true = FALSE; ?>
 
 <?php 
@@ -86,17 +81,14 @@ if(null!==($package)){
                 @endif
 
 
-                
-                
-                
-        <?php 
+                <?php 
                     $company = Auth::guard('company')->user();
-                    $maxDownloads = Auth::guard('company')->user()->viewed_resume_quota; // Set your limit here
+                    $maxDownloads = Auth::guard('company')->user()->download_resume_quota; // Set your limit here
                 ?>
-                @if($company->availed_viewed_resume_quota < $maxDownloads)
+                @if($company->availed_download_resume_quota < $maxDownloads)
                     @if($profileCv)
-                    <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn">
-                        <i class="fa fa-download" aria-hidden="true" onclick="incrementQuota()"></i> {{__('Download CV')}}
+                    <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn" onclick="incrementQuota()">
+                        <i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}
                     </a>
                     @endif
                 @else
@@ -345,7 +337,6 @@ if(null!==($package)){
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     function incrementQuota() {
-        
         // Perform an Ajax request to increment the quota
         axios.post("{{route('viewed.cvs')}}")
             .then(function (response) {
