@@ -17,10 +17,10 @@ trait CompanyPackageTrait
         $company->package_start_date = $now;
         $company->package_end_date = $now->addDays($package->package_num_days);
         $company->jobs_quota = $package->package_num_listings;
-        $company->viewed_resume_quota = $package->package_resume_downloads;
+        $company->download_resume_quota = $package->package_resume_downloads;
         $company->availed_jobs_quota = 0;
         $company->payment_method = $method;
-        $company->availed_viewed_resume_quota = 0;
+        $company->availed_download_resume_quota = 0;
         
         $company->update();
     }
@@ -46,10 +46,10 @@ trait CompanyPackageTrait
         $company->package_id = $package->id;
         $company->package_end_date = $current_end_date->addDays($package->package_num_days);
         $company->jobs_quota = ($company->jobs_quota - $company->availed_jobs_quota) + $package->package_num_listings;
-        $company->viewed_resume_quota = ($company->viewed_resume_quota - $company->availed_viewed_resume_quota) + $package->package_resume_downloads;
+        $company->download_resume_quota = ($company->download_resume_quota - $company->availed_download_resume_quota) + $package->package_resume_downloads;
         $company->availed_jobs_quota = 0;
         $company->payment_method = $method;    
-        $company->availed_viewed_resume_quota = 0;
+        $company->availed_download_resume_quota = 0;
         $company->update();
     }
 
