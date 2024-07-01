@@ -89,10 +89,19 @@ if(null!==($package)){
                 
                 
                 
-                @if($profileCv)
-        <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn" onclick="incrementQuota()">
-        <i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}
-        </a>@endif
+        <?php 
+                    $company = Auth::guard('company')->user();
+                    $maxDownloads = Auth::guard('company')->user()->viewed_resume_quota; // Set your limit here
+                ?>
+                @if($company->availed_viewed_resume_quota < $maxDownloads)
+                    @if($profileCv)
+                    <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn">
+                        <i class="fa fa-download" aria-hidden="true" onclick="incrementQuota()"></i> {{__('Download CV')}}
+                    </a>
+                    @endif
+                @else
+                <button class="btn btn-default" disabled>{{__('Download CV Quota Exceeded')}}</button>
+                @endif
 
                 <a href="javascript:;" onclick="send_message()" class="btn"><i class="fa fa-envelope" aria-hidden="true"></i> {{__('Send Message')}}</a>
 				
