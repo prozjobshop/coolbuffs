@@ -80,13 +80,20 @@ if(null!==($package)){
                 <a style="color:#fff" href="{{route('reject.applicant.profile', [$job_application->id])}}" class="btn btn-warning"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{__('Reject')}}</a>     
                 @endif
 
-                
-                
-                
-                @if($profileCv)
-        <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn" onclick="incrementQuota()">
-        <i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}
-        </a>@endif
+
+                <?php 
+                    $company = Auth::guard('company')->user();
+                    $maxDownloads = Auth::guard('company')->user()->download_resume_quota; // Set your limit here
+                ?>
+                @if($company->availed_download_resume_quota < $maxDownloads)
+                    @if($profileCv)
+                    <a href="{{ asset('cvs/'.$profileCv->cv_file) }}" class="btn" onclick="incrementQuota()">
+                        <i class="fa fa-download" aria-hidden="true"></i> {{__('Download CV')}}
+                    </a>
+                    @endif
+                @else
+                <button class="btn btn-default" disabled>{{__('Download CV Quota Exceeded')}}</button>
+                @endif
 
                 <a href="javascript:;" onclick="send_message()" class="btn"><i class="fa fa-envelope" aria-hidden="true"></i> {{__('Send Message')}}</a>
 				

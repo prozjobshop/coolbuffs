@@ -342,8 +342,8 @@ class CompanyController extends Controller
     //     // Retrieve the authenticated company user
     //     $company = Auth::guard('company')->user();
 
-    //     // Retrieve the availed_viewed_resume_quota value
-    //     $availedViewedResumeQuota = $company->availed_viewed_resume_quota;
+    //     // Retrieve the availed_download_resume_quota value
+    //     $availedViewedResumeQuota = $company->availed_download_resume_quota;
 
     //     return view('job.viewed_cvs')
     //                     ->with('availedViewedResumeQuota', $availedViewedResumeQuota);
@@ -354,8 +354,8 @@ class CompanyController extends Controller
     // Retrieve the authenticated company user
     $company = Auth::guard('company')->user();
 
-    // Increment the availed_viewed_resume_quota
-    $company->increment('availed_viewed_resume_quota');
+    // Increment the availed_download_resume_quota
+    $company->increment('availed_download_resume_quota');
 
     // Optionally, save the updated model
     $company->save();
