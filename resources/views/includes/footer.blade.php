@@ -46,14 +46,19 @@
             <!--Quick Links menu end-->
 
             <div class="col-md-3 col-sm-6">
-                <h5>{{__('Jobs By Functional Area')}}</h5>
-                <!--Quick Links menu Start-->
+                <h5>{{ __('Jobs By Functional Area') }}</h5>
+                <!-- Quick Links menu Start -->
                 <ul class="quicklinks">
                     @php
                     $functionalAreas = App\FunctionalArea::getUsingFunctionalAreas(10);
+                    $routeName = auth()->guard('company')->check() ? 'job.seeker.list' : 'job.list';
                     @endphp
                     @foreach($functionalAreas as $functionalArea)
-                    <li><a href="{{ route('job.list', ['functional_area_id[]'=>$functionalArea->functional_area_id]) }}">{{$functionalArea->functional_area}}</a></li>
+                        <li>
+                            <a href="{{ route($routeName, ['functional_area_id[]' => $functionalArea->functional_area_id]) }}">
+                                {{ $functionalArea->functional_area }}
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </div>

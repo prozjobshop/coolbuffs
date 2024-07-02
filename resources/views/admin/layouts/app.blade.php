@@ -10,6 +10,12 @@
         <!-- Styles -->
         <link href="/css/app.css" rel="stylesheet">
         <!-- Scripts -->
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Select2 -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+
         <script>
             window.Laravel = <?php
 echo json_encode([

@@ -382,7 +382,7 @@ if (!isset($seo)) {
             setTimeout(() => {
                 var list_functional_class = $('.functional_find');
                 var listTypeHead = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('functional'),
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('airport_name'),
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
                     prefetch: {
                         url: "{{ route('filter.functional') }}",
@@ -423,6 +423,8 @@ if (!isset($seo)) {
                 });
     }, 2000);
 });
+
+       
 
     </script>
 

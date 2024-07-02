@@ -15,6 +15,7 @@ use App\Traits\CountryStateCity;
 use App\Seo;
 use App\Cms;
 use App\Job;
+use App\JobSkill;
 use App\FunctionalArea;
 use App\Company;
 use App\User;
